@@ -1,5 +1,5 @@
 package com.recipe.dto;
 
 public enum Role {
-	NOT_AUTH, CUSTOMER, PARTNERSHIP, ADMIN
+	ROLE_NOT_AUTH, ROLE_CUSTOMER, ROLE_PARTNERSHIP, ROLE_ADMIN
 }	
