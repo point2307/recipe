@@ -7,8 +7,13 @@ import org.springframework.web.multipart.MultipartFile;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 @Entity
-@Data
+@Getter
+@Setter
+@ToString
 public class Recipe {
 	@Id
 	private	Long	recipe_seq;
