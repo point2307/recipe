@@ -16,23 +16,23 @@ import org.hibernate.annotations.DialectOverride;
 @ToString(exclude = {"mem_material"})
 public class Member {
 	@Id
-	private String	mem_id;
-	private String	mem_password;
-	private String	mem_nickname;
-	private String	mem_name;
-	private String	mem_address;
-	private String	mem_phone;
-	private String mem_email;
+	private String	id;
+	private String	password;
+	private String	nickName;
+	private String	name;
+	private String	address;
+	private String	phone;
+	private String email;
 	
-	private String	mem_account;
+	private String	account;
 	
 	@OneToMany
 	@JoinColumn(name = "my_material")
-	private List<Material>	mem_material;
-	private String	mem_pro_img;
+	private List<Material>	material;
+	private String	proImg;
 	
 	@Enumerated(EnumType.STRING)
 	private Role role;
-	private String mem_fax;
+	private String fax;
 	
 }

@@ -28,7 +28,7 @@ public class MemberController {
 	@PostMapping("register")
 	public String register(Member vo, String low_pass) {
 
-		vo.setMem_password(encoder.encode(low_pass));
+		vo.setPassword(encoder.encode(low_pass));
 		memServ.register(vo);
 		return "/member/login";
 	}	

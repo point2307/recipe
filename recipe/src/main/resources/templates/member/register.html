@@ -17,6 +17,46 @@
 <!-- Content -->
 <div layout:fragment="content">
     <h1>회원가입 구현</h1>
+    <form method="post" enctype="multipart/form-data" th:action="member/register">
+        <table>
+            <tr>
+                <th th:value="아이디"></th>
+                <td><input type="text" th:name="id"/>
+                <input type="hidden" th:name="reid"/></td>
+            </tr>
 
+            <tr>
+                <th th:value="비밀번호"></th>
+                <td><input type="password" th:name="password"/></td>
+            </tr>
+            <tr>
+                <th th:value="닉네임"></th>
+                <td><input type="text" th:name="nickName"/></td>
+            </tr>
+            <tr>
+                <th th:value="이름"></th>
+                <td><input type="text" th:name="name"/></td>
+            </tr>
+            <tr>
+                <th th:value="주소"></th>
+                <td><input type="text" th:name="address"/></td>
+            </tr>
+            <tr>
+                <th th:value="연락처"></th>
+                <td><input type="text" th:name="phone"/></td>
+            </tr>
+            <tr>
+                <th th:value="이메일"></th>
+                <td><input type="text" th:name="email"/></td>
+            </tr>
+            <tr>
+                <th th:value="프로필사진"></th>
+                <td><input type="image" th:name="proImg"/></td>
+            </tr>
+            <tr>
+                <th><input type="submit" th:value="회원가입"/><input type="reset" th:value="초기화"/>></th>
+            </tr>
+        </table>
+    </form>
 </div>
 </html>

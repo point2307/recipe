@@ -26,7 +26,7 @@ public class Recipe {
 	private	int	amount;
 	private	String image;
 	
-	@OneToMany(mappedBy = "proc_id", fetch = FetchType.EAGER)
+	@OneToMany(mappedBy = "procId", fetch = FetchType.EAGER)
 	private  List<RecipeProc> recipe_process = new ArrayList<>();
 	@OneToOne
 	@JoinColumn(name = "writer")
