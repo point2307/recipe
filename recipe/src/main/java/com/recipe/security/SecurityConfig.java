@@ -20,10 +20,10 @@ public class SecurityConfig {
 	
 	@Bean
 	protected SecurityFilterChain filter(HttpSecurity security) throws Exception{
-		security.authorizeRequests(authz -> {
-			authz.requestMatchers("/", "/member/**").permitAll();
-			authz.requestMatchers("/board/**").authenticated();
-			authz.requestMatchers("/admin/**").hasRole("ADMIN");
+		security.authorizeHttpRequests(auth -> {
+			auth.requestMatchers("/", "/member/**", "/system/**","/flagments/**").permitAll();
+			auth.requestMatchers("/recipe/**").authenticated();
+			auth.requestMatchers("/admin/**").hasRole("ADMIN");
 		});
 		security.csrf().disable();
 		security.formLogin().loginPage("/system/login").defaultSuccessUrl("/board/getBoardList", true);

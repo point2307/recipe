@@ -1,10 +1,9 @@
 package com.recipe.dto;
 
 import java.util.Date;
+import java.util.List;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import lombok.Data;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -14,10 +13,20 @@ import lombok.ToString;
 @ToString
 public class Buy {
 	@Id
-	private	Member	buy_buyer;
+	@GeneratedValue
+	private Long buy_id;
+	
+	@OneToMany
+	@JoinColumn(name = "buyer")
+	private List<Member> buyer;
+	
+	@Temporal(TemporalType.DATE)
 	private	Date	buy_date;
+	
+	@OneToOne
+	@JoinColumn(name = "buy_kit")
 	private	Mealkit	buy_kit;
-	private	int	buy_quantity;
+	private	int		buy_quantity;
 	private	String	buy_process;
 	private	String	buy_condition;
 

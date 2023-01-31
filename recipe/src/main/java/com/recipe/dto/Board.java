@@ -2,28 +2,35 @@ package com.recipe.dto;
 
 import java.util.Date;
 
-import org.springframework.web.multipart.MultipartFile;
-
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import lombok.Data;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 @Entity
 @Getter
 @Setter
-@ToString
+@ToString(exclude = {"board_recipe", "board_mealkit"})
 public class Board {
 	@Id
-	private	Long	board_seq;
+	@SequenceGenerator(name = "board_seq", sequenceName = "board_seq", allocationSize = 1)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "board_seq")
+	private	Long 	board_id;
+	
+	@ManyToOne
 	private	Member	board_writer;
 	private	String	board_kind;
 	private	String	board_title;
 	private	String	board_content;
 	private	Date	board_regedit;
-	private	MultipartFile	board_image;
-	private	Member	board_liked;
-	private	int	board_alert;
+	private	String	board_image;
+	private	int 	board_liked;
+	private	int	    board_alert;
+	@ManyToOne
+	@JoinColumn(name = "after_recipe")
+	private Recipe board_recipe;
+	@ManyToOne
+	@JoinColumn(name = "after_kit")
+	private Mealkit board_mealkit;
+	
 
 }

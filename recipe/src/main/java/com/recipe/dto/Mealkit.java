@@ -1,23 +1,28 @@
 package com.recipe.dto;
 
+import jakarta.persistence.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+
+import java.util.List;
+
 @Entity
 @Getter
 @Setter
 @ToString
 public class Mealkit {
 	@Id
-	private	Long	kit_seq;
+	@GeneratedValue
+	private	Long	kit_id;
 	private	String	kit_title;
+	
+	@OneToOne
 	private	Recipe	kit_recipe;
 	private	String	kit_subtitle;
-	private	MultipartFile	kit_detail;
+	private	String	kit_detail;
 
 }

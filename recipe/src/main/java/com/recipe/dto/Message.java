@@ -2,9 +2,7 @@ package com.recipe.dto;
 
 import java.util.Date;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import lombok.Data;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -14,10 +12,15 @@ import lombok.ToString;
 @ToString
 public class Message {
 	@Id
-	private String msg_seq;
+	@GeneratedValue
+	private String msg_id;
+	@OneToOne
 	private	Member	msg_sender;
-	private	Member	msg_recevier;
+	@OneToOne
+	private	Member	msg_reciver;
 	private	String	msg_content;
+	
+	@Temporal(TemporalType.DATE)
 	private	Date	msg_regdate;
 
 }

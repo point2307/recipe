@@ -1,23 +1,31 @@
 package com.recipe.dto;
 
 import java.util.Date;
+import java.util.List;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import lombok.Data;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 @Entity
 @Getter
 @Setter
-@ToString
+@ToString(exclude = {"replyWriter" , "relpyLike", "replyDisllike"})
 public class Reply {
 	@Id
+	@GeneratedValue
 	private	Long	reply_id;
-	private Member	reply_writer;
+	@OneToOne
+	@JoinColumn(name = "writer")
+	private Member	replyWriter;
 	private	String	reply_content;
-	private	Date	reply_regedit;
-	private	Member	reply_like;
+	
+	@Temporal(TemporalType.DATE)
+	@Column(name = "regedit")
+	private	Date regedit;
+	
+	@OneToMany
+	@JoinColumn(name = "liked_mem")
+	private List<Member> likey;
 
 }

@@ -1,10 +1,6 @@
 package com.recipe.dto;
 
-import org.springframework.web.multipart.MultipartFile;
-
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import lombok.Data;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -14,12 +10,16 @@ import lombok.ToString;
 @ToString
 public class Contract {
 	@Id
+	@GeneratedValue
 	private	Long	contract_id;
-	private	String	contract_proc;
-	private	Member	contract_partner;
-	private	String	contract_form;
-	private	int	contract_price;
-	private	int	contract_percent;
-	private	MultipartFile	contract_image;
+	private	String	contract_proc;    // 계약 과정 신청/심사중/요청/완료
+	
+	@OneToOne
+	@JoinColumn(name = "recipe_id")
+	private	Recipe contract_recipe;    // 계약 대상 레시피
+	private	String	contract_form;   // 계약의 형태 혼합/정액/정률
+	private	int		contract_price;           // 계약금
+	private	int		contract_percent;       // 이익 분배 비율
+	private	String	contract_image;   // 계약서 원본 사진
 
 }
