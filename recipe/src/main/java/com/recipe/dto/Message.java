@@ -13,14 +13,16 @@ import lombok.ToString;
 public class Message {
 	@Id
 	@GeneratedValue
-	private String msg_id;
+	private String msgId;
 	@OneToOne
-	private	Member	msg_sender;
+	@JoinColumn(name = "sender")
+	private	Member	sender;
 	@OneToOne
-	private	Member	msg_reciver;
-	private	String	msg_content;
+	@JoinColumn(name = "receiver")
+	private	Member	receiver;
+	private	String	msgContent;
 	
 	@Temporal(TemporalType.DATE)
-	private	Date	msg_regdate;
+	private	Date	msgRegdate;
 
 }

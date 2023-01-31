@@ -16,13 +16,13 @@ import lombok.ToString;
 public class Recipe {
 	@Id
 	@GeneratedValue
-	private	Long		recipe_id;
-	private	String	recipe_title;
-	private	int		recipe_ready_time;
-	private	int		recipe_cooking_time;
+	private	Long		recipeId;
+	private	String	recipeTitle;
+	private	int		recipeReadyTime;
+	private	int		recipeCookingTime;
 	@OneToMany
 	@JoinColumn(name = "material")
-	private	List<Material>		recipe_material;
+	private	List<Material>	Material;
 	private	int	amount;
 	private	String image;
 	
@@ -31,11 +31,11 @@ public class Recipe {
 	@OneToOne
 	@JoinColumn(name = "writer")
 	private	Member	writer;
-	private	Date	recipe_regedit;
+	private	Date	recipeRegedit;
 	@OneToMany
 	@JoinColumn(name = "like_mem")
-	private	List<Member>	recipe_liked;
-	private	int		recipe_alert;
+	private	List<Member>	recipeLiked;
+	private	int		recipeAlert;
 
 	@OneToMany
 	@JoinColumn(name = "after_recipe")

@@ -9,18 +9,18 @@ import lombok.ToString;
 @Entity
 @Getter
 @Setter
-@ToString(exclude = "proc_rcp")
+@ToString(exclude = "procRcp")
 public class RecipeProc {
 
 	@Id
 	@GeneratedValue
-	private Long proc_id;
+	private Long procId;
 	
 	@ManyToOne
-	@JoinColumn
-	private Recipe proc_rcp;
-	private int proc_num;
-	private String proc_picName;
-	private String proc_detail;
+	@JoinColumn(name = "recipe")
+	private Recipe procRcp;
+	private int procNum;
+	private String procPicName;
+	private String procDetail;
 	
 }

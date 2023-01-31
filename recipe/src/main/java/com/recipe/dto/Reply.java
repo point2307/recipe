@@ -10,7 +10,7 @@ import lombok.ToString;
 @Entity
 @Getter
 @Setter
-@ToString(exclude = {"replyWriter" , "relpyLike", "replyDisllike"})
+@ToString(exclude = {"replyWriter" , "likey"})
 public class Reply {
 	@Id
 	@GeneratedValue
@@ -25,7 +25,7 @@ public class Reply {
 	private	Date regedit;
 	
 	@OneToMany
-	@JoinColumn(name = "liked_mem")
+	@JoinColumn(name = "likey")
 	private List<Member> likey;
 
 }
