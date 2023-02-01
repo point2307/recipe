@@ -1,4 +1,5 @@
-<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <!--headerFragment 선언-->
 <!-- 합쳐지고 최소화된 최신 CSS -->
 <div th:fragment="headerFragment">
@@ -10,22 +11,33 @@
         <p>logo</p>
        </div>
       </div>
-      <div class="col-lg-6 col-md-5">
-       <div class="header__top__right">
-        <div class="header__top__links">
-         <a href="">Sign in</a>
-         <a href="#">FAQs</a>
-        </div>
-        <div class="header__top__hover">
-         <span>User mane <i class="arrow_carrot-down"></i></span>
-         <ul>
-          <li>My Page</li>
-          <li>My recipe</li>
-          <li>My buy</li>
-         </ul>
+
+      <th:block>
+        <div class="col-lg-6 col-md-5">
+         <div class="header__top__right">
+          <div class="header__top__links" sec:authorize="!isAuthenticated()">
+           <a href="#">FAQs</a>
+           <a th:href="@{/member/register_form}">Sign in</a>
+           <a th:href="@{/system/login}">Log in</a>
+          </div>
+          <!-- 회원일 경우 -->
+          <div class="header__top__hover" sec:authorize="isAuthenticated()">
+
+           <a href="#">FAQ </a>
+           <span> User mane <i class="arrow_carrot-down"></i></span>
+           <ul>
+            <li>My Page</li>
+            <li>My recipe</li>
+            <li>My buy</li>
+            <li><a th:href="@{/system/logout}">로그아웃</a> </li>
+           </ul>
+          </div>
+
+
         </div>
        </div>
-      </div>
+      </th:block>
+
      </div>
     </div>
    </div>
@@ -60,7 +72,7 @@
        <a href="#" class="search-switch"><img src="img/icon/search.png" alt=""></a>
        <a href="#"><img src="img/icon/heart.png" alt=""></a>
        <a href="#"><img src="img/icon/cart.png" alt=""> <span>0</span></a>
-       <div class="price">111</div>
+
       </div>
      </div>
     </div>
