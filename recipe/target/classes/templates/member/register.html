@@ -17,12 +17,12 @@
 <!-- Content -->
 <div layout:fragment="content">
     <h1>회원가입 구현</h1>
-    <form method="post" enctype="multipart/form-data" th:action="/member/register">
+    <form method="post" enctype="multipart/form-data" th:action="@{/member/register}">
         <table>
             <tr>
                 <th th:value="아이디"></th>
-                <td><input type="text" th:name="id"/></td>
-                <input type="hidden" th:name="reid"/>
+                <td><input type="text" th:name="id"/>
+                <input type="hidden" th:name="reid"/></td>
             </tr>
 
             <tr>
