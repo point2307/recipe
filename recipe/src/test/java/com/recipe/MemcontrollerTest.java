@@ -24,17 +24,17 @@ public class MemcontrollerTest {
 	public void makeAdmin() {
 		Member admin = new Member();
 		
-		admin.setMem_id("admin");
-		admin.setMem_password(encoder.encode("qwer"));
-		admin.setMem_nickname("관리자");
-		admin.setMem_name("관리자");
-		admin.setMem_address("서울시 관악구 신림동 사옥");
-		admin.setMem_account("777-00-333555");
-		admin.setMem_phone("010-5534-8157");
-		admin.setMem_email("playjap35@gmail.com");
+		admin.setUserId("admin");
+		admin.setPassword(encoder.encode("qwer"));
+		admin.setNickName("관리자");
+		admin.setName("관리자");
+		admin.setAddress("서울시 관악구 신림동 사옥");
+		admin.setAccount("777-00-333555");
+		admin.setPhone("010-5534-8157");
+		admin.setEmail("playjap35@gmail.com");
 		admin.setRole(Role.ROLE_ADMIN);
-		admin.setMem_fax("02-0055-2222");
-		admin.setMem_pro_img(null);
+		admin.setFax("02-0055-2222");
+		admin.setProImg(null);
 		
 
 		memRepo.save(admin);

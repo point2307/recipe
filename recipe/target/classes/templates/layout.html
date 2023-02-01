@@ -10,13 +10,17 @@
 
     <!-- 합쳐지고 최소화된 최신 CSS -->
     <link rel="stylesheet" th:href="@{https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css}">
-    <link rel="stylesheet" th:href="@{/source/style.css}">
+    <link rel="stylesheet" th:href="@{/source/css/style.css}">
     <!-- 부가적인 테마 -->
     <link rel="stylesheet" th:href="@{https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css}">
 
     <!-- 합쳐지고 최소화된 최신 자바스크립트 -->
     <script th:src="@{https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js}"></script>
     <script th:src="@{https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js}"></script>
+    <script
+            src="https://code.jquery.com/jquery-3.6.3.min.js"
+            integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU="
+            crossorigin="anonymous"></script>
     <th:block layout:fragment="css"></th:block>
     <!-- content script -->
     <th:block layout:fragment="script"></th:block>

@@ -16,7 +16,7 @@ import org.hibernate.annotations.DialectOverride;
 @ToString(exclude = {"mem_material"})
 public class Member {
 	@Id
-	private String	id;
+	private String	userId;
 	private String	password;
 	private String	nickName;
 	private String	name;
