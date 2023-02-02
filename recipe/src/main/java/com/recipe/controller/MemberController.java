@@ -33,7 +33,6 @@ public class MemberController {
 	}
 	
 	@PostMapping("register")
-	@ResponseBody
 	public String register(Member vo, String row_pass, MultipartFile pic) throws IllegalStateException, IOException {
 		if(pic.isEmpty()){
 			vo.setProImg("noPic.jpg");
@@ -47,7 +46,7 @@ public class MemberController {
 
 		vo.setPassword(encoder.encode(row_pass));
 		memServ.register(vo);
-		return "/member/login";
+		return "/system/login";
 	}
 
 	@GetMapping("idCheck")

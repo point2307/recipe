@@ -10,7 +10,10 @@ function idCheck(){
                                 $("#message").text("이미 사용중인 ID 입니다.");
                         }else {
                                 $("#message").text("사용 가능한 ID 입니다.");
+                                $("#reid").value(id);
                         }
                 }
         })
 };
+
+

@@ -24,7 +24,8 @@
           <div class="header__top__hover" sec:authorize="isAuthenticated()">
 
            <a href="#">FAQ </a>
-           <span> User mane <i class="arrow_carrot-down"></i></span>
+           <a th:href="@{/mypage/main}"><span sec:authentication="principal.member.name"><i class="arrow_carrot-down"></i></span>
+             <img th:src="@{/source/img/principal.member.proImg}"/></a>
            <ul>
             <li>My Page</li>
             <li>My recipe</li>
@@ -51,19 +52,37 @@
      <div class="col-lg-6 col-md-6">
       <nav class="header__menu mobile-menu">
        <ul>
-        <li><a href="./index.html">Home</a></li>
-        <li class="active"><a href="./shop.html">Shop</a></li>
-        <li><a href="#">Pages</a>
+        <li><a th:href="@{/mainPage}">Home</a></li>
+        <li><a th:href="@{/mainPage}">레시피</a>
          <ul class="dropdown">
-          <li><a href="./about.html">About Us</a></li>
+          <li><a href="./shop-details.html">레시피목록</a></li>
+          <li><a href="./checkout.html">Check Out</a></li>
+          <li><a href="./blog-details.html">Blog Details</a></li>
+         </ul>
+        </li>
+        <li><a href="#">밀키트</a>
+         <ul class="dropdown">
+          <li><a href="./about.html">새로나온 밀키트</a></li>
           <li><a href="./shop-details.html">Shop Details</a></li>
           <li><a href="./shopping-cart.html">Shopping Cart</a></li>
           <li><a href="./checkout.html">Check Out</a></li>
           <li><a href="./blog-details.html">Blog Details</a></li>
          </ul>
         </li>
-        <li><a href="./blog.html">Blog</a></li>
-        <li><a href="./contact.html">Contacts</a></li>
+        <li><a href="./blog.html">새소식</a>
+         <ul class="dropdown">
+         <li><a href="./about.html">공지사항</a></li>
+         <li><a href="./shop-details.html">이벤트 안내</a></li>
+         <li><a href="./checkout.html">Check Out</a></li>
+        </ul>
+        </li>
+        <li><a href="./contact.html">커뮤니티</a>
+         <ul class="dropdown">
+          <li><a href="./about.html">자유게시판</a></li>
+          <li><a href="./shop-details.html">후기게시판</a></li>
+          <li><a href="./checkout.html">Check Out</a></li>
+         </ul>
+        </li>
        </ul>
       </nav>
      </div>

@@ -33,7 +33,7 @@ public class SecurityConfig {
 		security.csrf().disable();
 		security.formLogin().loginPage("/system/login").defaultSuccessUrl("/mainPage", true);
 		security.exceptionHandling().accessDeniedPage("/system/accessDenied");
-		security.logout().logoutUrl("/system/logout").invalidateHttpSession(true).logoutSuccessUrl("/");
+		security.logout().logoutUrl("/system/logout").invalidateHttpSession(true).logoutSuccessUrl("/mainPage");
 		security.userDetailsService(suds);
 		
 		return security.build();
