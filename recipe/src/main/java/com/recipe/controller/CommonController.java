@@ -10,7 +10,7 @@ public class CommonController {
     @RequestMapping("mainPage")
     public String mainPage(Member vo) throws Exception{
 
-        return "mainPage";
+        return "/mainPage";
     }
 
 }

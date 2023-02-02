@@ -5,11 +5,10 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.multipart.MultipartFile;
 
 import com.recipe.dto.Member;
 import com.recipe.dto.Role;
-import com.recipe.repo.MemberRepo;
+import com.recipe.persistence.MemberRepo;
 
 @SpringBootTest
 public class MemcontrollerTest {

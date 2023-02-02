@@ -29,6 +29,7 @@ public class Member {
 	@OneToMany
 	@JoinColumn(name = "my_material")
 	private List<Material>	material;
+	@Column(name = "pro_img")
 	private String	proImg;
 	
 	@Enumerated(EnumType.STRING)

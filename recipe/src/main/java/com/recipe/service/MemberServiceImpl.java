@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.recipe.dto.Member;
-import com.recipe.repo.MemberRepo;
+import com.recipe.persistence.MemberRepo;
 
 import java.util.Optional;
 

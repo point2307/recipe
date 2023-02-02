@@ -21,6 +21,7 @@ public class Board {
 	private	String	board_kind;
 	private	String	board_title;
 	private	String	board_content;
+	@Temporal(TemporalType.DATE)
 	private	Date	board_regedit;
 	private	String	board_image;
 	private	int 	board_liked;

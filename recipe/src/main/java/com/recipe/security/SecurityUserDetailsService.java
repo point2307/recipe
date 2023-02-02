@@ -9,7 +9,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import com.recipe.dto.Member;
-import com.recipe.repo.MemberRepo;
+import com.recipe.persistence.MemberRepo;
 
 
 @Service
