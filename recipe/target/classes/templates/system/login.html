@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+
+<!-- index.html 고유 CSS 추가 -->
+<th:block layout:fragment="css">
+   <link rel="stylesheet" th:href="@{/source/css/login.css}" >
+</th:block>
+<!-- index.html 고유 스크립트 추가 -->
+<th:block layout:fragment="script">
+</th:block>
+
+<!-- Content -->
+<div layout:fragment="content">
+    <div class="container">
+      <form name="form" class="box" th:method="post" th:action="@{login}">
+        <h2>로그인 하세요</h2>
+        <h3> ㄱ</h3>
+        <input type="text" name="username" placeholder="userId" autocomplete="off">
+        <i class="typcn typcn-eye" id="eye"></i>
+        <input type="password" name="password" placeholder="Passsword" id="pwd" autocomplete="off">
+        <label>
+          <input type="checkbox">
+          <span></span>
+          <small class="rmb">Remember me</small>
+        </label>
+        <a href="#" class="forgetpass">Forget Password?</a>
+        <input type="submit" value="Sign in" class="btn1">
+      </form>
+      <a href="#" class="dnthave">Don’t have an account? Sign up</a>
+    </div>
+</div>
+
+</html>
