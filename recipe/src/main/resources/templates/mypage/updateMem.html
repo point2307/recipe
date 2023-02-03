@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+
+<!-- index.html 고유 CSS 추가 -->
+<th:block layout:fragment="css">
+  <!--    <link rel="stylesheet" th:href="@{/css/page/home.css}" >-->
+</th:block>
+<!-- index.html 고유 스크립트 추가 -->
+<th:block layout:fragment="script">
+  <script type="text/javascript" th:src="@{/source/script/memScript.js}"></script>
+</th:block>
+
+<!-- Content -->
+<div layout:fragment="content">
+  <div class="container text-center">
+    <div class="row">
+      <div class="col"> </div>
+      <div class="col-6">
+        <h2>회원 정보 수정</h2>
+        <br>
+        <form th:id="updateForm" method="post" enctype="multipart/form-data" th:action="@{/mypage/updateMember}">
+
+          <table>
+            <tr>
+              <div class="input-group mb-3">
+                <span class="input-group-text">아 이 디*</span>
+                <input type="text" name="userId" id="userId" class="form-control" th:value="${member.userId}" readonly>
+              </div>
+            </tr>
+
+            <tr>
+              <div class="input-group mb-3">
+                <span class="input-group-text">비밀 번호*</span>
+                <input type="password" name="row_pass" id="row_pass" class="form-control" placeholder="비밀번호" aria-label="Recipient's username" aria-describedby="button-addon2">
+              </div>
+            </tr>
+            <tr>
+              <div class="input-group mb-3">
+                <span class="input-group-text">비밀번호확인*</span>
+                <input type="password" name="passwordCheck" id="passwordCheck" class="form-control" placeholder="비밀번호 재입력" aria-label="Recipient's username" aria-describedby="button-addon2">
+              </div>
+            </tr>
+            <tr>
+              <div class="input-group mb-3">
+                <span class="input-group-text">닉 네 임*</span>
+                <input type="text" name="nickName" id="nickName" class="form-control" th:value="${member.nickName}">
+              </div>
+            </tr>
+            <tr>
+              <div class="input-group mb-3">
+                <span class="input-group-text">이    름*</span>
+                <input type="text" name="name" id="name" class="form-control" th:value="${member.name}" readonly="readonly">
+              </div>
+            </tr>
+            <tr>
+              <div class="input-group mb-3">
+                <span class="input-group-text">연 락 처*</span>
+                <input type="text" name="phone" id="phone" class="form-control" th:value="${member.phone}">
+              </div>
+            </tr>
+            <tr>
+              <div class="input-group mb-3">
+                <span class="input-group-text">이 메 일*</span>
+                <input type="text" name="email" id="email" class="form-control" th:value="${member.email}" readonly="readonly">
+              </div>
+            </tr>
+            <tr>
+              <div class="input-group mb-3">
+                <span class="input-group-text">주  소*</span>
+                <input type="text" name="address" id="address" class="form-control" th:value="${member.address}">
+                <button class="btn btn-outline-secondary" type="button" id="2" onclick="">주소검색</button>
+              </div>
+            </tr>
+            <tr>
+            <div class="input-group mb-3">
+              <label class="input-group-text" for="inputGroupFile01">프로필사진</label>
+              <input type="file" name="pic" class="form-control" id="inputGroupFile01">
+            </div>
+            </tr>
+            <tr>
+              <input type="hidden" name="role" th:value="${member.role}"/>
+              <input type="hidden" name="nopic" th:value="${member.proImg}"/>
+              <div class="d-grid gap-2 mx-auto">
+                <button class="btn btn-primary" type="submit">정보수정</button>
+              </div></tr>
+          </table>
+          <p>*항목은 모두 입력하셔야 합니다</p>
+        </form>
+      </div>
+      <div class="col"> </div>
+    </div>
+  </div>
+</div>
+</html>

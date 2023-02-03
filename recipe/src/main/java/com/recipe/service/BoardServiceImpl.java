@@ -17,8 +17,10 @@ public class BoardServiceImpl implements BoardService {
 	@Autowired
 	private BoardRepo bRepo;
 	@Override
-	public Page<Board> getBoardList(){
-		Pageable paging = PageRequest.of(0, 10, Sort.Direction.DESC, "board_id");
+	public Page<Board> getBoardList(Pageable paging){
+		if(paging == null){
+			paging = PageRequest.of(0, 10, Sort.Direction.DESC, "board_id");
+		}
 
 		return bRepo.getBoardList(paging);
 	}

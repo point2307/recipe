@@ -27,5 +27,19 @@ public class MemberServiceImpl implements MemberService {
 		} else return 0;
 	}
 
+	@Override
+	public void updateMem(Member vo) {
+		Member update = memRepo.findById(vo.getUserId()).get();
+		update.setPassword(vo.getPassword());
+		update.setNickName(vo.getNickName());
+		update.setPhone(vo.getPhone());
+		update.setEmail(vo.getEmail());
+		update.setPhone(vo.getPhone());
+		update.setAddress(vo.getAddress());
+		update.setProImg(vo.getProImg());
+		update.setRole(vo.getRole());
+		memRepo.save(update);
+	}
+
 
 }

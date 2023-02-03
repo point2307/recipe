@@ -15,10 +15,7 @@ import lombok.ToString;
 @ToString
 public class Material {
 	@Id
-	private	String	mtrl_id;
-	private	String	mtrl_name;
-	
-	@Temporal(TemporalType.DATE)
-	private	Date	exp;
+	private	String	matId;
+	private	String	materName;
 
 }

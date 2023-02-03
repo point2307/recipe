@@ -4,7 +4,7 @@
       xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
-      layout:decorate="~{/layout}">
+      layout:decorate="~{layout}">
 
 <!-- index.html 고유 CSS 추가 -->
 <th:block layout:fragment="css">
@@ -17,13 +17,13 @@
 
 <!-- Content -->
 <div layout:fragment="content" th:align="center">
-  <h1>페이지 구현</h1>
-
-  <form th:action=@{/board/insertBoard} method="post" enctype="multipart/form-data">
+  <h2>새 글 쓰기</h2>
+<br><br>
+  <form th:action="@{/board/insertBoard}" method="post" enctype="multipart/form-data">
 
     <table border="1" cellpadding="0" cellspacing="0">
       <tr>
-        <td bgcolor="orange" width="70">제목</td><td align="left">
+        <td bgcolor="orange" width="100">제목</td><td align="left">
         <input type="text" th:name="board_title"/></td>
       </tr>
       <tr>
@@ -45,13 +45,13 @@
           후기 사진
         </td>
         <td>
-          <input th:type="file" th:name="board_image">
+          <input th:type="file" th:name="image">
         </td>
 
       </tr>
       <tr>
         <td colspan="2" align="center">
-          <input type="submit" value=" 새글 등록 "/></td>
+          <input type="submit" value=" 새 글 등록"/></td>
       </tr>
     </table>
   </form>

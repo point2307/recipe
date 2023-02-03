@@ -1,6 +1,6 @@
 package com.recipe.controller;
 
-import com.recipe.dto.File;
+import com.recipe.util.File;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -33,7 +33,7 @@ public class MemberController {
 	}
 	
 	@PostMapping("register")
-	public String register(Member vo, String row_pass, MultipartFile pic) throws IllegalStateException, IOException {
+	public String register(Member vo, String row_pass, MultipartFile pic, String ema, String il) throws IllegalStateException, IOException {
 		if(pic.isEmpty()){
 			vo.setProImg("noPic.jpg");
 		} else{
@@ -44,9 +44,11 @@ public class MemberController {
 			vo.setProImg(newFileName.toString());
 		}
 
+
 		vo.setPassword(encoder.encode(row_pass));
+		vo.setEmail(ema+"@"+il);
 		memServ.register(vo);
-		return "/system/login";
+		return "redirect:/system/login";
 	}
 
 	@GetMapping("idCheck")

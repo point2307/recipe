@@ -19,7 +19,8 @@ public class Mealkit {
 	@GeneratedValue
 	private	Long	kit_id;
 	private	String	kit_title;
-	
+
+	private int price;
 	@OneToOne
 	private	Recipe	kit_recipe;
 	private	String	kit_subtitle;

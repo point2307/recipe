@@ -7,4 +7,6 @@ public interface MemberService {
 	void register(Member vo);
 
 	int findId(String id);
+
+	void updateMem(Member vo);
 }

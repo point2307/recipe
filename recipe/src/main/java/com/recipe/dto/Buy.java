@@ -16,9 +16,9 @@ public class Buy {
 	@GeneratedValue
 	private Long buy_id;
 	
-	@OneToMany
+	@OneToOne
 	@JoinColumn(name = "buyer")
-	private List<Member> buyer;
+	private Member buyer;
 	
 	@Temporal(TemporalType.DATE)
 	private	Date	buy_date;

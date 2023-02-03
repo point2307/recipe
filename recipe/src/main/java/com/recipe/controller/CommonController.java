@@ -7,10 +7,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class CommonController {
 
-    @RequestMapping("mainPage")
+    @RequestMapping("/mainPage")
     public String mainPage(Member vo) throws Exception{
 
-        return "/mainPage";
+        return "mainPage";
     }
 
 }

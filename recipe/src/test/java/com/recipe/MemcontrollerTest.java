@@ -33,7 +33,7 @@ public class MemcontrollerTest {
 		admin.setEmail("playjap35@gmail.com");
 		admin.setRole(Role.ROLE_ADMIN);
 		admin.setFax("02-0055-2222");
-		admin.setProImg(null);
+		admin.setProImg("noPic.jpg");
 		
 
 		memRepo.save(admin);

@@ -6,6 +6,8 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import org.hibernate.annotations.CreationTimestamp;
+
 @Entity
 @Getter
 @Setter
@@ -21,7 +23,8 @@ public class Board {
 	private	String	board_kind;
 	private	String	board_title;
 	private	String	board_content;
-	@Temporal(TemporalType.DATE)
+	@Temporal(TemporalType.TIMESTAMP)
+	@CreationTimestamp
 	private	Date	board_regedit;
 	private	String	board_image;
 	private	int 	board_liked;

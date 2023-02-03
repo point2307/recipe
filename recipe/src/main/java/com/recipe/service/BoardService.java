@@ -2,9 +2,10 @@ package com.recipe.service;
 
 import com.recipe.dto.Board;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 public interface BoardService {
-    Page<Board> getBoardList();
+    Page<Board> getBoardList(Pageable paging);
 
     void insertBoard(Board vo);
 

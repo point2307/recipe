@@ -1,4 +1,4 @@
-package com.recipe.dto;
+package com.recipe.util;
 
 import lombok.Getter;
 import lombok.Setter;

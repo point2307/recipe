@@ -7,6 +7,8 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import org.hibernate.annotations.CreationTimestamp;
+
 @Entity
 @Getter
 @Setter
@@ -21,8 +23,8 @@ public class Reply {
 	private	String	reply_content;
 	
 	@Temporal(TemporalType.DATE)
-	@Column(name = "regedit")
-	private	Date regedit;
+	@CreationTimestamp
+	private	Date regdate;
 	
 	@OneToMany
 	@JoinColumn(name = "likey")

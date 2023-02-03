@@ -3,7 +3,7 @@
       xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{/layout}">
+      layout:decorate="~{layout}">
 
 <!-- index.html 고유 CSS 추가 -->
 <th:block layout:fragment="css">
@@ -16,19 +16,19 @@
 
 <!-- Content -->
 <div layout:fragment="content">
-  <h1>페이지 구현</h1>
-
-  <table th:align="center" border="1" cellpadding="0" cellspacing="0" width="700">
+  <h2 th:align="center">자유게시판</h2>
+<br><br>
+  <table class="table table-striped">
     <tr>
-      <th bgcolor="orange" width="100">번호</th>
-      <th bgcolor="orange" width="200">제목</th>
-      <th bgcolor="orange" width="150">작성자</th>
-      <th bgcolor="orange" width="150">등록일</th>
-      <th bgcolor="orange" width="100">추천수</th>
+      <th width="100">번호</th>
+      <th width="200">제목</th>
+      <th width="150">작성자</th>
+      <th width="150">등록일</th>
+      <th width="100">추천수</th>
     </tr>
 
     <tr th:each="board,state:${boardList}">
-      <td th:text="${state.count}"></td>
+      <td th:text="${board.board_id}"></td>
       <td align="left"><a th:href="@{getBoard(board_id=${board.board_id})}" th:text="${board.board_title}"></a></td>
       <td th:text="${board.board_writer.nickName}"></td>
       <td th:text="${#dates.format(board.board_regedit, 'yyyy-MM-dd HH:mm:ss')}"></td>
@@ -36,5 +36,29 @@
     </tr>
   </table>
   <a th:href="@{/board/insertBoardForm}">새글 등록</a>
+  <div>
+    <form method="post" th:action="@{boardList}">
+    <ul class="pagination">
+
+      <th:if test="${pageMaker.prev}">
+        <li class="paginate_button previous">
+          <a th:href="@{boardlist(pageNumber)}">[이전]</a>
+        </li>
+      </th:if>
+
+      <!-- [1][2][3]... 표시 부분 -->
+      <th:forEach begin="${pageMaker.startPage}" end="${pageMaker.endPage}" var="index">
+        <a href="admin_product_list${pageMaker.makeQuery(index)}">[${index}]</a>
+      </th:forEach>
+
+      <th:if test="${pageMaker.next}">
+        <li class="paginate_button next">
+          <a href="admin_product_list${pageMaker.makeQuery(pageMaker.endPage+1)}">[다음]</a>
+        </li>
+      </th:if>
+
+    </ul>
+    </form>
+  </div>
 </div>
 </html>
