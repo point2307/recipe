@@ -1,6 +1,7 @@
 package com.recipe.service;
 
 import com.recipe.dto.Recipe;
+import com.recipe.dto.RecipeProc;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -14,4 +15,8 @@ public interface RecipeService {
     void deleteRecipe(Recipe vo);
 
     Page<Recipe> getRecipeList(Pageable pageable);
+
+    Recipe getRecipeById(Recipe vo);
+
+    List<RecipeProc> processing(Recipe vo);
 }

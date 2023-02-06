@@ -1,18 +1,17 @@
 package com.recipe.controller;
 
 import com.recipe.dto.Board;
-import com.recipe.dto.Member;
 import com.recipe.security.SecurityUser;
 import com.recipe.service.BoardServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 public class BoardController {
@@ -21,7 +20,7 @@ public class BoardController {
     private BoardServiceImpl boardService;
 
     @GetMapping("/common/boardList")
-    public String getBoardList(Model model, Pageable paging){
+    public String getBoardList(Model model, @PageableDefault() Pageable paging){
         Page<Board> list = boardService.getBoardList(paging);
         System.out.println(list);
 

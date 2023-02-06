@@ -4,7 +4,6 @@ import com.recipe.util.File;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -53,8 +52,7 @@ public class MemberController {
 
 	@GetMapping("idCheck")
 	@ResponseBody
-	public int idCheck(String id, Model model){
-		int result = memServ.findId(id);
-		return result;
+	public int idCheck(String id){
+		return memServ.findId(id);
 	}
 }

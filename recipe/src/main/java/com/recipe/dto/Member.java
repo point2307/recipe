@@ -3,17 +3,15 @@ package com.recipe.dto;
 import java.util.List;
 
 import jakarta.persistence.*;
-import org.hibernate.annotations.ColumnDefault;
 
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-import org.hibernate.annotations.DialectOverride;
 
 @Entity
 @Getter
 @Setter
-@ToString(exclude = {"mem_material"})
+@ToString(exclude = {"material"})
 public class Member {
 	@Id
 	private String	userId;
@@ -23,12 +21,11 @@ public class Member {
 	private String	address;
 	private String	phone;
 	private String email;
-	
+	private char agree; // 약관 동의 여부
 	private String	account;
 	
 	@OneToMany
-	private List<Material>	material;
-	@Column(name = "pro_img")
+	private List<Material>	material;  // 내가 가진 재료
 	private String	proImg;
 	
 	@Enumerated(EnumType.STRING)

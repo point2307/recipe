@@ -1,6 +1,8 @@
 package com.recipe.service;
 
 import com.recipe.dto.Recipe;
+import com.recipe.dto.RecipeProc;
+import com.recipe.persistence.RecipeProcRepo;
 import com.recipe.persistence.RecipeRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -16,10 +18,15 @@ public class RecipeServiceImpl implements RecipeService {
     @Autowired
     private RecipeRepo recipeRepo;
 
+    @Autowired
+    private RecipeProcRepo recipeProcRepo;
 
     @Override
     public void makeRecipe(Recipe vo) {
         recipeRepo.save(vo);
+        for(RecipeProc proc : vo.getRecipe_process()){
+            recipeProcRepo.save(proc);
+        }
     }
 
     @Override
@@ -44,5 +51,16 @@ public class RecipeServiceImpl implements RecipeService {
             pageable = PageRequest.of(0, 10, Sort.Direction.DESC, "board_id");
         }
         return recipeRepo.getAllRecipe(pageable);
+    }
+
+    @Override
+    public Recipe getRecipeById(Recipe vo) {
+        return recipeRepo.findById(vo.getRecipeId()).get();
+    }
+
+
+    @Override
+    public List<RecipeProc> processing(Recipe vo) {
+        return recipeProcRepo.findAllByRecipe(vo.getRecipeId());
     }
 }

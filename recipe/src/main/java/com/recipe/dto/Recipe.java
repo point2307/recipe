@@ -26,10 +26,11 @@ public class Recipe {
 	private	int	amount;
 	private	String image;
 
-	@OneToMany(mappedBy = "rawId",fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	private String recipeDetail;
+	@OneToMany(mappedBy = "rawId",fetch = FetchType.EAGER)
 	private List<RawMater> rawMaterList = new ArrayList<>();
 	
-	@OneToMany(mappedBy = "procId", fetch = FetchType.EAGER)
+	@OneToMany(mappedBy = "procId", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	private  List<RecipeProc> recipe_process = new ArrayList<>();
 	@OneToOne
 	@JoinColumn(name = "writer")

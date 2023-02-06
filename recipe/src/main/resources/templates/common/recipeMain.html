@@ -16,7 +16,27 @@
 
 <!-- Content -->
 <div layout:fragment="content">
-  <h1>페이지 구현</h1>
-<h3>  <a th:href="@{/recipe/makeRecipe}">레시피 작성하기</a></h3>
+
+  <h3>  <a th:href="@{/recipe/makeRecipe}">레시피 작성하기</a></h3>
+
+  <th:block>
+    <div th:each="recipe, state:${recipeList}">
+      <div class="card" style="width: 18rem;">
+        <img th:src="@{/source/img/} + ${recipe.image}" class="card-img-top" alt="...">
+        <div class="card-body">
+          <h5 class="card-title" th:text="${recipe.recipeTitle}"></h5>
+          <p class="card-text" th:text="${recipe.recipeDetail}"></p>
+        </div>
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item">An item</li>
+          <li class="list-group-item">A second item</li>
+          <li class="list-group-item">A third item</li>
+        </ul>
+        <div class="card-body">
+          <a th:href="@{/common/getRecipe(recipeId=${recipe.recipeId})}" class="card-link">자세히보기</a>
+        </div>
+      </div>
+    </div>
+  </th:block>
 </div>
 </html>

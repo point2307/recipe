@@ -12,15 +12,17 @@ import lombok.ToString;
 @ToString(exclude = "procRcp")
 public class RecipeProc {
 
+
 	@Id
 	@GeneratedValue
 	private Long procId;
 	
 	@ManyToOne
 	@JoinColumn(name = "recipe")
-	private Recipe procRcp;
-	private int procNum;
+	private Recipe recipe;
 	private String procPicName;
 	private String procDetail;
-	
+
+	public RecipeProc() {
+	}
 }

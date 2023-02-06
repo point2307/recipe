@@ -11,11 +11,105 @@
 </th:block>
 <!-- index.html 고유 스크립트 추가 -->
 <th:block layout:fragment="script">
-  <!--    <script th:src="@{/js/page/home.js}"></script>-->
+  <script type="text/javascript" th:src="@{/source/script/recipeScript.js}"></script>
+
 </th:block>
 
-<!-- Content -->
-<div layout:fragment="content">
-  <h1>페이지 구현</h1>
+  <!-- Content -->
+  <br><br>
+  <div layout:fragment="content">
+    <div class="container text-center">
+      <div class="row">
+        <div class="col"> </div>
+        <div class="col-8">
+          <h2>레시피 작성</h2>
+          <br>
+          <form th:id="recipeForm" method="post" enctype="multipart/form-data" th:action="@{/recipe/makeRecipe}">
+
+            <table>
+              <tr>
+                <div class="input-group mb-3">
+                  <span class="input-group-text">레시피 이름</span>
+                  <input type="text" th:name="recipeTitle" id="recipeTitle" class="form-control" placeholder="Cook Name" aria-label="Recipient's username" aria-describedby="button-addon2">
+                </div>
+              </tr>
+              <tr>
+                <div class="input-group mb-3">
+                  <span class="input-group-text">요 리 설 명</span>
+                  <input type="text" th:name="recipeDetail" id="recipeDetail" class="form-control" placeholder="Cook Name" aria-label="Recipient's username" aria-describedby="button-addon2">
+                </div>
+              </tr>
+
+              <tr>
+                <div class="input-group mb-3">
+                  <span class="input-group-text">재 료</span>
+                  <input type="text" name="rawName" id="rawName" class="form-control" placeholder="이름" aria-label="Username">
+                  <span class="input-group-text">:</span>
+                  <input type="text" name="rawAmount" id="rawAmount" class="form-control" placeholder="분량" aria-label="Server">
+
+                  <button class="btn btn-outline-secondary" type="button" id="button-addon2" onclick="addRaws()">추가</button>
+       <!--           <input type="hidden" name="rawMaterList" th:value="${rawMaterList}"/>   -->
+                </div>
+              </tr>
+             <!--
+              <li class="rawList">
+                <th:block th:each = "raw, i:${rawMaterList}" >
+                  <ul th:text="${raw.mater}" + ":" + "${raw.amount}"></ul>
+                  </th:each>
+              </li>  -->
+              <tr>
+                <div class="input-group mb-3">
+                  <span class="input-group-text">조 리 시 간</span>
+                  <input type="number" th:name="hour" class="form-control" placeholder="시간" aria-label="Username" value="0">
+                  <span class="input-group-text">:</span>
+                  <input type="number" th:name="minute" class="form-control" placeholder="분" aria-label="Server" value="0" min = "0" max="59">
+                  <span class="input-group-text">:</span>
+                  <input type="number" th:name="second" class="form-control" placeholder="초" aria-label="Server" value="0" max="59" min="0">
+                </div>
+              </tr>
+              <tr>
+                <div class="input-group mb-3">
+                  <span class="input-group-text">제 공 량</span>
+                  <input type="number" th:name="amount" id="amount" value="1" class="form-control" placeholder="(인분)" aria-label="Recipient's username" aria-describedby="button-addon2">
+                </div>
+              </tr>
+              <tr>
+                <div class="input-group mb-3">
+                  <label class="input-group-text" for="inputGroupFile01">조 리 예</label>
+                  <input type="file" th:name="eximage" class="form-control" id="inputGroupFile01">
+                </div>
+              </tr>
+            </table>
+            <h4>상세 조리 과정</h4>
+            <!-- 조 리 방 법 -->
+              <div class="process" id="process">
+                <div class="procDe" id="procDe">
+                  <div class="input-group mb-3">
+                    <label class="input-group-text" for="inputGroupFile01">사 진</label>
+                    <input type="file" multiple="multiple" name="procImg" class="form-control" id="procimg">
+                  </div>
+
+                  <div class="mb-3">
+                    <label for="exampleFormControlTextarea1" class="form-label">조리 방법</label>
+                    <textarea class="form-control" th:name="procDetail" id="exampleFormControlTextarea1" rows="3"
+                    placeholder="조리 방법"></textarea>
+                  </div>
+                </div>
+              </div>
+            <input type="hidden" name="procCount" id="procCount" value="1">
+            <button class="btn btn-primary" type="button" onclick="plusProc()">내용 추가</button>
+
+            <br/><br/>
+            <div class="d-grid gap-2 mx-auto">
+              <button class="btn btn-primary" type="submit">레시피 등록</button>
+            </div>
+
+          </form>
+        </div>
+        <div class="col"> </div>
+      </div>
+    </div>
+  </div>
+  </html>
 </div>
 </html>

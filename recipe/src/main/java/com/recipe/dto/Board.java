@@ -19,6 +19,7 @@ public class Board {
 	private	Long 	board_id;
 	
 	@ManyToOne
+	@JoinColumn(name = "writer")
 	private	Member	board_writer;
 	private	String	board_kind;
 	private	String	board_title;
@@ -35,6 +36,5 @@ public class Board {
 	@ManyToOne
 	@JoinColumn(name = "after_kit")
 	private Mealkit board_mealkit;
-	
 
 }
