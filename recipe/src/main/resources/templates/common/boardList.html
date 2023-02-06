@@ -16,8 +16,13 @@
 
 <!-- Content -->
 <div layout:fragment="content">
-  <h2 th:align="center">자유게시판</h2>
-<br><br>
+
+
+  <div class="container">
+    <div class="col"> </div>
+    <div class="col-10">
+      <h2 th:align="center">자유게시판</h2>
+      <br><br>
   <table class="table table-striped">
     <tr>
       <th width="100">번호</th>
@@ -36,29 +41,28 @@
     </tr>
   </table>
   <a th:href="@{/board/insertBoardForm}">새글 등록</a>
-  <div>
-    <form method="post" th:action="@{boardList}">
-    <ul class="pagination">
 
-      <th:if test="${pageMaker.prev}">
-        <li class="paginate_button previous">
-          <a th:href="@{boardlist(pageNumber)}">[이전]</a>
-        </li>
-      </th:if>
+  <div class="btn-toolbar mx-auto" role="toolbar" aria-label="Toolbar with button groups">
+    <div class="col text-center">
+    <div class="page-num"
+         th:with="start=${(boardList.number/10)*10 + 1},
+                  end=(${(boardList.totalPages == 0) ? 1 : (start + (10 - 1) < boardList.totalPages ? start + (10 - 1) : boardList.totalPages)})" >
 
-      <!-- [1][2][3]... 표시 부분 -->
-      <th:forEach begin="${pageMaker.startPage}" end="${pageMaker.endPage}" var="index">
-        <a href="admin_product_list${pageMaker.makeQuery(index)}">[${index}]</a>
-      </th:forEach>
+        <button th:if="${start > 1}" type="button" class="btn btn-secondary" th:onclick="|location.href='@{/common/boardList(page=0)}'|" th:text="'<<'"></button>
+        <button th:if="${start > 1}" type="button" class="btn btn-secondary" th:onclick="|location.href='@{/common/boardList(page=${start - 10})}'|" th:text="'<'"></button>
+        <th:block th:each="page: ${#numbers.sequence(start, end)}">
+          <button type="button" class="btn btn-secondary" th:onclick="|location.href='@{/common/boardList(page=${page-1})}'|" th:text="${page}"></button>
+        </th:block>
+      <button th:if="${end < boardList.totalPages}" type="button" class="btn btn-secondary" th:onclick="|location.href='@{/common/boardList(page=${start + 10})}'|" th:text="'>'"></button>
+      <button th:if="${end < boardList.totalPages}" type="button" class="btn btn-secondary" th:onclick="|location.href='@{/common/boardList(page=${boardList.totalPages-1})}'|" th:text="'>>'"></button>
 
-      <th:if test="${pageMaker.next}">
-        <li class="paginate_button next">
-          <a href="admin_product_list${pageMaker.makeQuery(pageMaker.endPage+1)}">[다음]</a>
-        </li>
-      </th:if>
-
-    </ul>
-    </form>
+    </div>
+    </div>
   </div>
+
+  </div>
+    </div>
+  <div class="col"> </div>
 </div>
+
 </html>

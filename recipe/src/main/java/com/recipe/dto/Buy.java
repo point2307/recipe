@@ -7,6 +7,10 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
+import org.hibernate.annotations.CreationTimestamp;
+
 @Entity
 @Getter
 @Setter
@@ -14,20 +18,18 @@ import lombok.ToString;
 public class Buy {
 	@Id
 	@GeneratedValue
-	private Long buy_id;
+	private Long buyId;
 	
 	@OneToOne
 	@JoinColumn(name = "buyer")
 	private Member buyer;
-	
+	@CreationTimestamp
 	@Temporal(TemporalType.DATE)
 	private	Date	buy_date;
-	
-	@OneToOne
-	@JoinColumn(name = "buy_kit")
-	private	Mealkit	buy_kit;
-	private	int		buy_quantity;
-	private	String	buy_process;
-	private	String	buy_condition;
+	@OneToMany
+	private List<Cart> cart;
+	private	String totalPrice;
+
+	private String processing;
 
 }

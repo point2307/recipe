@@ -18,7 +18,6 @@ public class RecipeProc {
 	private Long procId;
 	
 	@ManyToOne
-	@JoinColumn(name = "recipe")
 	private Recipe recipe;
 	private String procPicName;
 	private String procDetail;

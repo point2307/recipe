@@ -28,7 +28,7 @@ public class SecurityConfig {
 		security.authorizeHttpRequests(auth -> {
 			auth.requestMatchers("/*","/source/**", "/member/**", "/system/**","/fragments/**","/common/**").permitAll();
 			auth.requestMatchers("/recipe/**","/mypage/**","/board/**").authenticated();
-			auth.requestMatchers("/admin/**").hasRole("ADMIN");
+			auth.requestMatchers("/admin/**", "/mealkit/**").hasRole("ADMIN");
 		});
 		security.csrf().disable();
 		security.formLogin().loginPage("/system/login").defaultSuccessUrl("/mainPage", true);

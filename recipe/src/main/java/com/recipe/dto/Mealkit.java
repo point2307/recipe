@@ -17,13 +17,13 @@ import java.util.List;
 public class Mealkit {
 	@Id
 	@GeneratedValue
-	private	Long	kit_id;
-	private	String	kit_title;
-
-	private int price;
+	private	Long	kitId;
+	private	String	kitName;  //밀키트 이름
+	private String exImg;  // 조리예 사진
+	private String subTitle;   //간단한 설명
+	private int price; // 구매비용
 	@OneToOne
-	private	Recipe	kit_recipe;
-	private	String	kit_subtitle;
-	private	String	kit_detail;
+	private	Recipe	Recipe;
+	private	String	Detail;  // 밀키트 상세 정보
 
 }

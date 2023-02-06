@@ -16,22 +16,6 @@
 
 <!-- Content -->
 <div layout:fragment="content">
-  <div class="container">
-    <div class="">
-      <img th:src="@{/source/img/} + ${recipe.image}"/>
-      <p th:text="${recipe.recipeTitle}"></p><br>
-      <p th:text="${recipe.recipeDetail}"></p><br>
-
-      <p th:text="${recipe.amount}"></p><br>
-      <p th:text="${recipe.recipeCookingTime}"></p><br>
-        <br> <br>
-      <div th:each="process, state:${recipe.recipe_process}">
-        <p th:text="${state}"></p>
-        <img th:src="@{/source/img/} + ${process.procPicName}"/>
-        <p th:text="${process.procDetail}"></p>
-      </div>
-
-    </div>
-  </div>
+  <h1>페이지 구현</h1>
 </div>
 </html>

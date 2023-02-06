@@ -30,7 +30,8 @@ public class Recipe {
 	@OneToMany(mappedBy = "rawId",fetch = FetchType.EAGER)
 	private List<RawMater> rawMaterList = new ArrayList<>();
 	
-	@OneToMany(mappedBy = "procId", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@OneToMany(cascade = CascadeType.ALL)
+	@JoinColumn(name = "process")
 	private  List<RecipeProc> recipe_process = new ArrayList<>();
 	@OneToOne
 	@JoinColumn(name = "writer")
