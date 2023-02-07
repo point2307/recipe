@@ -26,6 +26,7 @@ $(document).ready(function(){
                 })
             }
         });
+        $('#recipeModal').modal('show');
     });
 });
 

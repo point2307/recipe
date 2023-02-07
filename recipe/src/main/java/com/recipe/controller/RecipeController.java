@@ -55,7 +55,7 @@ public class RecipeController {
 
             MultipartFile pic = procImg.get(i);
             if(pic.isEmpty()){
-                proc.setProcPicName("noPic.jpg");
+                proc.setProcPicName("noProcImg.jpg");
             } else{
                 com.recipe.util.File file = new com.recipe.util.File(UUID.randomUUID().toString(), pic.getOriginalFilename(),
                         pic.getContentType());
@@ -68,7 +68,7 @@ public class RecipeController {
             procList.add(proc);
         }
         if(eximage.isEmpty()){
-            vo.setImage("noPic.jpg");
+            vo.setImage("noRecipeImg.jpg");
         } else{
             com.recipe.util.File file = new com.recipe.util.File(UUID.randomUUID().toString(), eximage.getOriginalFilename(),
                     eximage.getContentType());

@@ -34,7 +34,7 @@ public class MealkitController {
     @PostMapping("/admin/insertKit")
     public String insertKit(Mealkit vo, String recipeTitle, MultipartFile pic)  throws IllegalStateException, IOException {
         if(pic.isEmpty()){
-            vo.setExImg("noPic.jpg");
+            vo.setExImg("noKitPic.jpg");
         } else{
             File file = new File(UUID.randomUUID().toString(), pic.getOriginalFilename(),
                     pic.getContentType());
