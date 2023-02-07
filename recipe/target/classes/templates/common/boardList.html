@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+
+<!-- index.html 고유 CSS 추가 -->
+<th:block layout:fragment="css">
+  <!--    <link rel="stylesheet" th:href="@{/css/page/home.css}" >-->
+</th:block>
+<!-- index.html 고유 스크립트 추가 -->
+<th:block layout:fragment="script">
+  <!--    <script th:src="@{/js/page/home.js}"></script>-->
+</th:block>
+
+<!-- Content -->
+<div layout:fragment="content">
+
+
+  <div class="container">
+    <div class="col"> </div>
+    <div class="col-10">
+      <h2 th:align="center">자유게시판</h2>
+      <br><br>
+  <table class="table table-striped">
+    <tr>
+      <th width="100">번호</th>
+      <th width="200">제목</th>
+      <th width="150">작성자</th>
+      <th width="150">등록일</th>
+      <th width="100">추천수</th>
+    </tr>
+
+    <tr th:each="board,state:${boardList}">
+      <td th:text="${board.boardId}"></td>
+      <td align="left"><a th:href="@{getBoard(board_id=${board.boardId})}" th:text="${board.boardTitle}"></a></td>
+      <td th:text="${board.boardWriter.nickName}"></td>
+      <td th:text="${#dates.format(board.boardRegedit, 'yyyy-MM-dd HH:mm:ss')}"></td>
+      <td th:text="${board.boardLikedCount}"></td>
+    </tr>
+  </table>
+  <a th:href="@{/board/insertBoardForm}">새글 등록</a>
+
+  <div class="btn-toolbar mx-auto" role="toolbar" aria-label="Toolbar with button groups">
+    <div class="col text-center">
+    <div class="page-num"
+         th:with="start=${(boardList.number/10)*10 + 1},
+                  end=(${(boardList.totalPages == 0) ? 1 : (start + (10 - 1) < boardList.totalPages ? start + (10 - 1) : boardList.totalPages)})" >
+
+        <button th:if="${start > 1}" type="button" class="btn btn-secondary" th:onclick="|location.href='@{/common/boardList(page=0)}'|" th:text="'<<'"></button>
+        <button th:if="${start > 1}" type="button" class="btn btn-secondary" th:onclick="|location.href='@{/common/boardList(page=${start - 10})}'|" th:text="'<'"></button>
+        <th:block th:each="page: ${#numbers.sequence(start, end)}">
+          <button type="button" class="btn btn-secondary" th:onclick="|location.href='@{/common/boardList(page=${page-1})}'|" th:text="${page}"></button>
+        </th:block>
+      <button th:if="${end < boardList.totalPages}" type="button" class="btn btn-secondary" th:onclick="|location.href='@{/common/boardList(page=${start + 10})}'|" th:text="'>'"></button>
+      <button th:if="${end < boardList.totalPages}" type="button" class="btn btn-secondary" th:onclick="|location.href='@{/common/boardList(page=${boardList.totalPages-1})}'|" th:text="'>>'"></button>
+
+    </div>
+    </div>
+  </div>
+
+  </div>
+    </div>
+  <div class="col"> </div>
+</div>
+
+</html>
