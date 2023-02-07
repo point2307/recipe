@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      layout:decorate="~{layout}">
+
+<!-- index.html 고유 CSS 추가 -->
+<th:block layout:fragment="css">
+  <!--    <link rel="stylesheet" th:href="@{/css/page/home.css}" >-->
+</th:block>
+<!-- index.html 고유 스크립트 추가 -->
+<th:block layout:fragment="script">
+  <!--    <script th:src="@{/js/page/home.js}"></script>-->
+</th:block>
+
+<!-- Content -->
+<div layout:fragment="content" th:align="center">
+  <h2>새 글 쓰기</h2>
+<br><br>
+  <form th:action="@{/board/insertBoard}" method="post" enctype="multipart/form-data">
+
+    <table border="1" cellpadding="0" cellspacing="0">
+      <tr>
+        <td bgcolor="orange" width="100">제목</td><td align="left">
+        <input type="text" th:name="boardTitle"/></td>
+      </tr>
+      <tr>
+        <td bgcolor="orange">글 종류</td>
+        <td>
+        <select th:name="boardKind" th:onchange="">
+          <option th:value="100" th:selected="100">일반글</option>
+          <option th:value="200">레시피 후기</option>
+          <option th:value="300">밀키트 후기</option>
+        </select>
+        </td>
+      </tr>
+      <tr>
+        <td bgcolor="orange">내용</td><td align="left">
+        <textarea th:name="boardContent" cols="40" rows="10"></textarea></td>
+      </tr>
+      <tr>
+        <td>
+          후기 사진
+        </td>
+        <td>
+          <input th:type="file" th:name="image">
+        </td>
+
+      </tr>
+      <tr>
+        <td colspan="2" align="center">
+          <input type="submit" value=" 새 글 등록"/></td>
+      </tr>
+    </table>
+  </form>
+</div>
+</html>

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+
+<!-- index.html 고유 CSS 추가 -->
+<th:block layout:fragment="css">
+  <!--    <link rel="stylesheet" th:href="@{/css/page/home.css}" >-->
+</th:block>
+<!-- index.html 고유 스크립트 추가 -->
+<th:block layout:fragment="script">
+  <!--    <script th:src="@{/js/page/home.js}"></script>-->
+</th:block>
+
+<!-- Content -->
+<div layout:fragment="content">
+  <div class="container">
+    <div class="">
+      <img th:src="@{/source/img/} + ${recipe.image}"/>
+      <p th:text="${recipe.recipeTitle}"></p><br>
+      <p th:text="${recipe.recipeDetail}"></p><br>
+
+      <p th:text="${recipe.amount}"></p><br>
+      <p th:text="${recipe.recipeCookingTime}"></p><br>
+        <br> <br>
+      <div th:each="process, state:${recipe.recipe_process}">
+
+        <img th:src="@{/source/img/} + ${process.procPicName}"/>
+        <p th:text="${process.procDetail}"></p>
+      </div>
+
+    </div>
+  </div>
+</div>
+</html>
