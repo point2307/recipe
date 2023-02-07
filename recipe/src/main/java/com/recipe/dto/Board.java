@@ -38,5 +38,11 @@ public class Board {
 	@JoinColumn(name = "after_kit")
 	private Mealkit mealkit;
 
+	@PrePersist
+	public void prePersist(){
+		boardAlert = 0;
+		boardLikedCount = 0;
+		boardCnt = 0;
+	}
 
 }

@@ -13,4 +13,6 @@ public interface FundIngService {
     void deleteFunding(Funding vo);
 
     void updateFunding(Funding vo);
+
+    Funding getFundingById(Funding vo);
 }

@@ -21,4 +21,6 @@ public interface RecipeService {
     List<RecipeProc> processing(Recipe vo);
 
     Page<Recipe> famousList(int set);
+
+    Recipe getRecipeByTitle(String recipeTitle);
 }

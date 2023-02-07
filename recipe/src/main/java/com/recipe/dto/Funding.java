@@ -23,9 +23,11 @@ public class Funding {
 	private	int	 goal;         // 목표 금액
 	private	Date finalDate;   // 해당 펀딩 완료 날자
 
+	private int likeCount;
 	@PrePersist
 	public void prePersist(){
 		this.fund = 0;
+		this.likeCount = 0;
 	}
 
 

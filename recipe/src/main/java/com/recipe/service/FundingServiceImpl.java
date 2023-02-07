@@ -31,8 +31,14 @@ public class FundingServiceImpl implements FundIngService{
 
     }
 
+
     @Override
     public void updateFunding(Funding vo) {
 
+    }
+
+    @Override
+    public Funding getFundingById(Funding vo) {
+        return fundingRepo.findById(vo.getFunding_id()).get();
     }
 }
