@@ -6,6 +6,7 @@ import com.recipe.service.BoardServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
@@ -20,7 +21,7 @@ public class BoardController {
     private BoardServiceImpl boardService;
 
     @GetMapping("/common/boardList")
-    public String getBoardList(Model model, @PageableDefault() Pageable paging){
+    public String getBoardList(Model model, @PageableDefault(sort = "boardId" ,direction = Sort.Direction.DESC) Pageable paging){
         Page<Board> list = boardService.getBoardList(paging);
         System.out.println(list);
 
@@ -36,9 +37,9 @@ public class BoardController {
 
     @PostMapping("/board/insertBoard")
     public String insertBoard(Board vo, @AuthenticationPrincipal SecurityUser principal){
-        vo.setBoard_writer(principal.getMember());
+        vo.setBoardWriter(principal.getMember());
         boardService.insertBoard(vo);
-        return "redirect:/common/getBoard?board_id="+vo.getBoard_id();
+        return "redirect:/common/getBoard?board_id="+vo.getBoardId();
     }
     @GetMapping("/common/getBoard")
     public String getBoard(Board vo, Model model){

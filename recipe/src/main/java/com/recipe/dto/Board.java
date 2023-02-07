@@ -16,25 +16,27 @@ public class Board {
 	@Id
 	@SequenceGenerator(name = "board_seq", sequenceName = "board_seq", allocationSize = 1)
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "board_seq")
-	private	Long 	board_id;
+	private	Long 	boardId;
 	
 	@ManyToOne
 	@JoinColumn(name = "writer")
-	private	Member	board_writer;
-	private	String	board_kind;
-	private	String	board_title;
-	private	String	board_content;
+	private	Member	boardWriter;
+	private	String	boardKind;
+	private	String	boardTitle;
+	private	String	boardContent;
 	@Temporal(TemporalType.TIMESTAMP)
 	@CreationTimestamp
-	private	Date	board_regedit;
-	private	String	board_image;
-	private	int 	board_liked;
-	private	int	    board_alert;
+	private	Date	boardRegedit;
+	private	String	boardImage;
+	private	int 	boardLikedCount;
+	private	int	    boardAlert;
+	private int boardCnt;  // 조회수
 	@ManyToOne
 	@JoinColumn(name = "after_recipe")
-	private Recipe board_recipe;
+	private Recipe recipe;
 	@ManyToOne
 	@JoinColumn(name = "after_kit")
-	private Mealkit board_mealkit;
+	private Mealkit mealkit;
+
 
 }

@@ -16,18 +16,27 @@ import org.hibernate.annotations.CreationTimestamp;
 public class Reply {
 	@Id
 	@GeneratedValue
-	private	Long	reply_id;
+	private	Long	replyId;
 	@OneToOne
 	@JoinColumn(name = "writer")
 	private Member	replyWriter;
-	private	String	reply_content;
+	private	String	replyContent;
 	
 	@Temporal(TemporalType.DATE)
 	@CreationTimestamp
 	private	Date regdate;
 	
-	@OneToMany
-	@JoinColumn(name = "likey")
-	private List<Member> likey;
+	private int likeCount;
 
+	@ManyToOne
+	@JoinColumn(name = "board_id")
+	private Board board;
+
+	@ManyToOne
+	@JoinColumn(name = "recipe_id")
+	private Recipe recipe;
+
+	@ManyToOne
+	@JoinColumn(name = "funding_id")
+	private Funding funding;
 }

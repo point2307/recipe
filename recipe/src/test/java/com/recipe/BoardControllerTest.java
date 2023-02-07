@@ -19,12 +19,12 @@ public class BoardControllerTest {
 
     @Test
     public void dummydata(){
-        for(int i = 0; i<100; i++){
+        for(int i = 0; i<150; i++){
             Board vo = new Board();
             Member mem = memberRepo.findById("test").get();
-            vo.setBoard_title(i+"번 게시물");
-            vo.setBoard_writer(mem);
-            vo.setBoard_content(i+"번째 게시물의 내용");
+            vo.setBoardTitle(i+"번 게시물");
+            vo.setBoardWriter(mem);
+            vo.setBoardContent(i+"번째 게시물의 내용");
 
             boardService.insertBoard(vo);
         }

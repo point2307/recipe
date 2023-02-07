@@ -20,14 +20,14 @@ public class Buy {
 	@GeneratedValue
 	private Long buyId;
 	
-	@OneToOne
+	@ManyToOne
 	@JoinColumn(name = "buyer")
 	private Member buyer;
 	@CreationTimestamp
 	@Temporal(TemporalType.DATE)
 	private	Date	buy_date;
 	@OneToMany
-	private List<Cart> cart;
+	private List<Buy> buys;
 	private	String totalPrice;
 
 	private String processing;

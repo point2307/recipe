@@ -1,5 +1,7 @@
 package com.recipe.service;
 
+import com.querydsl.core.BooleanBuilder;
+import com.recipe.dto.QRecipe;
 import com.recipe.dto.Recipe;
 import com.recipe.dto.RecipeProc;
 import com.recipe.persistence.RecipeProcRepo;
@@ -31,15 +33,17 @@ public class RecipeServiceImpl implements RecipeService {
 
     @Override
     public void updateRecipe(Recipe vo) {
-        Recipe update = recipeRepo.findById(vo.getRecipeId()).get();
+        if(recipeRepo.findById(vo.getRecipeId()).isPresent()) {
+            Recipe update = recipeRepo.findById(vo.getRecipeId()).get();
 
         update.setRecipeTitle(vo.getRecipeTitle());
         update.setRawMaterList(vo.getRawMaterList());
         update.setRecipe_process(vo.getRecipe_process());
 
         recipeRepo.save(update);
-    }
 
+        }
+    }
     @Override
     public void deleteRecipe(Recipe vo) {
         recipeRepo.delete(vo);
@@ -62,5 +66,16 @@ public class RecipeServiceImpl implements RecipeService {
     @Override
     public List<RecipeProc> processing(Recipe vo) {
         return recipeProcRepo.findAllByRecipe(vo.getRecipeId());
+    }
+
+    @Override
+    public Page<Recipe> famousList(int set) {
+        BooleanBuilder builder = new BooleanBuilder();
+
+        QRecipe qrecipe = QRecipe.recipe;
+        builder.and(qrecipe.likeCount.goe(set));
+        Pageable paging = PageRequest.of(0, 12, Sort.Direction.DESC, "likeCount");
+
+        return recipeRepo.findAll(builder, paging);
     }
 }

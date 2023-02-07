@@ -26,7 +26,7 @@
       <p th:text="${recipe.recipeCookingTime}"></p><br>
         <br> <br>
       <div th:each="process, state:${recipe.recipe_process}">
-        <p th:text="${state}"></p>
+
         <img th:src="@{/source/img/} + ${process.procPicName}"/>
         <p th:text="${process.procDetail}"></p>
       </div>

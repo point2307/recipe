@@ -19,4 +19,6 @@ public interface RecipeService {
     Recipe getRecipeById(Recipe vo);
 
     List<RecipeProc> processing(Recipe vo);
+
+    Page<Recipe> famousList(int set);
 }

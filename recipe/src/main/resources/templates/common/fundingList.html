@@ -16,6 +16,49 @@
 
 <!-- Content -->
 <div layout:fragment="content">
-  <h1>페이지 구현</h1>
+  <div class="b-example-divider"></div>
+
+  <div class="container px-4 py-5" id="custom-cards">
+    <h2 class="pb-2 border-bottom">진행중인 펀딩</h2>
+    <div th:each="funding, state:${fundingList}">
+      <div class="row row-cols-1 row-cols-lg-3 align-items-stretch g-4 py-5">
+        <div class="col">
+          <div class="card card-cover h-100 overflow-hidden text-bg-dark rounded-4 shadow-lg" th:style="'background-image:url('+@{/source/img/} + ${funding.fundImage} + ');'">
+            <div class="d-flex flex-column h-100 p-5 pb-3 text-white text-shadow-1">
+              <h3 class="pt-5 mt-5 mb-4 display-6 lh-1 fw-bold" th:text="${funding.title}"></h3>
+              <ul class="d-flex list-unstyled mt-auto">
+                <li class="d-flex align-items-center me-3">
+                  <svg class="bi me-2" width="1em" height="1em"><use xlink:href="#geo-fill"/></svg>
+                  <small>Earth</small>
+                </li>
+                <li class="d-flex align-items-center">
+                  <svg class="bi me-2" width="1em" height="1em"><use xlink:href="#calendar3"/></svg>
+                  <small>3d</small>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="btn-toolbar mx-auto" role="toolbar" aria-label="Toolbar with button groups">
+    <div class="col text-center">
+      <div class="page-num"
+           th:with="start=${(fundingList.number/10)*10 + 1},
+                  end=(${(fundingList.totalPages == 0) ? 1 : (start + (10 - 1) < fundingList.totalPages ? start + (10 - 1) : fundingList.totalPages)})" >
+
+        <button th:if="${start > 1}" type="button" class="btn btn-secondary" th:onclick="|location.href='@{/common/fundingList(page=0)}'|" th:text="'<<'"></button>
+        <button th:if="${start > 1}" type="button" class="btn btn-secondary" th:onclick="|location.href='@{/common/fundingList(page=${start - 10})}'|" th:text="'<'"></button>
+        <th:block th:each="page: ${#numbers.sequence(start, end)}">
+          <button type="button" class="btn btn-secondary" th:onclick="|location.href='@{/common/fundingList(page=${page-1})}'|" th:text="${page}"></button>
+        </th:block>
+        <button th:if="${end < fundingList.totalPages}" type="button" class="btn btn-secondary" th:onclick="|location.href='@{/common/fundingList(page=${start + 10})}'|" th:text="'>'"></button>
+        <button th:if="${end < fundingList.totalPages}" type="button" class="btn btn-secondary" th:onclick="|location.href='@{/common/fundingList(page=${fundingList.totalPages-1})}'|" th:text="'>>'"></button>
+
+      </div>
+    </div>
+  </div>
 </div>
 </html>

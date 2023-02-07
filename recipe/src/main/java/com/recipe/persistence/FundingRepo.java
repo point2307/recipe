@@ -1,22 +1,14 @@
 package com.recipe.persistence;
 
+import com.recipe.dto.Funding;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.querydsl.QuerydslPredicateExecutor;
 import org.springframework.data.repository.CrudRepository;
 
-import com.recipe.dto.Recipe;
+public interface FundingRepo extends CrudRepository<Funding, Long>, QuerydslPredicateExecutor<Funding> {
 
-import java.util.List;
-
-public interface RecipeRepo extends CrudRepository<Recipe, Long>, QuerydslPredicateExecutor {
-
-    @Query("select r from Recipe r")
-    Page<Recipe> getAllRecipe(Pageable pageable);
-
-    @Query("select r from Recipe r")
-    List<Recipe> findAllBy();
-
-
+    @Query("select f from Funding f")
+    public Page<Funding> getFundingList(Pageable pageable);
 }

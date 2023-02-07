@@ -1,14 +1,11 @@
 package com.recipe.dto;
 
 import jakarta.persistence.*;
-import org.springframework.web.multipart.MultipartFile;
 
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
-import java.util.List;
 
 @Entity
 @Getter
@@ -24,6 +21,10 @@ public class Mealkit {
 	private int price; // 구매비용
 	@OneToOne
 	private	Recipe	Recipe;
-	private	String	Detail;  // 밀키트 상세 정보
+	private	String	detail;  // 밀키트 상세 정보
+
+	@ManyToOne
+	@JoinColumn(name = "funding")
+	private Funding funding;
 
 }

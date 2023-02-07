@@ -25,7 +25,7 @@ public class RecipeController {
     @Autowired
     private RecipeServiceImpl recipeService;
 
-    @GetMapping("/common/recipeMain")
+    @GetMapping("/common/recipeList")
     public String getRecipeList(Pageable pageable, Model model){
         model.addAttribute("recipeList",recipeService.getRecipeList(pageable));
         return "/common/recipeMain";
@@ -67,7 +67,7 @@ public class RecipeController {
             proc.setRecipe(vo);
             procList.add(proc);
         }
-        if(eximage == null){
+        if(eximage.isEmpty()){
             vo.setImage("noPic.jpg");
         } else{
             com.recipe.util.File file = new com.recipe.util.File(UUID.randomUUID().toString(), eximage.getOriginalFilename(),

@@ -26,7 +26,7 @@
   <th:block>
     <div th:each="recipe, state:${recipeList}">
       <div class="card" style="width: 18rem;">
-        <img th:src="@{/source/img/} + ${recipe.image}" class="card-img-top" alt="...">
+        <img th:src="@{/source/img/} + ${recipe.image}" class="card-img-top" alt="..." width="">
         <div class="card-body">
           <h5 class="card-title" th:text="${recipe.recipeTitle}"></h5>
           <p class="card-text" th:text="${recipe.recipeDetail}"></p>
@@ -41,6 +41,23 @@
       </div>
     </div>
   </th:block>
+        <div class="btn-toolbar mx-auto" role="toolbar" aria-label="Toolbar with button groups">
+          <div class="col text-center">
+            <div class="page-num"
+                 th:with="start=${(recipeList.number/10)*10 + 1},
+                  end=(${(recipeList.totalPages == 0) ? 1 : (start + (10 - 1) < recipeList.totalPages ? start + (10 - 1) : recipeList.totalPages)})" >
+
+              <button th:if="${start > 1}" type="button" class="btn btn-secondary" th:onclick="|location.href='@{/common/recipeList(page=0)}'|" th:text="'<<'"></button>
+              <button th:if="${start > 1}" type="button" class="btn btn-secondary" th:onclick="|location.href='@{/common/recipeList(page=${start - 10})}'|" th:text="'<'"></button>
+              <th:block th:each="page: ${#numbers.sequence(start, end)}">
+                <button type="button" class="btn btn-secondary" th:onclick="|location.href='@{/common/recipeList(page=${page-1})}'|" th:text="${page}"></button>
+              </th:block>
+              <button th:if="${end < recipeList.totalPages}" type="button" class="btn btn-secondary" th:onclick="|location.href='@{/common/recipeList(page=${start + 10})}'|" th:text="'>'"></button>
+              <button th:if="${end < recipeList.totalPages}" type="button" class="btn btn-secondary" th:onclick="|location.href='@{/common/recipeList(page=${recipeList.totalPages-1})}'|" th:text="'>>'"></button>
+
+            </div>
+          </div>
+        </div>
     </div>
     </div>
     <div class="col"> </div>

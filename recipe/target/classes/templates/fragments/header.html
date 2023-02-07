@@ -30,6 +30,7 @@
             <li>My Page</li>
             <li>My recipe</li>
             <li>My buy</li>
+            <li sec:authorize="hasRole('ADMIN')"><a th:href="@{/admin/main}">관리자 페이지</a></li>
             <li><a th:href="@{/system/logout}">로그아웃</a> </li>
            </ul>
           </div>
@@ -53,11 +54,11 @@
       <nav class="header__menu mobile-menu">
        <ul>
 
-        <li><a th:href="@{/common/recipeMain}">레시피</a>
+        <li><a th:href="@{/common/recipeList}">레시피</a>
          <ul class="dropdown">
-          <li><a th:href="@{/common/recipeMain}">레시피목록</a></li>
-          <li><a href="./checkout.html">Check Out</a></li>
-          <li><a href="./blog-details.html">Blog Details</a></li>
+          <li><a th:href="@{/common/recipeList}">레시피 목록</a></li>
+          <li><a th:href="@{/recipe/makeRecipe}">레시피 작성</a></li>
+          <li><a th:href="@{/common/recipeList}">찜한 레시피</a></li>
          </ul>
         </li>
         <li><a href="#">밀키트</a>

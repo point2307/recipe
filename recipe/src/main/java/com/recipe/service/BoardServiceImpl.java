@@ -19,7 +19,7 @@ public class BoardServiceImpl implements BoardService {
 	@Override
 	public Page<Board> getBoardList(Pageable paging){
 		if(paging == null){
-			paging = PageRequest.of(0, 10, Sort.Direction.DESC, "board_id");
+			paging = PageRequest.of(0, 10, Sort.Direction.DESC, "boardId");
 		}
 
 		return bRepo.getBoardList(paging);
@@ -32,20 +32,20 @@ public class BoardServiceImpl implements BoardService {
 
 	@Override
 	public void updateBoard(Board vo) {
-		Board update = bRepo.findById(vo.getBoard_id()).get();
-		update.setBoard_title(vo.getBoard_title());
-		update.setBoard_content(vo.getBoard_content());
+		Board update = bRepo.findById(vo.getBoardId()).get();
+		update.setBoardTitle(vo.getBoardTitle());
+		update.setBoardContent(vo.getBoardContent());
 
 		bRepo.save(update);
 	}
 
 	@Override
 	public void deleteBoard(Board vo) {
-		bRepo.deleteById(vo.getBoard_id());
+		bRepo.deleteById(vo.getBoardId());
 	}
 
 	@Override
 	public Board getBoardById(Board vo) {
-		return bRepo.findById(vo.getBoard_id()).get();
+		return bRepo.findById(vo.getBoardId()).get();
 	}
 }

@@ -26,23 +26,22 @@ public class Recipe {
 	private	int	amount;
 	private	String image;
 
+	private int likeCount;  //좋아요 개수
 	private String recipeDetail;
-	@OneToMany(mappedBy = "rawId",fetch = FetchType.EAGER)
+	@OneToMany(mappedBy = "rawId")
 	private List<RawMater> rawMaterList = new ArrayList<>();
 	
-	@OneToMany(cascade = CascadeType.ALL)
-	@JoinColumn(name = "process")
+	@OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL)
 	private  List<RecipeProc> recipe_process = new ArrayList<>();
-	@OneToOne
+	@ManyToOne
 	@JoinColumn(name = "writer")
-	private	Member	writer;
+	private	Member writer;
 	@CreationTimestamp
 	private	Date	recipeRegedit;
-	@OneToMany
-	@JoinColumn(name = "like_mem")
-	private	List<Member>	recipeLiked;
 	private	int		recipeAlert;
 
-	@OneToMany(mappedBy = "reply_id",fetch = FetchType.EAGER)
+	@OneToMany(mappedBy = "replyId",fetch = FetchType.EAGER)
 	private List<Reply> replyList;
+
+
 }
