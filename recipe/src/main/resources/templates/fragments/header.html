@@ -6,7 +6,7 @@
    <div class="header__top">
     <div class="container">
      <div class="row">
-      <div class="col-lg-6 col-md-7">
+      <div class="col-lg-5 col-md-6">
        <div class="header__top__left">
         <p>logo</p>
        </div>
@@ -16,15 +16,13 @@
         <div class="col-lg-6 col-md-5">
          <div class="header__top__right">
           <div class="header__top__links" sec:authorize="!isAuthenticated()">
-           <a href="#">FAQs</a>
+
            <a th:href="@{/member/register_form}">Sign in</a>
            <a th:href="@{/system/login}">Log in</a>
           </div>
           <!-- 회원일 경우 -->
           <div class="header__top__hover" sec:authorize="isAuthenticated()">
-
-           <a href="#">FAQ </a>
-           <a th:href="@{/mypage/main}"><span sec:authentication="principal.member.name"><i class="arrow_carrot-down"></i></span>
+           <a th:href="@{/mypage/main}"><span sec:authentication="principal.member.name"> <i class="arrow_carrot-down"> </i></span>
              <img th:width="20px" th:height="20px" th:src="@{/source/img/}+${#authentication.principal.member.proImg}"/></a>
            <ul>
             <li>My Page</li>
@@ -39,7 +37,7 @@
         </div>
        </div>
       </th:block>
-
+   <div calss="col-1"> </div>
      </div>
     </div>
    </div>

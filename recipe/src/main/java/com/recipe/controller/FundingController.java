@@ -63,7 +63,7 @@ public class FundingController {
 
         fundingService.insertFunding(vo, list);
 
-        return "redirect:/common/getFunding?funding_id="+vo.getFundId();
+        return "redirect:/common/getFunding?fundId="+vo.getFundId();
     }
     @GetMapping("/common/getFunding")
     public String getFunding(Funding vo, Model model){
