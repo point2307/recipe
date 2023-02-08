@@ -10,5 +10,5 @@ import org.springframework.data.repository.CrudRepository;
 public interface FundingRepo extends CrudRepository<Funding, Long>, QuerydslPredicateExecutor<Funding> {
 
     @Query("select f from Funding f")
-    public Page<Funding> getFundingList(Pageable pageable);
+    Page<Funding> getFundingList(Pageable pageable);
 }

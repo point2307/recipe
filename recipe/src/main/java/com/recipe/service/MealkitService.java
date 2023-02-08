@@ -5,6 +5,8 @@ import com.recipe.dto.Mealkit;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import java.util.List;
+
 public interface MealkitService {
 
     void insertKit(Mealkit vo);
@@ -18,4 +20,5 @@ public interface MealkitService {
     Page<Mealkit> getKitList(Pageable pageable);
 
     Page<Mealkit> getKitByFunding(Pageable pageable, Funding vo);
+    Mealkit getKitforFunding(String str);
 }

@@ -12,7 +12,8 @@ import lombok.ToString;
 @ToString
 public class Message {
 	@Id
-	@GeneratedValue
+	@SequenceGenerator(name = "msg_seq", sequenceName = "msg_seq", allocationSize = 1)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "msg_seq")
 	private String msgId;
 	@OneToOne
 	@JoinColumn(name = "sender")

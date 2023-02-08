@@ -11,7 +11,8 @@ import lombok.ToString;
 @Entity
 public class RawMater {
     @Id
-    @GeneratedValue
+    @SequenceGenerator(name = "raw_seq", sequenceName = "raw_seq", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "raw_seq")
     private Long rawId;
     @OneToOne
     private Material mater;

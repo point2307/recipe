@@ -19,7 +19,8 @@ import org.hibernate.annotations.CreationTimestamp;
 @ToString(exclude = {"rawMaterList", "recipe_process", "writer", "replyList"})
 public class Recipe {
 	@Id
-	@GeneratedValue
+	@SequenceGenerator(name = "recipe_seq", sequenceName = "recipe_seq", allocationSize = 1)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "recipe_seq")
 	private	Long		recipeId;
 	private	String	recipeTitle;
 	private	int		recipeCookingTime;

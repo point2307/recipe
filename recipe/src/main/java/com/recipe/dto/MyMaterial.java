@@ -11,7 +11,8 @@ import lombok.ToString;
 @ToString
 public class MyMaterial {
     @Id
-    @GeneratedValue
+    @SequenceGenerator(name = "mymater_seq", sequenceName = "mymater_seq", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "mymater_seq")
     private Long myMaterId;
 
     @ManyToOne

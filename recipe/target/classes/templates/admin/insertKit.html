@@ -21,15 +21,25 @@
     <div class="modal-dialog modal-lg" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="popupModalLabel">Modal title</h5>
+          <h5 class="modal-title" id="popupModalLabel">레시피 목록</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
         <div class="modal-body">
-          <ul id="recipeList">
+          <table class="table table-striped table-hover">
+            <thead>
+              <tr>
+                <th scope="col">요리이름</th>
+                <th scope="col">좋아요수</th>
+                <th scope="col">레시피페이지</th>
+                <th scope="col">추가하기</th>
+              </tr>
+            </thead>
+            <tbody id="recipeList">
 
-          </ul>
+            </tbody>
+          </table>
         </div>
       </div>
     </div>
@@ -74,9 +84,9 @@
             <div class="input-group mb-3">
               <span class="input-group-text">레시피 검색</span>
               <input type="text" name="recipeTitle" id="recipeTitle" readonly="readonly" class="form-control">
-              <button class="btn btn-outline-secondary" type="button" id="searchBtn">검색하기</button>
+              <button class="btn btn-outline-secondary" type="button" id="recipebtn">레시피검색</button>
             </div>
-               <button class="btn btn-outline-secondary" type="button" id="recipebtn">레시피하기</button>
+
           <div class="d-grid gap-2 mx-auto">
             <button class="btn btn-primary" type="submit">밀키트 등록</button>
           </div>
