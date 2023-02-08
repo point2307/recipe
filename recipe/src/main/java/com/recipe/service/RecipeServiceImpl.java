@@ -78,4 +78,9 @@ public class RecipeServiceImpl implements RecipeService {
 
         return recipeRepo.findAll(builder, paging);
     }
+
+    @Override
+    public Recipe getRecipeByTitle(String recipeTitle) {
+        return recipeRepo.findByRecipeTitle(recipeTitle);
+    }
 }

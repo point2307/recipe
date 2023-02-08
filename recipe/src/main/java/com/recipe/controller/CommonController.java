@@ -8,9 +8,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class CommonController {
 
     @RequestMapping("/mainPage")
-    public String mainPage(Member vo) throws Exception{
+    public String mainPage(){
 
         return "mainPage";
     }
+    @RequestMapping("/")
+    public String mainPage2(){
 
+        return "mainPage";
+    }
 }

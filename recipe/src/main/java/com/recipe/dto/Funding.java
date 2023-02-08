@@ -6,26 +6,33 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import org.springframework.format.annotation.DateTimeFormat;
+
 @Entity
 @Getter
 @Setter
-@ToString
+@ToString(exclude = "fundingKit")
 public class Funding {
 	@Id
-	@GeneratedValue
-	private	Long	funding_id;
+	@SequenceGenerator(name = "fund_seq", sequenceName = "fund_seq", allocationSize = 1)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "fund_seq")
+	private	Long fundId;
 	private String title;
+
+	private String subtitle;
 	private String detail;
 	private String fundImage;
-	@OneToMany(mappedBy = "funding")
-	private	List<Mealkit> mealkit;
 	private int fund;   // 현재까지 모인금액
 	private	int	 goal;         // 목표 금액
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private	Date finalDate;   // 해당 펀딩 완료 날자
-
+	@OneToMany(mappedBy = "funding", cascade = CascadeType.ALL)
+	private List<FundingKit> fundingKit = new ArrayList<>();
+	private int likeCount;
 	@PrePersist
 	public void prePersist(){
 		this.fund = 0;
+		this.likeCount = 0;
 	}
 
 

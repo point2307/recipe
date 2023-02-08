@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import lombok.Getter;
@@ -15,10 +16,11 @@ import org.hibernate.annotations.CreationTimestamp;
 @Entity
 @Getter
 @Setter
-@ToString
+@ToString(exclude = {"rawMaterList", "recipe_process", "writer", "replyList"})
 public class Recipe {
 	@Id
-	@GeneratedValue
+	@SequenceGenerator(name = "recipe_seq", sequenceName = "recipe_seq", allocationSize = 1)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "recipe_seq")
 	private	Long		recipeId;
 	private	String	recipeTitle;
 	private	int		recipeCookingTime;
@@ -29,12 +31,15 @@ public class Recipe {
 	private int likeCount;  //좋아요 개수
 	private String recipeDetail;
 	@OneToMany(mappedBy = "rawId")
+	@JsonIgnore
 	private List<RawMater> rawMaterList = new ArrayList<>();
 	
 	@OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL)
+	@JsonIgnore
 	private  List<RecipeProc> recipe_process = new ArrayList<>();
 	@ManyToOne
 	@JoinColumn(name = "writer")
+	@JsonIgnore
 	private	Member writer;
 	@CreationTimestamp
 	private	Date	recipeRegedit;
@@ -43,5 +48,8 @@ public class Recipe {
 	@OneToMany(mappedBy = "replyId",fetch = FetchType.EAGER)
 	private List<Reply> replyList;
 
-
+	@PrePersist
+	public void prePersist(){
+		this.likeCount = 0;
+	}
 }

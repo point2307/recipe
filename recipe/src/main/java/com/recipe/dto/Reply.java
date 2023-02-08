@@ -12,10 +12,11 @@ import org.hibernate.annotations.CreationTimestamp;
 @Entity
 @Getter
 @Setter
-@ToString(exclude = {"replyWriter" , "likey"})
+@ToString(exclude = {"replyWriter"})
 public class Reply {
 	@Id
-	@GeneratedValue
+	@SequenceGenerator(name = "reply_seq", sequenceName = "reply_seq", allocationSize = 1)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "reply_seq")
 	private	Long	replyId;
 	@OneToOne
 	@JoinColumn(name = "writer")

@@ -18,5 +18,6 @@ public interface RecipeRepo extends CrudRepository<Recipe, Long>, QuerydslPredic
     @Query("select r from Recipe r")
     List<Recipe> findAllBy();
 
+    Recipe findByRecipeTitle(String recipeTitle);
 
 }

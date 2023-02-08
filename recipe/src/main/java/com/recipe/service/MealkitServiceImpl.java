@@ -9,6 +9,8 @@ import org.springframework.stereotype.Service;
 
 import com.recipe.persistence.MealkitRepo;
 
+import java.util.List;
+
 @Service
 public class MealkitServiceImpl implements MealkitService {
 
@@ -38,11 +40,16 @@ public class MealkitServiceImpl implements MealkitService {
 
 	@Override
 	public Page<Mealkit> getKitList(Pageable pageable) {
-		return null;
+		return kitRepo.getMealkitList(pageable);
 	}
 
 	@Override
 	public Page<Mealkit> getKitByFunding(Pageable pageable, Funding vo) {
 		return null;
+	}
+
+	@Override
+	public Mealkit getKitforFunding(String str){
+		return kitRepo.findBykitName(str);
 	}
 }
