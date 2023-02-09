@@ -34,7 +34,7 @@
 
     <tr th:each="board,state:${boardList}">
       <td th:text="${board.boardId}"></td>
-      <td align="left"><a th:href="@{getBoard(board_id=${board.boardId})}" th:text="${board.boardTitle}"></a></td>
+      <td align="left"><a th:href="@{getBoard(boardId=${board.boardId})}" th:text="${board.boardTitle}"></a></td>
       <td th:text="${board.boardWriter.nickName}"></td>
       <td th:text="${#dates.format(board.boardRegedit, 'yyyy-MM-dd HH:mm:ss')}"></td>
       <td th:text="${board.boardLikedCount}"></td>

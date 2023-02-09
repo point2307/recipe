@@ -1,7 +1,6 @@
 package com.recipe.service;
 
-import com.recipe.dto.Recipe;
-import com.recipe.dto.RecipeProc;
+import com.recipe.dto.*;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -23,4 +22,14 @@ public interface RecipeService {
     Page<Recipe> famousList(int set);
 
     Recipe getRecipeByTitle(String recipeTitle);
+
+    List<Material> searchMater(String value);
+
+    Material searchMaterForRaw(String str);
+
+    int likedCheck(Member member, Recipe recipe);
+
+    void likeyRecipe(Member mem, Recipe recipe);
+
+    void notlikeRecipe(Member mem, Recipe recipe);
 }

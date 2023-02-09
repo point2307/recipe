@@ -39,7 +39,7 @@ public class BoardController {
     public String insertBoard(Board vo, @AuthenticationPrincipal SecurityUser principal){
         vo.setBoardWriter(principal.getMember());
         boardService.insertBoard(vo);
-        return "redirect:/common/getBoard?board_id="+vo.getBoardId();
+        return "redirect:/common/getBoard?boardId="+vo.getBoardId();
     }
     @GetMapping("/common/getBoard")
     public String getBoard(Board vo, Model model){

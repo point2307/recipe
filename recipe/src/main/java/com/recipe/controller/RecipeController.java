@@ -1,18 +1,18 @@
 package com.recipe.controller;
 
-import com.recipe.dto.Recipe;
-import com.recipe.dto.RecipeProc;
+import com.recipe.dto.*;
 import com.recipe.security.SecurityUser;
 import com.recipe.service.RecipeServiceImpl;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
@@ -24,10 +24,27 @@ public class RecipeController {
 
     @Autowired
     private RecipeServiceImpl recipeService;
+    // 좋아요 체크 메소드
+
+    public void checklikeRecipe(Member member, Recipe recipe){
+        if(recipeService.likedCheck(member,recipe) == 1){
+            recipe.setCheckLike(1);
+        }
+    }
 
     @GetMapping("/common/recipeList")
-    public String getRecipeList(Pageable pageable, Model model){
-        model.addAttribute("recipeList",recipeService.getRecipeList(pageable));
+    public String getRecipeList(@PageableDefault(size=6,sort = "recipeId", direction = Sort.Direction.DESC) Pageable pageable, Model model, @AuthenticationPrincipal SecurityUser user)
+            throws AbstractMethodError{
+        Page<Recipe> recipePage = recipeService.getRecipeList(pageable);
+        if(user != null) {
+            Member mem = user.getMember();
+            if (mem != null) {
+                for (Recipe recipe : recipePage.getContent()) {
+                    checklikeRecipe(mem, recipe);
+                }
+            }
+        }
+        model.addAttribute("recipeList",recipePage);
         return "/common/recipeMain";
     }
 
@@ -39,17 +56,16 @@ public class RecipeController {
     public String makeRecipe(Recipe vo, MultipartFile eximage,
                              @RequestParam(value = "procDetail" , required = true) List<String> procDetail,
                              @RequestParam(value = "procImg", required = true) List<MultipartFile> procImg,
-    int hour, int minute, int second, int procCount, @AuthenticationPrincipal SecurityUser principal)
+                             @RequestParam(value = "rawsize", required = true) List<String> size,
+                             @RequestParam(value = "mater", required = true) List<String> mater,
+    int hour, int minute, int second,
+                             @AuthenticationPrincipal SecurityUser principal)
     throws Exception {
-        System.out.println("전송완료");
+        List<RawMater> rawMaters = new ArrayList<>();
         List<RecipeProc> procList = new ArrayList<>();
         System.out.println("어레이작성완료");
 
-        for(String s : procDetail){
-            System.out.println(s);
-        }
-
-        for(int i = 0; i<procCount; i++){
+        for(int i = 0; i< procDetail.size(); i++){
             RecipeProc proc = new RecipeProc();
             proc.setProcDetail(procDetail.get(i));
 
@@ -76,6 +92,17 @@ public class RecipeController {
             eximage.transferTo(newFileName);
             vo.setImage(newFileName.toString());
         }
+        for(int i=0; i< mater.size(); i++){
+            RawMater raws = new RawMater();
+            raws.setMater(recipeService.searchMaterForRaw(mater.get(i)));
+            raws.setAmount(size.get(i));
+            raws.setRecipe(vo);
+            rawMaters.add(raws);
+        }
+        System.out.println(procList);
+        System.out.println(rawMaters);
+
+        vo.setRawMaterList(rawMaters);
         vo.setRecipe_process(procList);
         vo.setRecipeCookingTime((hour*3600) + (minute*60) + (second));
         vo.setWriter(principal.getMember());
@@ -89,6 +116,38 @@ public class RecipeController {
         model.addAttribute("recipe", recipeService.getRecipeById(vo));
 
         return "common/getRecipe";
+    }
+
+    @GetMapping("/recipe/searchMater")
+    @ResponseBody
+    public List<Material> showMaterlist(String value){
+        System.out.println(value);
+        System.out.println(recipeService.searchMater(value));
+        return recipeService.searchMater(value);
+    }
+
+    @GetMapping("/recipe/likeRecipe")
+    @ResponseBody
+    public int likeRecipe(Long data, @AuthenticationPrincipal SecurityUser user) {
+        Recipe recipe = new Recipe();
+        recipe.setRecipeId(data);
+        Recipe real = recipeService.getRecipeById(recipe);
+        if(user == null){
+            return 0;
+        } else{
+            recipeService.likeyRecipe(user.getMember(), real);
+            return 1;
+        }
+    }
+
+    @GetMapping("/recipe/notlikeRecipe")
+    @ResponseBody
+    public int notlikeRecipe(Long data, @AuthenticationPrincipal SecurityUser user){
+        Recipe recipe = new Recipe();
+        recipe.setRecipeId(data);
+        Recipe real = recipeService.getRecipeById(recipe);
+        recipeService.notlikeRecipe(user.getMember(), real);
+        return 1;
     }
 
 }

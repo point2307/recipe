@@ -1,11 +1,8 @@
 package com.recipe.service;
 
 import com.querydsl.core.BooleanBuilder;
-import com.recipe.dto.QRecipe;
-import com.recipe.dto.Recipe;
-import com.recipe.dto.RecipeProc;
-import com.recipe.persistence.RecipeProcRepo;
-import com.recipe.persistence.RecipeRepo;
+import com.recipe.dto.*;
+import com.recipe.persistence.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -14,6 +11,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class RecipeServiceImpl implements RecipeService {
@@ -23,12 +21,17 @@ public class RecipeServiceImpl implements RecipeService {
     @Autowired
     private RecipeProcRepo recipeProcRepo;
 
+    @Autowired
+    private MaterialRepo materialRepo;
+
+    @Autowired
+    private LikeyRepo likeyRepo;
+
     @Override
     public void makeRecipe(Recipe vo) {
         recipeRepo.save(vo);
-        for(RecipeProc proc : vo.getRecipe_process()){
-            recipeProcRepo.save(proc);
-        }
+
+
     }
 
     @Override
@@ -51,9 +54,6 @@ public class RecipeServiceImpl implements RecipeService {
 
     @Override
     public Page<Recipe> getRecipeList(Pageable pageable) {
-        if(pageable == null){
-            pageable = PageRequest.of(0, 10, Sort.Direction.DESC, "board_id");
-        }
         return recipeRepo.getAllRecipe(pageable);
     }
 
@@ -74,7 +74,7 @@ public class RecipeServiceImpl implements RecipeService {
 
         QRecipe qrecipe = QRecipe.recipe;
         builder.and(qrecipe.likeCount.goe(set));
-        Pageable paging = PageRequest.of(0, 12, Sort.Direction.DESC, "likeCount");
+        Pageable paging = PageRequest.of(0, 6, Sort.Direction.DESC, "likeCount");
 
         return recipeRepo.findAll(builder, paging);
     }
@@ -83,4 +83,43 @@ public class RecipeServiceImpl implements RecipeService {
     public Recipe getRecipeByTitle(String recipeTitle) {
         return recipeRepo.findByRecipeTitle(recipeTitle);
     }
+
+    @Override
+    public List<Material> searchMater(String value) {
+        return materialRepo.findByMaterNameContaining(value);
+    }
+
+    @Override
+    public Material searchMaterForRaw(String str) {
+        return materialRepo.findByMaterName(str);
+    }
+
+    @Override
+    public int likedCheck(Member member, Recipe recipe) {
+        int result = 0;
+        Likey liked = likeyRepo.findByMemberAndRecipe(member, recipe);
+        if(liked != null){
+            result = 1;
+        }
+        return result;
+    }
+
+    @Override
+    public void likeyRecipe(Member mem, Recipe recipe) {
+        Likey likey = new Likey();
+        likey.setRecipe(recipe);
+        likey.setMember(mem);
+        likeyRepo.save(likey);
+        recipe.setLikeCount(recipe.getLikeCount()+1);
+        recipeRepo.save(recipe);
+    }
+
+    @Override
+    public void notlikeRecipe(Member mem, Recipe recipe) {
+        Likey likey = likeyRepo.findByMemberAndRecipe(mem, recipe);
+        likeyRepo.delete(likey);
+        recipe.setLikeCount(recipe.getLikeCount()-1);
+        recipeRepo.save(recipe);
+    }
+
 }

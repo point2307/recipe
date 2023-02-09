@@ -26,11 +26,10 @@ public class Buy {
 	private Member buyer;
 	@CreationTimestamp
 	@Temporal(TemporalType.DATE)
-	private	Date	buy_date;
+	private	Date	buyDate;
 	@OneToMany
-	private List<Buy> buys;
+	private List<BuyDetail> buyDetails;
 	private	String totalPrice;
-
 	private String processing;
 
 }

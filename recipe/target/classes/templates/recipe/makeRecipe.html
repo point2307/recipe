@@ -7,7 +7,7 @@
 
 <!-- index.html 고유 CSS 추가 -->
 <th:block layout:fragment="css">
-  <!--    <link rel="stylesheet" th:href="@{/css/page/home.css}" >-->
+  <link rel="stylesheet" th:href="@{//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css}">
 </th:block>
 <!-- index.html 고유 스크립트 추가 -->
 <th:block layout:fragment="script">
@@ -43,12 +43,14 @@
               <tr>
                 <div class="input-group mb-3">
                   <span class="input-group-text">재 료</span>
-                  <input type="text" name="rawName" id="rawName" class="form-control" placeholder="이름" aria-label="Username">
+                  <input name="rawName" id="searchBox" class="form-control" placeholder="이름">
                   <span class="input-group-text">:</span>
                   <input type="text" name="rawAmount" id="rawAmount" class="form-control" placeholder="분량" aria-label="Server">
 
                   <button class="btn btn-outline-secondary" type="button" id="button-addon2" onclick="addRaws()">추가</button>
-       <!--           <input type="hidden" name="rawMaterList" th:value="${rawMaterList}"/>   -->
+                  <ul id="materList">
+
+                  </ul>
                 </div>
               </tr>
              <!--

@@ -3,7 +3,6 @@ package com.recipe.dto;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
@@ -16,7 +15,7 @@ import org.hibernate.annotations.CreationTimestamp;
 @Entity
 @Getter
 @Setter
-@ToString(exclude = {"rawMaterList", "recipe_process", "writer", "replyList"})
+@ToString(exclude = {"rawMaterList", "recipe_process", "writer", "replyList", "likedList"})
 public class Recipe {
 	@Id
 	@SequenceGenerator(name = "recipe_seq", sequenceName = "recipe_seq", allocationSize = 1)
@@ -30,7 +29,7 @@ public class Recipe {
 
 	private int likeCount;  //좋아요 개수
 	private String recipeDetail;
-	@OneToMany(mappedBy = "rawId")
+	@OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL)
 	@JsonIgnore
 	private List<RawMater> rawMaterList = new ArrayList<>();
 	
@@ -46,10 +45,19 @@ public class Recipe {
 	private	int		recipeAlert;
 
 	@OneToMany(mappedBy = "replyId",fetch = FetchType.EAGER)
+	@JsonIgnore
 	private List<Reply> replyList;
+
+	@OneToMany(mappedBy = "recipe")
+	@JsonIgnore
+	private List<Likey> likeyList;
+
+	@Transient
+	private int checkLike;
 
 	@PrePersist
 	public void prePersist(){
 		this.likeCount = 0;
+		this.checkLike = 0;
 	}
 }

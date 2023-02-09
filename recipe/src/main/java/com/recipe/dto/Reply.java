@@ -30,14 +30,14 @@ public class Reply {
 	private int likeCount;
 
 	@ManyToOne
-	@JoinColumn(name = "board_id")
+	@JoinColumn(name = "boardId")
 	private Board board;
 
 	@ManyToOne
-	@JoinColumn(name = "recipe_id")
+	@JoinColumn(name = "recipeId")
 	private Recipe recipe;
 
 	@ManyToOne
-	@JoinColumn(name = "funding_id")
+	@JoinColumn(name = "fundingId")
 	private Funding funding;
 }
