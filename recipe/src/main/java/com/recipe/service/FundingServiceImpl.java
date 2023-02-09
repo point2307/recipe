@@ -24,7 +24,7 @@ public class FundingServiceImpl implements FundIngService{
     private FundingKitRepo fundingKitRepo;
 
     @Override
-    public Page<Funding> getFundingList(@PageableDefault(sort = "fundId" ,direction = Sort.Direction.DESC) Pageable pageable) {
+    public Page<Funding> getFundingList(Pageable pageable) {
         return fundingRepo.getFundingList(pageable);
     }
 

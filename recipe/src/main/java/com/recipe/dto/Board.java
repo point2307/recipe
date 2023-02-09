@@ -27,7 +27,7 @@ public class Board {
 	@Temporal(TemporalType.TIMESTAMP)
 	@CreationTimestamp
 	private	Date	boardRegedit;
-	private	String	boardImage;
+	private	String	boardImage;  // 후기에만 사용 가능
 	private	int 	boardLikedCount;
 	private	int	    boardAlert;
 	private int boardCnt;  // 조회수

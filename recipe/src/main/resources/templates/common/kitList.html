@@ -7,8 +7,7 @@
 
 <!-- index.html 고유 CSS 추가 -->
 <th:block layout:fragment="css">
-
- <link rel="stylesheet" th:href="@{/source/css/funding.css}" >
+  <!--    <link rel="stylesheet" th:href="@{/css/page/home.css}" >-->
 </th:block>
 <!-- index.html 고유 스크립트 추가 -->
 <th:block layout:fragment="script">
@@ -22,42 +21,27 @@
   <div class="container px-4 py-5" id="custom-cards">
     <h2 class="pb-2 border-bottom">진행중인 펀딩</h2>
     <div th:each="funding, state:${fundingList}">
-      <div class="row">
-        <div class="col-md-4">
-          <div class="cause shadow-sm">
-
-            <a th:href="@{/common/getFunding(fundId=${funding.fundId})}" class="cause-link d-block">
-              <img th:src="@{/source/img/}+${funding.fundImage}" alt="Image" class="img-fluid">
-              <div th:with="complete=${funding.fund}/${funding.goal}*100" class="custom-progress-wrap">
-                <span class="caption">[[${complete}]]%완료</span>
-                <div class="custom-progress-inner">
-                  <div class="custom-progress bg-danger" th:style="${'width:'}+${complete}+'%'"></div>
-                </div>
-              </div>
-            </a>
-
-            <div class="px-3 pt-3 border-top-0 border border shadow-sm">
-              <h3 class="mb-4"><a th:href="@{/common/getFunding(fundId=${funding.fundId})}" th:text="${funding.title}"></a></h3>
-              <div class="justify-content-between py-2 d-flex">
-                <div>구매 금액</div>
-                <div><strong class="text-primary" th:text="${#numbers.formatInteger(funding.fund,1,'COMMA')}"></strong>원</div>
-                <div>목표 금액</div>
-                <div><strong class="text-primary" th:text="${#numbers.formatInteger(funding.goal,1,'COMMA')}"></strong>원</div>
-              </div>
-
-              <div class="py-4">
-                <div class="d-flex align-items-center">
-                  <div class="">James Smith</div>
-                </div>
-              </div>
+      <div class="row row-cols-1 row-cols-lg-3 align-items-stretch g-4 py-5">
+        <div class="col">
+          <div class="card card-cover h-100 overflow-hidden text-bg-dark rounded-4 shadow-lg" th:style="'background-image:url('+@{/source/img/} + ${funding.fundImage} + ');'">
+            <div class="d-flex flex-column h-100 p-5 pb-3 text-white text-shadow-1">
+              <h3 class="pt-5 mt-5 mb-4 display-6 lh-1 fw-bold" th:text="${funding.title}"></h3>
+              <ul class="d-flex list-unstyled mt-auto">
+                <li class="d-flex align-items-center me-3">
+                  <svg class="bi me-2" width="1em" height="1em"><use xlink:href="#geo-fill"/></svg>
+                  <small>Earth</small>
+                </li>
+                <li class="d-flex align-items-center">
+                  <svg class="bi me-2" width="1em" height="1em"><use xlink:href="#calendar3"/></svg>
+                  <small>3d</small>
+                </li>
+              </ul>
             </div>
-
           </div>
         </div>
       </div>
     </div>
-    </div>
-
+  </div>
 
   <div class="btn-toolbar mx-auto" role="toolbar" aria-label="Toolbar with button groups">
     <div class="col text-center">

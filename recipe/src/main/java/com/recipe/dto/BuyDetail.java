@@ -39,4 +39,12 @@ public class BuyDetail {
 
     private String process;
 
+    private int alert;
+
+    @PrePersist
+    public void prePersist(){
+        this.alert = 0;
+        this.process = "결제대기중";
+    }
+
 }

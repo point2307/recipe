@@ -2,7 +2,6 @@ package com.recipe.controller;
 
 import com.recipe.dto.Funding;
 import com.recipe.dto.Mealkit;
-import com.recipe.dto.Recipe;
 import com.recipe.service.FundingServiceImpl;
 import com.recipe.service.MealkitServiceImpl;
 import com.recipe.util.File;
@@ -29,7 +28,7 @@ public class FundingController {
     private MealkitServiceImpl mealkitService;
 
     @RequestMapping("/common/fundingList")
-    public String fundingList(@PageableDefault(size = 6, direction = Sort.Direction.DESC, sort = "funding_id") Pageable pageable, Model model){
+    public String fundingList(@PageableDefault(size = 6, direction = Sort.Direction.DESC, sort = "fundId") Pageable pageable, Model model){
         model.addAttribute("fundingList", fundingService.getFundingList(pageable));
         return "/common/fundingList";
     }
