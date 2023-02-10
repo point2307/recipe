@@ -11,16 +11,21 @@ public class CommonController {
     @RequestMapping("/mainPage")
     public String mainPage(){
 
-        return "mainPage";
+        return "/mainPage";
     }
     @RequestMapping("/")
     public String mainPage2(){
 
-        return "mainPage";
+        return "/mainPage";
     }
 
-    @GetMapping("/admin/adminMain")
+    @GetMapping("/common/adminMain")
     public String adminMain(){
       return "/admin/adminMain";
+    }
+
+    @RequestMapping("/common/getCart")
+    public String getCart(){
+        return "/common/getCart";
     }
 }

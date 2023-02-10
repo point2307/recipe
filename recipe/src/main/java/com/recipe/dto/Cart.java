@@ -8,7 +8,7 @@ import lombok.ToString;
 @Entity
 @Getter
 @Setter
-@ToString(exclude = {"fund","kit","member"})
+@ToString(exclude = {"fundingkit","member"})
 public class Cart {
     @Id
     @SequenceGenerator(name = "cart_seq", sequenceName = "cart_seq", allocationSize = 1)
@@ -20,9 +20,7 @@ public class Cart {
     private Member member;
 
     @OneToOne
-    private Funding fund;
-    @OneToOne
-    private Mealkit kit;
+    private FundingKit fundingKit;
 
     private int quantity;
 }

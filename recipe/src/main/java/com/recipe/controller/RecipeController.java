@@ -3,7 +3,6 @@ package com.recipe.controller;
 import com.recipe.dto.*;
 import com.recipe.security.SecurityUser;
 import com.recipe.service.RecipeServiceImpl;
-import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -38,12 +37,11 @@ public class RecipeController {
         Page<Recipe> recipePage = recipeService.getRecipeList(pageable);
         if(user != null) {
             Member mem = user.getMember();
-            if (mem != null) {
-                for (Recipe recipe : recipePage.getContent()) {
+            for (Recipe recipe : recipePage.getContent()) {
                     checklikeRecipe(mem, recipe);
-                }
             }
         }
+
         model.addAttribute("recipeList",recipePage);
         return "/common/recipeMain";
     }
@@ -54,34 +52,34 @@ public class RecipeController {
     }
     @PostMapping("/recipe/makeRecipe")
     public String makeRecipe(Recipe vo, MultipartFile eximage,
-                             @RequestParam(value = "procDetail" , required = true) List<String> procDetail,
-                             @RequestParam(value = "procImg", required = true) List<MultipartFile> procImg,
-                             @RequestParam(value = "rawsize", required = true) List<String> size,
-                             @RequestParam(value = "mater", required = true) List<String> mater,
-    int hour, int minute, int second,
-                             @AuthenticationPrincipal SecurityUser principal)
+                             @RequestParam(value = "procDetail" , required = false) List<String> procDetail,
+                             @RequestParam(value = "procImg", required = false) List<MultipartFile> procImg,
+                             @RequestParam(value = "rawsize", required = false) List<String> size,
+                             @RequestParam(value = "mater", required = false) List<String> mater,
+    int hour, int minute, @AuthenticationPrincipal SecurityUser principal)
     throws Exception {
         List<RawMater> rawMaters = new ArrayList<>();
         List<RecipeProc> procList = new ArrayList<>();
         System.out.println("어레이작성완료");
+        if(procDetail != null){
+            for(int i = 0; i< procDetail.size(); i++){
+                RecipeProc proc = new RecipeProc();
+                proc.setProcDetail(procDetail.get(i));
 
-        for(int i = 0; i< procDetail.size(); i++){
-            RecipeProc proc = new RecipeProc();
-            proc.setProcDetail(procDetail.get(i));
+                MultipartFile pic = procImg.get(i);
+                if(pic.isEmpty()){
+                    proc.setProcPicName("noProcImg.jpg");
+                } else{
+                    com.recipe.util.File file = new com.recipe.util.File(UUID.randomUUID().toString(), pic.getOriginalFilename(),
+                            pic.getContentType());
+                    java.io.File newFileName = new java.io.File(file.getUuid()+"_"+file.getOriginalName());
+                    pic.transferTo(newFileName);
+                    proc.setProcPicName(newFileName.toString());
+                }
 
-            MultipartFile pic = procImg.get(i);
-            if(pic.isEmpty()){
-                proc.setProcPicName("noProcImg.jpg");
-            } else{
-                com.recipe.util.File file = new com.recipe.util.File(UUID.randomUUID().toString(), pic.getOriginalFilename(),
-                        pic.getContentType());
-                java.io.File newFileName = new java.io.File(file.getUuid()+"_"+file.getOriginalName());
-                pic.transferTo(newFileName);
-                proc.setProcPicName(newFileName.toString());
+                proc.setRecipe(vo);
+                procList.add(proc);
             }
-
-            proc.setRecipe(vo);
-            procList.add(proc);
         }
         if(eximage.isEmpty()){
             vo.setImage("noRecipeImg.jpg");
@@ -92,19 +90,21 @@ public class RecipeController {
             eximage.transferTo(newFileName);
             vo.setImage(newFileName.toString());
         }
-        for(int i=0; i< mater.size(); i++){
-            RawMater raws = new RawMater();
-            raws.setMater(recipeService.searchMaterForRaw(mater.get(i)));
-            raws.setAmount(size.get(i));
-            raws.setRecipe(vo);
-            rawMaters.add(raws);
+        if(mater!=null ) {
+            for (int i = 0; i < mater.size(); i++) {
+                RawMater raws = new RawMater();
+                raws.setMater(recipeService.searchMaterForRaw(mater.get(i)));
+                raws.setAmount(size.get(i));
+                raws.setRecipe(vo);
+                rawMaters.add(raws);
+            }
         }
         System.out.println(procList);
         System.out.println(rawMaters);
 
         vo.setRawMaterList(rawMaters);
         vo.setRecipe_process(procList);
-        vo.setRecipeCookingTime((hour*3600) + (minute*60) + (second));
+        vo.setRecipeCookingTime((hour*60) + (minute));
         vo.setWriter(principal.getMember());
 
         recipeService.makeRecipe(vo);

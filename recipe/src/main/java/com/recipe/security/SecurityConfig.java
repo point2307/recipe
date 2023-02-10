@@ -27,7 +27,7 @@ public class SecurityConfig {
 	protected SecurityFilterChain filter(HttpSecurity security) throws Exception{
 		security.authorizeHttpRequests(auth -> {
 			auth.requestMatchers("/*","/source/**", "/member/**", "/system/**","/fragments/**","/common/**").permitAll();
-			auth.requestMatchers("/recipe/**","/mypage/**","/board/**").authenticated();
+			auth.requestMatchers("/recipe/**","/myPage/**","/board/**").authenticated();
 			auth.requestMatchers("/admin/**", "/mealkit/**").hasRole("ADMIN");
 		});
 		security.csrf().disable();

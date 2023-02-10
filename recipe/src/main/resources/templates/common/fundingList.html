@@ -38,6 +38,7 @@
 
             <div class="px-3 pt-3 border-top-0 border border shadow-sm">
               <h3 class="mb-4"><a th:href="@{/common/getFunding(fundId=${funding.fundId})}" th:text="${funding.title}"></a></h3>
+              <p class="text-end" th:text="'종료일 :'+${#dates.format(funding.finalDate, 'yyyy-MM-dd')}"></p>
               <div class="justify-content-between py-2 d-flex">
                 <div>구매 금액</div>
                 <div><strong class="text-primary" th:text="${#numbers.formatInteger(funding.fund,1,'COMMA')}"></strong>원</div>

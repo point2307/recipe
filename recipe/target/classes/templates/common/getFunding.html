@@ -11,11 +11,77 @@
 </th:block>
 <!-- index.html 고유 스크립트 추가 -->
 <th:block layout:fragment="script">
-  <!--    <script th:src="@{/js/page/home.js}"></script>-->
+  <script th:src="@{/source/script/fundingScript.js}"></script>
 </th:block>
 
 <!-- Content -->
+
 <div layout:fragment="content">
-  <h1>페이지 구현</h1>
+  <!-- 결제 폐이지 -->
+  <div class="container">
+    <div class = "col-1">  </div>
+    <div class = "col-10">
+      <div class = "row">
+        <div class = "col-5">
+
+
+        </div>
+        <div class = "col-7">
+          <form method="post">
+          <div><h4>[[${funding.title}]]</h4></div>
+          <div class = "text-end" th:with="complete=${funding.fund}/${funding.goal}*100">
+            <p th:text="${complete}+'% 완료'"></p><span th:text="${#dates.format(funding.finalDate,'yyyy-MM-dd')}"></span>
+          </div>
+          <div class="row">
+            <div class="col-2"> </div>
+            <div class="col-8">
+              <select class="form-select" name="selectKit" id="select-kit" onchange="ga()">
+                <option selected>밀키트를 선택해 주세요.</option>
+                <th:block  th:each="kit : ${funding.fundingKit}">
+                <option th:id="${kit.mealkit.kitId}"
+                        th:value="${kit.mealkit.kitId}" th:text="${kit.mealkit.kitName}+' : '+${kit.mealkit.price}+'원'"
+                        th:onclick="'addItems('+${kit.mealkit.price}+')'"></option>
+                </th:block>
+              </select>
+            </div>
+            <div class="col-2">
+              <input type="number" name="quantity" id="select-count" onchange="addCount()" min="1" value="1">
+            </div>
+
+          </div>
+          <div id="selectPrice" class="text-end">
+            <p>총 가격 : 0원</p>
+          </div>
+            <input type="hidden" name="fundname" th:value="${funding.fundId}">
+
+          <button type="submit" class="btn btn-outline-primary" formaction="/addCart">카트에 넣기</button>
+          <button type="submit" class="btn btn-outline-danger" formaction="/mypage/addBuy">구매 하기</button>
+          </form>
+        </div>
+      </div>
+    </div>
+    <div class = "col-1">  </div>
+  </div>
+  <br><br><br>
+  <!-- 상세 정보 표시 -->
+  <div class="container">
+    <div class="row">
+    <div class = "col">  </div>
+    <div class = "col-8">
+      <div> <h3>펀딩 설명</h3></div>
+      <div th:text="${funding.detail}">
+
+      </div>
+      <div><h3>포함된 밀키트 설명</h3></div>
+      <div th:each="kitlist : ${funding.fundingKit}">
+        <div th:text="${kitlist.mealkit.detail}">
+
+        </div>
+      </div>
+    </div>
+    <div class = "col">  </div>
+    </div>
+  </div>
+
 </div>
 </html>

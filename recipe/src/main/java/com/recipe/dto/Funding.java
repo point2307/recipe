@@ -29,10 +29,15 @@ public class Funding {
 	@OneToMany(mappedBy = "funding", cascade = CascadeType.ALL)
 	private List<FundingKit> fundingKit = new ArrayList<>();
 	private int likeCount;
+
+	@Transient
+	private int checkLike;
+
 	@PrePersist
 	public void prePersist(){
 		this.fund = 0;
 		this.likeCount = 0;
+		this.checkLike = 0;
 	}
 
 

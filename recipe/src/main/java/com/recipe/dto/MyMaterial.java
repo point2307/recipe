@@ -19,6 +19,7 @@ public class MyMaterial {
     @JoinColumn(name = "member_id")
     private Member member;
     @OneToOne
+    @JoinColumn(name = "material")
     private Material material;
 
     private int amount;
