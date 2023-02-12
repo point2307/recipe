@@ -20,4 +20,12 @@ public class FundingKit {
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "mealkit")
     private Mealkit mealkit;
+
+    @Transient
+    private int selling;
+
+    @PrePersist
+    public void prePersist(){
+        this.selling = 0;
+    }
 }

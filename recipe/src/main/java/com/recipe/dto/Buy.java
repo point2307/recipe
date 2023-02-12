@@ -31,5 +31,8 @@ public class Buy {
 	private List<BuyDetail> buyDetails;
 	private	String totalPrice;
 	private String processing;
-
+	@PrePersist
+	public void prePersist(){
+		this.processing = "결제대기중";
+	}
 }

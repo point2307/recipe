@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+
+<!-- index.html 고유 CSS 추가 -->
+<th:block layout:fragment="css">
+  <!--    <link rel="stylesheet" th:href="@{/css/page/home.css}" >-->
+</th:block>
+<!-- index.html 고유 스크립트 추가 -->
+<th:block layout:fragment="script">
+  <!--    <script th:src="@{/js/page/home.js}"></script>-->
+</th:block>
+
+<!-- Content -->
+<div layout:fragment="content">
+    <div class="container">
+      <div class="col"> </div>
+      <div class="col-10">
+        <h2 th:align="center">카트리스트</h2>
+        <br><br>
+        <table class="table table-striped table-hover">
+          <tr>
+            <th width="100">대상펀딩</th>
+            <th width="200">상품명</th>
+            <th width="150">구매갯수</th>
+            <th width="150">가격</th>
+          </tr>
+
+          <tr th:each="board,state:${boardList}">
+            <td align="left"><a th:href="@{getBoard(boardId=${board.boardId})}" th:text="${board.boardTitle}"></a></td>
+            <td th:text="${board.boardWriter.nickName}"></td>
+            <td th:text="${#dates.format(board.boardRegedit, 'yyyy-MM-dd HH:mm:ss')}"></td>
+            <td th:text="${board.boardLikedCount}"></td>
+          </tr>
+        </table>
+    </div>
+    </div>
+</div>
+</html>

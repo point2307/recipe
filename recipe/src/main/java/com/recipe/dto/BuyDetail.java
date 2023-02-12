@@ -12,7 +12,7 @@ import java.util.Date;
 @Entity
 @Getter
 @Setter
-@ToString(exclude = {"buy", "mealkit", "funding"})
+@ToString(exclude = {"buy", "fundingkit"})
 public class BuyDetail {
 
     @Id
@@ -25,12 +25,8 @@ public class BuyDetail {
     private Buy buy;
 
     @OneToOne
-    @JoinColumn(name = "mealKit")
-    private Mealkit mealkit;
-
-    @OneToOne
-    @JoinColumn(name = "funding")
-    private Funding funding;
+    @JoinColumn(name = "fundingkit")
+    private FundingKit fundingkit;
 
     private int quantity;
     @CreationTimestamp

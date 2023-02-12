@@ -17,13 +17,11 @@
 
 <!-- Content -->
 <div layout:fragment="content">
-  <div class="b-example-divider"></div>
 
   <div class="container px-4 py-5" id="custom-cards">
-    <h2 class="pb-2 border-bottom">진행중인 펀딩</h2>
-    <div th:each="funding, state:${fundingList}">
-      <div class="row">
-        <div class="col-md-4">
+    <h2 class="border-bottom">진행중인 펀딩</h2>
+    <div class="row">
+    <div class="col-4" th:each="funding, state:${fundingList}">
           <div class="cause shadow-sm">
 
             <a th:href="@{/common/getFunding(fundId=${funding.fundId})}" class="cause-link d-block">
@@ -48,7 +46,7 @@
 
               <div class="py-4">
                 <div class="d-flex align-items-center">
-                  <div class="">James Smith</div>
+                  <div class="">좋아요 구현위치</div>
                 </div>
               </div>
             </div>
@@ -57,9 +55,6 @@
         </div>
       </div>
     </div>
-    </div>
-
-
   <div class="btn-toolbar mx-auto" role="toolbar" aria-label="Toolbar with button groups">
     <div class="col text-center">
       <div class="page-num"

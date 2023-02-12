@@ -1,5 +1,6 @@
 package com.recipe.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Generated;
 import lombok.Getter;
@@ -11,7 +12,7 @@ import org.hibernate.annotations.OnDeleteAction;
 @Entity
 @Getter
 @Setter
-@ToString
+@ToString(exclude = {"member", "board" ,"recipe", "funding", "reply"})
 public class Likey {
     @Id
     @SequenceGenerator(name = "likey_seq", sequenceName = "likey_seq", allocationSize = 1)
@@ -21,25 +22,30 @@ public class Likey {
     @ManyToOne
     @JoinColumn(name = "member_id")
     @OnDelete(action = OnDeleteAction.CASCADE)
+    @JsonIgnore
     private Member member;
 
     @ManyToOne
     @JoinColumn(name = "board_id")
     @OnDelete(action = OnDeleteAction.CASCADE)
+    @JsonIgnore
     private Board board;
 
     @ManyToOne
     @JoinColumn(name= "recipe_id")
     @OnDelete(action = OnDeleteAction.CASCADE)
+    @JsonIgnore
     private Recipe recipe;
 
     @ManyToOne
     @JoinColumn(name = "funding_id")
     @OnDelete(action = OnDeleteAction.CASCADE)
+    @JsonIgnore
     private Funding funding;
 
     @ManyToOne
     @JoinColumn(name = "reply_id")
     @OnDelete(action = OnDeleteAction.CASCADE)
+    @JsonIgnore
     private Reply reply;
 }
