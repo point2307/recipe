@@ -60,7 +60,6 @@ public class RecipeController {
     throws Exception {
         List<RawMater> rawMaters = new ArrayList<>();
         List<RecipeProc> procList = new ArrayList<>();
-        System.out.println("어레이작성완료");
         if(procDetail != null){
             for(int i = 0; i< procDetail.size(); i++){
                 RecipeProc proc = new RecipeProc();
@@ -150,4 +149,29 @@ public class RecipeController {
         return 1;
     }
 
+    @PostMapping("/recipe/makeReply")
+    @ResponseBody
+    public int writeRecipeReply(Long recipe, String content,
+                                @AuthenticationPrincipal SecurityUser user){
+        System.out.println(content);
+        if(user==null){
+            return 0;
+        } else{
+            Reply reply = new Reply();
+            reply.setRecipe(recipeService.getRecipe(recipe));
+            reply.setContent(content);
+            reply.setWriter(user.getMember());
+            recipeService.saveRecipeReply(reply);
+            return 1;
+        }
+    }
+
+    @GetMapping("/myPage/likeyRecipeList")
+    public String getLikeyRecipeList(@PageableDefault(size=6,sort = "recipeId", direction = Sort.Direction.DESC) Pageable pageable, Model model, @AuthenticationPrincipal SecurityUser user) {
+
+        Page<Recipe> recipePage = recipeService.likeyRecipe(user.getMember(), pageable);
+
+        model.addAttribute("recipeList",recipePage);
+        return "/common/recipeMain";
+    }
 }

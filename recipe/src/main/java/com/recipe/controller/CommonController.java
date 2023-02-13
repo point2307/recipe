@@ -47,7 +47,6 @@ public class CommonController {
                 cart.setTotal(cart.getFundingKit().getMealkit().getPrice() * cart.getQuantity());
             }
         }
-        System.out.println(cartList);
         model.addAttribute("cartList", cartList);
         model.addAttribute("total", total);
         return "/common/cartList";

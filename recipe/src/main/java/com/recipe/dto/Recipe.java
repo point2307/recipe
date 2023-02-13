@@ -44,7 +44,7 @@ public class Recipe {
 	private	Date	recipeRegedit;
 	private	int		recipeAlert;
 
-	@OneToMany(mappedBy = "replyId",fetch = FetchType.EAGER)
+	@OneToMany(mappedBy = "recipe",fetch = FetchType.EAGER)
 	@JsonIgnore
 	private List<Reply> replyList;
 

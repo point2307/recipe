@@ -115,3 +115,23 @@ function deleteThis(e){
     $("#raw"+e).empty();
 }
 
+function makeReply(){
+    let recipe= $('#recipe').val();
+    let content = $('#content').val();
+    console.log(content)
+    $.ajax({
+        url: '/recipe/makeReply',
+        type: 'post',
+        async: true,
+        data: {recipe:recipe, content:content},
+        dataType: 'text',
+        success(data){
+            console.log(data)
+            if(data == 1){
+                $('#replyList').load(location.href+' #replyList')
+            } else{
+                alert('로그인 하셔야 댓글작성이 가능합니다.')
+            }
+        }
+    })
+}

@@ -11,26 +11,68 @@
 </th:block>
 <!-- index.html 고유 스크립트 추가 -->
 <th:block layout:fragment="script">
-  <!--    <script th:src="@{/js/page/home.js}"></script>-->
+  <script type="text/javascript" th:src="@{/source/script/recipeScript.js}"></script>
 </th:block>
 
 <!-- Content -->
 <div layout:fragment="content">
   <div class="container">
-    <div class="">
-      <img th:src="@{/source/img/} + ${recipe.image}"/>
-      <p th:text="${recipe.recipeTitle}"></p><br>
-      <p th:text="${recipe.recipeDetail}"></p><br>
-
-      <p th:text="${recipe.amount}"></p><br>
-      <p th:text="${recipe.recipeCookingTime}"></p><br>
-        <br> <br>
-      <div th:each="process, state:${recipe.recipe_process}">
-        <div>
-          <h3 th:text="${state.count}"></h3>
-          <img th:src="@{/source/img/} + ${process.procPicName}"/>
-          <p th:text="${process.procDetail}"></p>
+    <div class="row">
+     <div class="col-1"> </div>
+      <div class="col-10">
+       <img th:href="@{/source/img/}+${recipe.image}">
+       <h2 th:text="${recipe.recipeTitle}"></h2><br/>
+        <h4 th:text="${recipe.recipeDetail}"></h4>
+        <div class="row">
+        <div class="col-4"> 제공량 <br>
+          <p th:text="${recipe.amount}+'인분'"></p></div>
+        <div class="col-4"> 소요시간<br>
+          <p th:text="${recipe.recipeCookingTime}+'분'"></p></div>
+        <div class="col-4"> 추천 수<br>
+         <p th:text="${recipe.likeCount}"></p></div>
         </div>
+        <div>재료 목록</div>
+        <ul>
+        <th:block th:each="raw : ${recipe.rawMaterList}">
+          <li>[[${raw.mater.materName}]] : [[${raw.amount}]]</li>
+        </th:block>
+        </ul>
+     </div>
+
+      <table>
+        <th:block th:each="process, index:${recipe.recipe_process}">
+          <tr>
+            <th th:text="${index.count}"></th>
+            <th><th:block th:if="${process.procPicName!='noProcImg.jpg'}">
+                <img th:src="@{/source/img/}+${process.procPicName}" style="width:300px; height:200px;">
+            </th:block>
+            </th>
+            <th th:text="${process.procDetail}"></th>
+          </tr>
+        </th:block>
+      </table>
+
+      <div class="replyList">
+       <th:block th:each="reply : ${recipe.replyList}">
+         <div class="row">
+          <div class="col-3"><p th:text="${reply.writer.nickName}"></p></div>
+          <div class="col-9 text-end">
+            <p th:text="${reply.regdate}"></p>
+          </div>
+           <div>
+             <p th:text="${reply.content}"></p>
+           </div>
+         </div>
+       </th:block>
+      </div>
+      <div>
+        <form>
+          <input type="hidden" name="recipe" id="recipe" th:value="${recipe.recipeId}">
+          <div class="mb-3">
+            <textarea class="form-control" id="content" cols="20" rows="3"></textarea>
+          </div>
+          <button onclick="makeReply()">댓글쓰기</button>
+        </form>
       </div>
     </div>
   </div>

@@ -5,12 +5,10 @@ import com.recipe.dto.*;
 import com.recipe.persistence.*;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -27,6 +25,9 @@ public class RecipeServiceImpl implements RecipeService {
 
     @Autowired
     private LikeyRepo likeyRepo;
+
+    @Autowired
+    private ReplyRepo replyRepo;
 
     @Override
     public void makeRecipe(Recipe vo) {
@@ -124,6 +125,33 @@ public class RecipeServiceImpl implements RecipeService {
         likeyRepo.delete(likey);
         recipe.setLikeCount(recipe.getLikeCount()-1);
         recipeRepo.save(recipe);
+    }
+
+    @Override
+    public Recipe getRecipe(Long id) {
+        return recipeRepo.findById(id).get();
+    }
+
+    @Override
+    public void saveRecipeReply(Reply reply) {
+        replyRepo.save(reply);
+    }
+
+    @Override
+    public Page<Recipe> likeyRecipe(Member member, Pageable pageable) {
+        List<Likey> likeyList = likeyRepo.findAllByMember(member);
+        List<Recipe> recipeList = new ArrayList<>();
+        for(Likey likey : likeyList){
+            if(likey.getRecipe()!=null) {
+                Recipe recipe = likey.getRecipe();
+                recipe.setCheckLike(1);
+                recipeList.add(recipe);
+            }
+        }
+
+        Page<Recipe> page = new PageImpl<>(recipeList,pageable,recipeList.size());
+
+        return page;
     }
 
 }

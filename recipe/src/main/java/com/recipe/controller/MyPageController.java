@@ -67,7 +67,7 @@ public class MyPageController {
         if(user != null){
             Cart cart1 = cartService.checkMemberKit(user.getMember(), item);
             if(cart1 != null){
-                cart.setCartId(cart1.getCartId());
+                cart = cartService.checkMemberKit(user.getMember(), item);
                 cart.setQuantity(cart.getQuantity() + cart1.getQuantity());
             } else {
                 cart.setMember(user.getMember());

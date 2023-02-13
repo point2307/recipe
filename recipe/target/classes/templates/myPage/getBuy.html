@@ -65,7 +65,7 @@
           <div class="col-5">
             <h4>결제 정보</h4>
             <div>
-              <span th:text="|총금액: ${total}|"></span>
+              <span th:text="|총금액: ${#numbers.formatInteger(total,1,'COMMA')}|"></span>
             </div>
             <div>
               결제 방법<br/>

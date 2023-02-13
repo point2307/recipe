@@ -27,9 +27,11 @@
             <a th:href="@{/common/getFunding(fundId=${funding.fundId})}" class="cause-link d-block">
               <img th:src="@{/source/img/}+${funding.fundImage}" alt="Image" class="img-fluid">
               <div th:with="complete=${funding.fund}/${funding.goal}*100" class="custom-progress-wrap">
-                <span class="caption">[[${complete}]]%완료</span>
+                <span class="caption" th:text="${#numbers.formatInteger(complete,1,'COMMA')}+'%완료'"></span>
                 <div class="custom-progress-inner">
-                  <div class="custom-progress bg-danger" th:style="${'width:'}+${complete}+'%'"></div>
+                  <div class="custom-progress bg-danger" th:if="${complete<100}" th:style="${'width:'}+${complete}+'%'"></div>
+                  <div class="custom-progress bg-danger" th:if="${complete>=100}" style="width:100%"></div>
+
                 </div>
               </div>
             </a>

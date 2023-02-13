@@ -45,7 +45,7 @@
           </tr>
           </th:block>
           <tr>
-            <td th:text = "|총금액: ${total}|"></td>
+            <td th:text = "|총금액: ${#numbers.formatInteger(total,2,'COMMA')}|"></td>
             <input type="hidden" name="carttotal" th:value="${total}"/>
           </tr>
         </table>

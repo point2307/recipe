@@ -3,6 +3,7 @@ package com.recipe.dto;
 import java.util.Date;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -20,6 +21,7 @@ public class Reply {
 	private	Long	replyId;
 	@OneToOne
 	@JoinColumn(name = "writer")
+	@JsonIgnore
 	private Member	writer;
 	private	String	content;
 	
@@ -31,13 +33,21 @@ public class Reply {
 
 	@ManyToOne
 	@JoinColumn(name = "boardId")
+	@JsonIgnore
 	private Board board;
 
 	@ManyToOne
 	@JoinColumn(name = "recipeId")
+	@JsonIgnore
 	private Recipe recipe;
 
 	@ManyToOne
 	@JoinColumn(name = "fundingId")
+	@JsonIgnore
 	private Funding funding;
+
+	@PrePersist
+	public void prePersist(){
+		this.likeCount = 0;
+	}
 }

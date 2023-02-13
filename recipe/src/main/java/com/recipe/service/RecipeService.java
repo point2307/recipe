@@ -32,4 +32,10 @@ public interface RecipeService {
     void likeyRecipe(Member mem, Recipe recipe);
 
     void notlikeRecipe(Member mem, Recipe recipe);
+
+    Recipe getRecipe(Long id);
+
+    void saveRecipeReply(Reply reply);
+
+    Page<Recipe> likeyRecipe(Member member, Pageable pageable);
 }
