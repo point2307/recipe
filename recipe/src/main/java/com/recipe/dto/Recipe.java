@@ -55,11 +55,6 @@ public class Recipe {
 	@Transient
 	private int checkLike;
 
-	@Transient
-	private int minute;
-	@Transient
-	private int second;
-
 	@PrePersist
 	public void prePersist(){
 		this.likeCount = 0;

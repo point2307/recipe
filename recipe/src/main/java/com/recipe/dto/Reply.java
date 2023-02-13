@@ -20,8 +20,8 @@ public class Reply {
 	private	Long	replyId;
 	@OneToOne
 	@JoinColumn(name = "writer")
-	private Member	replyWriter;
-	private	String	replyContent;
+	private Member	writer;
+	private	String	content;
 	
 	@Temporal(TemporalType.DATE)
 	@CreationTimestamp

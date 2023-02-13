@@ -12,7 +12,7 @@ import org.hibernate.annotations.OnDeleteAction;
 @Entity
 @Getter
 @Setter
-@ToString(exclude = {"member", "board" ,"recipe", "funding", "reply"})
+@ToString(exclude = {"member", "board" ,"recipe", "funding", "reply","mealkit"})
 public class Likey {
     @Id
     @SequenceGenerator(name = "likey_seq", sequenceName = "likey_seq", allocationSize = 1)
@@ -48,4 +48,10 @@ public class Likey {
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonIgnore
     private Reply reply;
+
+    @ManyToOne
+    @JoinColumn(name = "mealkit")
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @JsonIgnore
+    private Mealkit mealkit;
 }
