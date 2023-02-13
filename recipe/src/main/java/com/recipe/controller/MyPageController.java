@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -29,6 +28,8 @@ public class MyPageController {
     private CartService cartService;
     @Autowired
     private PasswordEncoder encoder;
+    @Autowired
+    private BuyService buyService;
     @GetMapping("/myPage/updateMemberForm")
     public String updateMemberForm(@AuthenticationPrincipal SecurityUser prin, Model model){
         model.addAttribute("member", prin.getMember()) ;
@@ -54,7 +55,7 @@ public class MyPageController {
         return "/myPage/mymain";
     }
 
-    @PostMapping("addCart")
+    @PostMapping("/addCart")
     public String addCart(@RequestParam(name = "fundname")Long fund, Cart cart,
                           @AuthenticationPrincipal SecurityUser user, Long selectKit ){
         Funding funding = new Funding();
@@ -89,15 +90,85 @@ public class MyPageController {
             buyDetail.setFundingkit(item);
             List<BuyDetail> buyDetailList = new ArrayList<>();
             buyDetailList.add(buyDetail);
-            model.addAttribute("DetailList", buyDetailList);
+            buyService.insertDetail(buyDetail);
+            model.addAttribute("detailList", buyDetailList);
+            model.addAttribute("member", user.getMember());
+            model.addAttribute("total", item.getMealkit().getPrice()*buyDetail.getQuantity());
             return "/myPage/getBuy";
         }
     }
 
     @PostMapping("/myPage/goBuy")
-    public String goBuyDe(){
+    public String goBuyDe(@RequestParam(name = "cart",required = false) List<Long> list,
+                          @AuthenticationPrincipal SecurityUser user, int carttotal,
+                          Model model){
+        System.out.println(list);
+        List<BuyDetail> details = new ArrayList<>();
+        if(user == null) {
+            return "/system/login";
+        }else{
+            for (Long cartId : list) {
+                Cart cart = cartService.getCartById(cartId);
+                BuyDetail buy = new BuyDetail();
+                buy.setFundingkit(cart.getFundingKit());
+                buy.setQuantity(cart.getQuantity());
+                buyService.insertDetail(buy);
+                details.add(buy);
 
-        return "/myPage/getBuy";
+            }
+            model.addAttribute("member", user.getMember());
+            model.addAttribute("total", carttotal);
+            model.addAttribute("detailList", details);
+            return "/myPage/getBuy";
+        }
+    }
+
+    @PostMapping("/myPage/changeCart")
+    @ResponseBody
+    public int changeCartQuan(Cart vo){
+        System.out.println(vo);
+        cartService.changeCartQuan(vo);
+        return 0;
+    }
+
+    @PostMapping("/myPage/deleteCart")
+    @ResponseBody
+    public int deleteCart(Cart vo){
+        System.out.println(vo);
+        cartService.deleteCart(vo);
+        return 0;
+    }
+
+    @PostMapping("/myPage/insertBuy")
+    public String insertBuy(Buy buy, @AuthenticationPrincipal SecurityUser user,Model model, String payment,
+                            @RequestParam(name = "details", required = false)List<Long> details){
+        List<BuyDetail> buyDetailList = new ArrayList<>();
+        for(Long id : details){
+            BuyDetail detail = buyService.getDetail(id);
+            buyDetailList.add(detail);
+        }
+        buy.setBuyer(user.getMember());
+        buy.setBuyDetails(buyDetailList);
+        buyService.insertBuy(buy);
+        model.addAttribute("buy", buy);
+        if(payment.equals("account")) {
+            return "/myPage/paymentInfo";
+        } else{
+            return "/myPage/apiPayment";
+        }
+    }
+
+    @PostMapping("/myPage/completeBuy")
+    public String paymentSuccess(Long buyId, String userId,
+                                 @RequestParam(name = "details", required = false)List<Long> details){
+        Buy buy = buyService.getBuy(buyId);
+        buy.setProcessing("결제 완료");
+        buyService.insertBuy(buy);
+        for(Long id : details){
+            buyService.paymentDetails(id);
+        }
+        cartService.deleteCartByMember(memberService.getMember(userId));
+        return "redirect:/myPage/buyList?userId="+userId;
     }
 
 }

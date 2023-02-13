@@ -6,6 +6,7 @@ import com.recipe.dto.Mealkit;
 import com.recipe.persistence.FundingKitRepo;
 import com.recipe.persistence.FundingRepo;
 import com.recipe.persistence.MealkitRepo;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -29,6 +30,7 @@ public class FundingServiceImpl implements FundIngService{
     }
 
     @Override
+    @Transactional
     public void insertFunding(Funding vo, List<Mealkit> list) {
         fundingRepo.save(vo);
         for(Mealkit kit : list){

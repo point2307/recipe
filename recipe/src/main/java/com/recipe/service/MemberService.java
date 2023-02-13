@@ -9,4 +9,6 @@ public interface MemberService {
 	int findId(String id);
 
 	void updateMem(Member vo);
+
+	Member getMember(String id);
 }

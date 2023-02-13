@@ -23,4 +23,12 @@ public class Cart {
     private FundingKit fundingKit;
 
     private int quantity;
+
+    @Transient
+    private int total;
+
+    @PrePersist
+    public void prePersist(){
+        this.total=0;
+    }
 }

@@ -12,7 +12,7 @@ import org.hibernate.annotations.CreationTimestamp;
 @Entity
 @Getter
 @Setter
-@ToString(exclude = {"replyWriter"})
+@ToString(exclude = {"replyWriter", "board", "recipe", "funding"})
 public class Reply {
 	@Id
 	@SequenceGenerator(name = "reply_seq", sequenceName = "reply_seq", allocationSize = 1)

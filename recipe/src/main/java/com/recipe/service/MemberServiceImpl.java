@@ -41,5 +41,10 @@ public class MemberServiceImpl implements MemberService {
 		memRepo.save(update);
 	}
 
+	@Override
+	public Member getMember(String id) {
+		return memRepo.findById(id).get();
+	}
+
 
 }

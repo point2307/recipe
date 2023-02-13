@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+
+<!-- index.html 고유 CSS 추가 -->
+<th:block layout:fragment="css">
+  <!--    <link rel="stylesheet" th:href="@{/css/page/home.css}" >-->
+</th:block>
+<!-- index.html 고유 스크립트 추가 -->
+<th:block layout:fragment="script">
+  <!--    <script th:src="@{/js/page/home.js}"></script>-->
+</th:block>
+
+<!-- Content -->
+<div layout:fragment="content">
+  <h2>기타 결제 방법 선택시 외부 결제 api 불러오기<br>
+  실제 서비스가 아니라 생략</h2>
+  <form method="post" th:action="@{/myPage/completeBuy}">
+    <input type="hidden" name="buyId" th:value="${buy.buyId}">
+    <input type="hidden" name="userId" th:value="${buy.buyer.userId}">
+    <th:block th:each="detail, state:${buy.buyDetails}">
+      <input type="hidden" name="details" th:value="${detail.buyDeId}">
+    </th:block>
+    <button type="submit">고객의 결제 완료</button>
+  </form>
+</div>
+</html>

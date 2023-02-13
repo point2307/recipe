@@ -11,7 +11,7 @@
 </th:block>
 <!-- index.html 고유 스크립트 추가 -->
 <th:block layout:fragment="script">
-  <!--    <script th:src="@{/js/page/home.js}"></script>-->
+  <script th:src="@{/source/script/cartScript.js}"></script>
 </th:block>
 
 <!-- Content -->
@@ -21,21 +21,38 @@
       <div class="col-10">
         <h2 th:align="center">카트리스트</h2>
         <br><br>
-        <table class="table table-striped table-hover">
+        <form method="post" th:action="@{/myPage/goBuy}">
+        <table id="cartTable" class="table table-striped table-hover">
           <tr>
-            <th width="100">대상펀딩</th>
+            <th>  </th>
+            <th width="100">펀딩</th>
             <th width="200">상품명</th>
             <th width="150">구매갯수</th>
             <th width="150">가격</th>
+            <th></th>
+            <th></th>
           </tr>
-
-          <tr th:each="board,state:${boardList}">
-            <td align="left"><a th:href="@{getBoard(boardId=${board.boardId})}" th:text="${board.boardTitle}"></a></td>
-            <td th:text="${board.boardWriter.nickName}"></td>
-            <td th:text="${#dates.format(board.boardRegedit, 'yyyy-MM-dd HH:mm:ss')}"></td>
-            <td th:text="${board.boardLikedCount}"></td>
+          <th:block th:each="cart,state:${cartList}">
+          <tr th:id="'cart'+${cart.cartId}">
+            <td th:text="${state.count}"></th>
+            <td th:text="${cart.fundingKit.funding.title}"></td>
+            <td th:text="${cart.fundingKit.mealkit.kitName}"></td>
+            <td><input type="number" name="quantity" th:id="'cartquan'+${cart.cartId}" th:value="${cart.quantity}" size="3"
+            min="1" th:onchange="'changeIt('+${cart.cartId}+','+${state.count}+')'"></td>
+            <td th:text="${cart.fundingKit.mealkit.price * cart.quantity}"></td>
+            <td><input type="checkbox" name="cart" th:value="${cart.cartId}" checked></td>
+            <th><input type="button" th:value="삭제하기" th:onclick="'deleteIt('+${cart.cartId}+')'"></th>
+          </tr>
+          </th:block>
+          <tr>
+            <td th:text = "|총금액: ${total}|"></td>
+            <input type="hidden" name="carttotal" th:value="${total}"/>
           </tr>
         </table>
+
+
+          <button type="submit">구매하기</button>
+        </form>
     </div>
     </div>
 </div>

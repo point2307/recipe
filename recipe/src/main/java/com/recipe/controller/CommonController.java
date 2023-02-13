@@ -38,13 +38,19 @@ public class CommonController {
 
     @RequestMapping("/common/getCart")
     public String getCart(Model model, @AuthenticationPrincipal SecurityUser user){
+        int total = 0;
         List<Cart> cartList = new ArrayList<>();
         if(user != null){
             cartList = cartService.getCartList(user.getMember());
+            for(Cart cart : cartList){
+                total += cart.getFundingKit().getMealkit().getPrice() * cart.getQuantity();
+                cart.setTotal(cart.getFundingKit().getMealkit().getPrice() * cart.getQuantity());
+            }
         }
-
+        System.out.println(cartList);
         model.addAttribute("cartList", cartList);
-        return "/common/getCart";
+        model.addAttribute("total", total);
+        return "/common/cartList";
     }
 
     @RequestMapping("/admin/adminMain")

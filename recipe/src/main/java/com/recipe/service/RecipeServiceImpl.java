@@ -3,6 +3,7 @@ package com.recipe.service;
 import com.querydsl.core.BooleanBuilder;
 import com.recipe.dto.*;
 import com.recipe.persistence.*;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -35,6 +36,7 @@ public class RecipeServiceImpl implements RecipeService {
     }
 
     @Override
+    @Transactional
     public void updateRecipe(Recipe vo) {
         if(recipeRepo.findById(vo.getRecipeId()).isPresent()) {
             Recipe update = recipeRepo.findById(vo.getRecipeId()).get();
@@ -105,6 +107,7 @@ public class RecipeServiceImpl implements RecipeService {
     }
 
     @Override
+    @Transactional
     public void likeyRecipe(Member mem, Recipe recipe) {
         Likey likey = new Likey();
         likey.setRecipe(recipe);
@@ -115,6 +118,7 @@ public class RecipeServiceImpl implements RecipeService {
     }
 
     @Override
+    @Transactional
     public void notlikeRecipe(Member mem, Recipe recipe) {
         Likey likey = likeyRepo.findByMemberAndRecipe(mem, recipe);
         likeyRepo.delete(likey);

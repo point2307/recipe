@@ -11,4 +11,12 @@ public interface CartService {
     List<Cart> getCartList(Member member);
 
     Cart checkMemberKit(Member member, FundingKit mealkit);
+
+    void changeCartQuan(Cart vo);
+
+    void deleteCart(Cart vo);
+
+    Cart getCartById(Long cartId);
+
+    void deleteCartByMember(Member member);
 }

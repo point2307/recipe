@@ -1,6 +1,7 @@
 package com.recipe.dto;
 
 import java.util.Date;
+import java.util.List;
 
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -11,7 +12,7 @@ import org.hibernate.annotations.CreationTimestamp;
 @Entity
 @Getter
 @Setter
-@ToString(exclude = {"board_recipe", "board_mealkit"})
+@ToString(exclude = {"board_recipe", "board_mealkit", "replyList"})
 public class Board {
 	@Id
 	@SequenceGenerator(name = "board_seq", sequenceName = "board_seq", allocationSize = 1)
@@ -37,6 +38,8 @@ public class Board {
 	@ManyToOne
 	@JoinColumn(name = "after_kit")
 	private Mealkit mealkit;
+	@OneToMany(mappedBy = "board")
+	private List<Reply> replyList;
 
 	@PrePersist
 	public void prePersist(){

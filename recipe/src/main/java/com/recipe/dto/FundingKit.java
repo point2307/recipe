@@ -21,7 +21,6 @@ public class FundingKit {
     @JoinColumn(name = "mealkit")
     private Mealkit mealkit;
 
-    @Transient
     private int selling;
 
     @PrePersist
