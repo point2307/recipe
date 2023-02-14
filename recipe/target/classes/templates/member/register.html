@@ -30,7 +30,7 @@
                         <div class="input-group mb-3">
                             <span class="input-group-text">아 이 디*</span>
                             <input type="text" name="userId" id="userId" class="form-control" placeholder="아이디">
-                            <button class="btn btn-outline-secondary" type="button" id="button-addon2" onclick="idCheck()">중복체크</button>
+                            <button class="btn btn-outline-secondary" type="button" id="checkbtn" onclick="idCheck()">중복체크</button>
                         </div>
                             <span id="message"></span>
                             <input type="hidden" id="reid" name="reid"/></td>
@@ -69,9 +69,9 @@
                     <tr>
                         <div class="input-group mb-3">
                             <span class="input-group-text">이 메 일*</span>
-                            <input type="text" th:name="ema" class="form-control" placeholder="email" aria-label="Username">
+                            <input type="text" th:name="ema" class="form-control" placeholder="email" id="ema">
                             <span class="input-group-text">@</span>
-                            <input type="text" th:name="il" class="form-control" placeholder="Server" aria-label="Server">
+                            <input type="text" th:name="il" class="form-control" placeholder="Server" id="il">
                         </div>
                     </tr>
                     <tr>
@@ -88,7 +88,7 @@
                     <tr>
                         <input type="hidden" th:name="role" value="ROLE_NOT_AUTH"/>
                         <div class="d-grid gap-2 mx-auto">
-                            <button class="btn btn-primary" type="submit">회원가입</button>
+                            <button class="btn btn-primary" type="submit" onclick="return registerCheck()">회원가입</button>
                         </div></tr>
                 </table>
                 <p>*항목은 모두 입력하셔야 합니다</p>

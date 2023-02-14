@@ -46,5 +46,10 @@ public class MemberServiceImpl implements MemberService {
 		return memRepo.findById(id).get();
 	}
 
+	@Override
+	public void deleteMem(Member vo) {
+		memRepo.deleteById(vo.getUserId());
+	}
+
 
 }

@@ -3,6 +3,7 @@ package com.recipe.controller;
 import com.recipe.dto.Board;
 import com.recipe.security.SecurityUser;
 import com.recipe.service.BoardServiceImpl;
+import com.recipe.util.File;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -13,6 +14,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.util.UUID;
 
 @Controller
 public class BoardController {
@@ -36,7 +41,21 @@ public class BoardController {
     }
 
     @PostMapping("/board/insertBoard")
-    public String insertBoard(Board vo, @AuthenticationPrincipal SecurityUser principal){
+    public String insertBoard(Board vo, @AuthenticationPrincipal SecurityUser principal,
+                              @RequestParam(value ="image", required = false)MultipartFile image)
+    throws Exception{
+        if(vo.getBoardKind().equals("300")){
+            if(image.isEmpty()){
+                vo.setBoardImage("noImg.jpg");
+            } else{
+                File file = new File(UUID.randomUUID().toString(), image.getOriginalFilename(),
+                        image.getContentType());
+                java.io.File newFileName = new java.io.File(file.getUuid()+"_"+file.getOriginalName());
+                image.transferTo(newFileName);
+                vo.setBoardImage(newFileName.toString());
+            }
+        }
+
         vo.setBoardWriter(principal.getMember());
         boardService.insertBoard(vo);
         return "redirect:/common/getBoard?boardId="+vo.getBoardId();

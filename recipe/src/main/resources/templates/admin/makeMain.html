@@ -13,51 +13,47 @@
 <!-- index.html 고유 스크립트 추가 -->
 <th:block layout:fragment="script">
   <!--    <script th:src="@{/js/page/home.js}"></script>-->
-  <script>
-    function picOpen(){
-      if($('#seleted').val()==300){
-        $('#image').prop('type','file');
-      }
-    }
-  </script>
 </th:block>
 
 <!-- Content -->
 <div layout:fragment="content" th:align="center">
   <h2>새 글 쓰기</h2>
 <br><br>
-  <form th:action="@{/board/insertBoard}" method="post" enctype="multipart/form-data">
+  <form th:action="@{/admin/makeMain}" method="post" enctype="multipart/form-data">
 
     <table border="1" cellpadding="0" cellspacing="0">
       <tr>
-        <td width="100">제목</td><td align="left">
-        <input type="text" th:name="boardTitle"/></td>
+        <td>제목</td><td align="left">
+        <input type="text" th:name="title"/></td>
       </tr>
       <tr>
         <td>글 종류</td>
         <td>
-        <select name="boardKind" onchange="picOpen()" id="seleted">
-          <option th:value="100" th:selected="100">일반글</option>
-          <option th:value="300">밀키트 후기</option>
+        <select th:name="boardKind" th:onchange="">
+          <option th:value="500" th:selected="500">공지사항</option>
+          <option th:value="600">메인 컬럼</option>
+          <option th:value="700">레시피 알림</option>
+          <option th:value="800">밀키트 알림</option>
+          <option th:value="900">이벤트 알림</option>
         </select>
         </td>
       </tr>
       <tr>
         <td>내용</td><td align="left">
-        <textarea th:name="boardContent" cols="40" rows="10"></textarea></td>
+        <textarea th:name="content" cols="40" rows="10"></textarea></td>
       </tr>
       <tr>
         <td>
-          후기 사진
+          사진
         </td>
         <td>
-          <input type="hidden" id="image" th:name="image">
+          <input th:type="file" th:name="pic">
         </td>
 
       </tr>
       <tr>
         <td colspan="2" align="center">
-          <input type="submit" value=" 새 글 등록"/></td>
+          <input type="submit" value="공지 등록"/></td>
       </tr>
     </table>
   </form>

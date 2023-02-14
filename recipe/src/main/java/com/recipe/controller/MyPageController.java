@@ -32,8 +32,9 @@ public class MyPageController {
     private BuyService buyService;
     @GetMapping("/myPage/updateMemberForm")
     public String updateMemberForm(@AuthenticationPrincipal SecurityUser prin, Model model){
+
         model.addAttribute("member", prin.getMember()) ;
-        return "/mypage/updateMem";
+        return "/myPage/updateMem";
     }
     @PostMapping("/myPage/updateMember")
     public String updateMember(Member vo,String nopic, String row_pass, MultipartFile pic) throws IllegalStateException, IOException {
@@ -50,6 +51,14 @@ public class MyPageController {
         memberService.updateMem(vo);
         return "redirect:/myPage/mymain";
     }
+    @GetMapping("/member/deleteSelf")
+    public String deleteSelf(@AuthenticationPrincipal SecurityUser user){
+        if(user !=null){
+            memberService.deleteMem(user.getMember());
+        }
+        return "/";
+    }
+
     @GetMapping("/myPage/mymain")
     public String myMainPage(){
         return "/myPage/mymain";
