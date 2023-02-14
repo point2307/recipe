@@ -3,6 +3,7 @@
       xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
       layout:decorate="~{layout}">
 
 <!-- index.html 고유 CSS 추가 -->
@@ -20,18 +21,19 @@
     <div class="row">
      <div class="col-1"> </div>
       <div class="col-10">
-       <img th:href="@{/source/img/}+${recipe.image}">
+       <img th:src="@{/source/img/}+${recipe.image}" style="width: auto; max-height:200px;">
        <h2 th:text="${recipe.recipeTitle}"></h2><br/>
-        <h4 th:text="${recipe.recipeDetail}"></h4>
-        <div class="row">
-        <div class="col-4"> 제공량 <br>
+        <h5 th:text="${recipe.recipeDetail}"></h5>
+          <br><br>
+        <div class="row" style="border-top: 1px solid red; border-bottom:1px solid red">
+        <div class="col-4" style="border-right: 1px solid blueviolet"> 제공량 <br>
           <p th:text="${recipe.amount}+'인분'"></p></div>
-        <div class="col-4"> 소요시간<br>
+        <div class="col-4" style="border-right: 1px solid blueviolet"> 소요시간<br>
           <p th:text="${recipe.recipeCookingTime}+'분'"></p></div>
         <div class="col-4"> 추천 수<br>
-         <p th:text="${recipe.likeCount}"></p></div>
+         <p class="bold" th:text="${recipe.likeCount}"></p></div>
         </div>
-        <div>재료 목록</div>
+          <div><h3>주요 재료</h3></div>
         <ul>
         <th:block th:each="raw : ${recipe.rawMaterList}">
           <li>[[${raw.mater.materName}]] : [[${raw.amount}]]</li>
@@ -41,8 +43,8 @@
 
       <table>
         <th:block th:each="process, index:${recipe.recipe_process}">
-          <tr>
-            <th th:text="${index.count}"></th>
+          <tr style="border: 1px solid black">
+            <th><h3 th:text="${index.count}"></h3></th>
             <th><th:block th:if="${process.procPicName!='noProcImg.jpg'}">
                 <img th:src="@{/source/img/}+${process.procPicName}" style="width:300px; height:200px;">
             </th:block>
@@ -51,27 +53,72 @@
           </tr>
         </th:block>
       </table>
-
+        <br/><br/>
       <div class="replyList">
-       <th:block th:each="reply : ${recipe.replyList}">
-         <div class="row">
-          <div class="col-3"><p th:text="${reply.writer.nickName}"></p></div>
-          <div class="col-9 text-end">
-            <p th:text="${reply.regdate}"></p>
-          </div>
-           <div>
-             <p th:text="${reply.content}"></p>
-           </div>
-         </div>
-       </th:block>
+        <th:block sec:authorize="isAuthenticated()">
+           <th:block th:each="reply : ${recipe.replyList}">
+               <th:block th:if="${reply.writer.userId != #authentication.principal.member.userId}">
+                 <div class="row" style="margin: 15px ;padding: 11px;border-radius: 30px;border: 1px solid black; background-color: #ccc470" >
+                     <div class="col-1"> </div>
+                     <div class="col-2"><p th:text="${reply.writer.nickName}"></p></div>
+                     <div class="col-8 text-end">
+                        <p th:text="${reply.regdate}"></p>
+                     </div>
+                     <div class="col-2"> </div>
+                     <div class="col-8">
+                        <p th:text="${reply.content}"></p>
+                     </div>
+                 </div>
+                   <br/>
+               </th:block>
+               <th:block th:unless="${reply.writer.userId != #authentication.principal.member.userId}">
+                   <div th:id="${reply.replyId}" class="row" style="margin: 15px ;padding: 11px;border-radius: 30px;border: 1px solid black;background-color: #73c4cb">
+                       <div class="col-1"> </div>
+                       <div class="col-2"><p th:text="${reply.writer.nickName}"></p></div>
+                       <div class="col-8 text-end">
+                           <button type="button" th:onclick="|updateReply(${reply.replyId})|" class="btn btn-outline-secondary">수정하기</button>
+                           <button type="button" th:onclick="|deleteReply(${reply.replyId})|" class="btn btn-outline-success">삭제하기</button>
+                           <p th:text="${reply.regdate}"></p>
+                       </div>
+                       <div class="col-2"> </div>
+                       <div class="col-8" >
+                           <p th:text="${reply.content}"></p>
+                       </div>
+                   </div>
+                   <br/>
+               </th:block>
+           </th:block>
+        </th:block>
+          <th:block sec:authorize="!isAuthenticated()">
+              <th:block th:each="reply : ${recipe.replyList}">
+
+                      <div class="row" style="margin: 15px ;padding: 11px;border-radius: 30px;border: 1px solid black; background-color: #ccc470" >
+                          <div class="col-1"> </div>
+                          <div class="col-2"><p th:text="${reply.writer.nickName}"></p></div>
+                          <div class="col-8 text-end">
+                              <p th:text="${reply.regdate}"></p>
+                          </div>
+                          <div class="col-2"> </div>
+                          <div class="col-8">
+                              <p th:text="${reply.content}"></p>
+                          </div>
+                      </div>
+                      <br/>
+                  </th:block>
+              </th:block>
+
       </div>
+        <br/><br/>
       <div>
         <form>
           <input type="hidden" name="recipe" id="recipe" th:value="${recipe.recipeId}">
-          <div class="mb-3">
-            <textarea class="form-control" id="content" cols="20" rows="3"></textarea>
+          <div class="input-group">
+              <textarea class="form-control" id="content" cols="20" rows="3"></textarea>
+              <button class="input-group-text" onclick="makeReply()">댓글쓰기</button>
           </div>
-          <button onclick="makeReply()">댓글쓰기</button>
+
+          </div>
+
         </form>
       </div>
     </div>

@@ -6,4 +6,5 @@ import org.springframework.data.repository.CrudRepository;
 
 public interface NoticeRepo extends CrudRepository<Notice, Long>, QuerydslPredicateExecutor {
 
+    Notice findFirstByKindOrderByRegDate(int kind);
 }

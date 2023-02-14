@@ -4,8 +4,10 @@ import com.recipe.dto.*;
 import com.recipe.security.SecurityUser;
 import com.recipe.service.*;
 import com.recipe.util.File;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -37,7 +39,8 @@ public class MyPageController {
         return "/myPage/updateMem";
     }
     @PostMapping("/myPage/updateMember")
-    public String updateMember(Member vo,String nopic, String row_pass, MultipartFile pic) throws IllegalStateException, IOException {
+    @Transactional
+    public String updateMember(Member vo,String nopic, String row_pass, MultipartFile pic, Model model) throws IllegalStateException, IOException {
         if(pic.isEmpty()){
             vo.setProImg(nopic);
         } else {
@@ -49,14 +52,19 @@ public class MyPageController {
         }
         vo.setPassword(encoder.encode(row_pass));
         memberService.updateMem(vo);
+        model.addAttribute("member", memberService.getMember(vo.getUserId()));
         return "redirect:/myPage/mymain";
     }
     @GetMapping("/member/deleteSelf")
     public String deleteSelf(@AuthenticationPrincipal SecurityUser user){
         if(user !=null){
             memberService.deleteMem(user.getMember());
+
+            // 시큐리티 인증정보 없애기
+            SecurityContextHolder.getContext().setAuthentication(null);
         }
-        return "/";
+
+        return "redirect:/";
     }
 
     @GetMapping("/myPage/mymain")

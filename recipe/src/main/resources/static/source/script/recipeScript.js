@@ -135,3 +135,17 @@ function makeReply(){
         }
     })
 }
+
+function deleteReply(e){
+    $.ajax({
+        url: '/recipe/deleteReply',
+        type: 'post',
+        async: true,
+        data: {id: e},
+        dataType: 'text',
+        success(data){
+             alert('삭제되었습니다.');
+            $('#replyList').load(location.href+' #replyList')
+        }
+    })
+}

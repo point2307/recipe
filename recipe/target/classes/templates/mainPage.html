@@ -26,34 +26,34 @@
 		</div>
 		<div class="carousel-inner">
 			<div class="carousel-item active">
-				<svg class="bd-placeholder-img" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false"><rect width="100%" height="100%" fill="#777"/></svg>
+				<img th:src="@{/source/img/}+${banner1.image}" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false"><rect width="100%" height="100%" fill="#777"/></svg>
 
 				<div class="container">
 					<div class="carousel-caption text-start">
-						<h1>Example headline.</h1>
-						<p>Some representative placeholder content for the first slide of the carousel.</p>
+						<h1 style="color:white" th:text="${banner1.title}"></h1>
+						<p style="color:white" th:text="${banner1.content}"></p>
 						<p><a class="btn btn-lg btn-primary" href="/common/recipeList">더 다양한 레시피 보기</a></p>
 					</div>
 				</div>
 			</div>
 			<div class="carousel-item">
-				<svg class="bd-placeholder-img" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false"><rect width="100%" height="100%" fill="#777"/></svg>
+				<img th:src="@{/source/img/}+${banner2.image}" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false"><rect width="100%" height="100%" fill="#777"/></svg>
 
 				<div class="container">
 					<div class="carousel-caption">
-						<h1>Another example headline.</h1>
-						<p>Some representative placeholder content for the second slide of the carousel.</p>
+						<h1 style="color:white" th:text="${banner2.title}"></h1>
+						<p style="color:white" th:text="${banner2.content}"></p>
 						<p><a class="btn btn-lg btn-primary" href="/common/fundingList">현재 진행중인 펀딩</a></p>
 					</div>
 				</div>
 			</div>
 			<div class="carousel-item">
-				<svg class="bd-placeholder-img" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false"><rect width="100%" height="100%" fill="#777"/></svg>
+				<img th:src="@{/source/img/}+${banner3.image}" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false"><rect width="100%" height="100%" fill="#777"/></svg>
 
 				<div class="container">
 					<div class="carousel-caption text-end">
-						<h1>One more for good measure.</h1>
-						<p>Some representative placeholder content for the third slide of this carousel.</p>
+						<h1 style="color:white" th:text="${banner3.title}"></h1>
+						<p style="color:white" th:text="${banner3.content}"></p>
 						<p><a class="btn btn-lg btn-primary" href="#">이벤트 확인하기</a></p>
 					</div>
 				</div>

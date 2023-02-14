@@ -9,7 +9,7 @@ $(document).ready(function(){
             success: function(data) {
                 var result = data;
                 console.log(data);
-
+                $('#recipeList').empty();
                 $.each(result, function(index, item){
                     let title = "'"+item.recipeTitle+"'";
                     let id = "'"+item.recipeId+"'";
@@ -19,6 +19,7 @@ $(document).ready(function(){
                         title+')">추가하기</a></td></tr>'
 
                     console.log(table);
+
                     $('#recipeList').append(table);
                     table.trim()
                 })

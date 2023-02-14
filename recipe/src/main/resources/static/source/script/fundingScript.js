@@ -18,6 +18,7 @@ $(document).ready(function(){
                     let table = '<tr><th><label><input type="checkbox" name="kit" value="'+title+'"></label></th>'+
                         '<td>'+item.kitName+'</td><td>'+price+'</td><td><a href="#" onclick="kitPage('+kitId+')">이동하기</a></td></tr>'
                     console.log(table);
+                    $('#kitList').empty();
                     $('#kitList').append(table);
                     table.trim()
                 })

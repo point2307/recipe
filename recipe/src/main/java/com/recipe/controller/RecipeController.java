@@ -3,6 +3,7 @@ package com.recipe.controller;
 import com.recipe.dto.*;
 import com.recipe.security.SecurityUser;
 import com.recipe.service.RecipeServiceImpl;
+import com.recipe.service.ReplyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -23,6 +24,8 @@ public class RecipeController {
 
     @Autowired
     private RecipeServiceImpl recipeService;
+    @Autowired
+    private ReplyService replyService;
     // 좋아요 체크 메소드
 
     public void checklikeRecipe(Member member, Recipe recipe){
@@ -165,6 +168,15 @@ public class RecipeController {
             return 1;
         }
     }
+
+    @PostMapping("/recipe/deleteReply")
+    @ResponseBody
+    public int deleteRecipeReply(Long id){
+        replyService.deleteReply(id);
+        return 1;
+    }
+
+
 
     @GetMapping("/myPage/likeyRecipeList")
     public String getLikeyRecipeList(@PageableDefault(size=6,sort = "recipeId", direction = Sort.Direction.DESC) Pageable pageable, Model model, @AuthenticationPrincipal SecurityUser user) {

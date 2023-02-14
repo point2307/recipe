@@ -18,10 +18,6 @@ public class BoardServiceImpl implements BoardService {
 	private BoardRepo bRepo;
 	@Override
 	public Page<Board> getBoardList(Pageable paging){
-		if(paging == null){
-			paging = PageRequest.of(0, 10, Sort.Direction.DESC, "boardId");
-		}
-
 		return bRepo.getBoardList(paging);
 	}
 

@@ -23,11 +23,6 @@
     <div class="col-10">
       <h2 th:align="center">자유게시판</h2>
       <br><br>
-      <figure><a th:href="@{/board/insertBoardForm}">새글 등록</a></figure>
-      <figure class="text-end">
-        <a th:href="@{/common/boardList(sort='boardRegedit,desc')}">최신순</a> /
-        <a th:href="@{/common/boardList(sort='boardLikedCount,desc')}">추천순</a>
-      </figure>
   <table class="table table-striped table-hover">
     <tr>
       <th width="100">번호</th>
@@ -45,22 +40,8 @@
       <td th:text="${board.boardLikedCount}"></td>
     </tr>
   </table>
+  <a th:href="@{/board/insertBoardForm}">새글 등록</a>
 
-
-      <form>
-        <div class="input-group mx-auto" id="search" style="max-width: 500px; align-self: center ">
-          <select name="searchCondition" class="form-select form-select-sm">
-            <option value="Title">제목</option>
-            <option value="mater">재료</option>
-            <option value="content">내용</option>
-            <option value="Writer">작성자</option>
-          </select>
-
-          <input type="text" name="searchContent" class="form-control">
-          <button class="btn btn-outline-secondary" type="button" id="button-addon2">검색하기</button>
-        </div>
-      </form>
-  <br>
   <div class="btn-toolbar mx-auto" role="toolbar" aria-label="Toolbar with button groups">
     <div class="col text-center">
     <div class="page-num"

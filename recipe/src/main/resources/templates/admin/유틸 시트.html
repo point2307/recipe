@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<!-- 검색폼 데이터 -->
+<form>
+  <div class="input-group mx-auto" id="search" style="max-width: 500px; align-self: center ">
+    <select name="searchCondition" class="form-select form-select-sm">
+      <option value="Title">제목</option>
+      <option value="mater">재료</option>
+      <option value="content">내용</option>
+      <option value="Writer">작성자</option>
+    </select>
+
+    <input type="text" name="searchContent" class="form-control">
+    <button class="btn btn-outline-secondary" type="button" id="button-addon2">검색하기</button>
+  </div>
+</form>
+
+<!-- 페이징 처리 버튼 -->
+<div class="btn-toolbar mx-auto" role="toolbar" aria-label="Toolbar with button groups">
+  <div class="col text-center">
+    <div class="page-num"
+         th:with="start=${(kitList.number/10)*10 + 1},
+                  end=(${(kitList.totalPages == 0) ? 1 : (start + (10 - 1) < kitList.totalPages ? start + (10 - 1) : kitList.totalPages)})" >
+
+      <button th:if="${start > 1}" type="button" class="btn btn-secondary" th:onclick="|location.href='@{/common/kitList(page=0)}'|" th:text="'<<'"></button>
+      <button th:if="${start > 1}" type="button" class="btn btn-secondary" th:onclick="|location.href='@{/common/kitList(page=${start - 10})}'|" th:text="'<'"></button>
+      <th:block th:each="page: ${#numbers.sequence(start, end)}">
+        <button type="button" class="btn btn-secondary" th:onclick="|location.href='@{/common/kitList(page=${page-1})}'|" th:text="${page}"></button>
+      </th:block>
+      <button th:if="${end < kitList.totalPages}" type="button" class="btn btn-secondary" th:onclick="|location.href='@{/common/kitList(page=${start + 10})}'|" th:text="'>'"></button>
+      <button th:if="${end < kitList.totalPages}" type="button" class="btn btn-secondary" th:onclick="|location.href='@{/common/kitList(page=${kitList.totalPages-1})}'|" th:text="'>>'"></button>
+
+    </div>
+  </div>
+</div>
+</body>
+</html>

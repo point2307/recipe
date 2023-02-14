@@ -3,6 +3,7 @@ package com.recipe.controller;
 import com.recipe.dto.Cart;
 import com.recipe.dto.Member;
 import com.recipe.security.SecurityUser;
+import com.recipe.service.AdminService;
 import com.recipe.service.CartService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -19,15 +20,14 @@ public class CommonController {
 
     @Autowired
     private CartService cartService;
+    @Autowired
+    private AdminService adminService;
 
-    @RequestMapping("/mainPage")
-    public String mainPage(){
-
-        return "/mainPage";
-    }
-    @RequestMapping("/")
-    public String mainPage2(){
-
+    @RequestMapping({"/mainPage", "/"})
+    public String mainPage(Model model){
+        model.addAttribute("banner1", adminService.recipeBanner());
+        model.addAttribute("banner2", adminService.fundingBanner());
+        model.addAttribute("banner3", adminService.eventBanner());
         return "/mainPage";
     }
 
@@ -56,4 +56,5 @@ public class CommonController {
     public String adminPage(){
         return "/admin/adminMain";
     }
+
 }

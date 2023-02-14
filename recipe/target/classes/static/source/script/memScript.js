@@ -1,5 +1,5 @@
 function idCheck(){
-        let id = $("#userId").val();
+        const id = $("#userId").val();
         $.ajax({
                 type: "get",
                 async: false,
@@ -10,7 +10,7 @@ function idCheck(){
                                 $("#message").text("이미 사용중인 ID 입니다.");
                         }else {
                                 $("#message").text("사용 가능한 ID 입니다.");
-                                $("#reid").value(id);
+                                $('#reid').prop('value',id);
                         }
                 }
         })

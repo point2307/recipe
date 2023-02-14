@@ -7,6 +7,9 @@ import com.recipe.service.RecipeServiceImpl;
 import com.recipe.util.File;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -60,6 +63,14 @@ public class MealkitController {
         List<Recipe> recipeList = recipeService.famousList(50).getContent();
         System.out.println(recipeList);
         return recipeList;
+    }
+
+    @GetMapping("/common/kitList")
+    public String kitList(@PageableDefault(size = 6, sort = "kitId", direction = Sort.Direction.DESC)Pageable pageable,
+                          Model model){
+
+        model.addAttribute("kitList", mealkitService.getKitList(pageable));
+        return"/common/kitList";
     }
 
 }

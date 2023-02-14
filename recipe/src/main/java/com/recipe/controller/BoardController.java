@@ -27,6 +27,7 @@ public class BoardController {
 
     @GetMapping("/common/boardList")
     public String getBoardList(Model model, @PageableDefault(sort = "boardId" ,direction = Sort.Direction.DESC) Pageable paging){
+
         Page<Board> list = boardService.getBoardList(paging);
         System.out.println(list);
 
