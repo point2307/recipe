@@ -1,5 +1,9 @@
-# recipe_CSR
-CSR 방식의 사이트 제작을 위해 react + boot를 이용한 웹앱 제작
-학원에서 한 recipe프로젝트와의 가장 큰 차이점은 다른 사람의 의견을 반영하지 않았다는 점
-그리고 다른 사람과의 협업을 위해 thymeleaf를 사용한 SSR과는 다르게 미들웨어가 있는 CSR방식의 웹앱을 제작하고자 함
+# recipe
+초기 자본이 많이 들어가는 플랫폼 사업 형태의 BM을 구상하고
+이를 바탕으로 만들어본 웹 프로젝트 입니다.
+제작인원이 1인이고 주로 공부중인 부분이 백엔드 부분이라 프론트에 미적인 센스가 부족해보일 수 있습니다.
 
+사용된 기능
+open-jdk 19 / spring-boot 3.0.2 / Oracle / thymeleaf / hibernate JPA
+Html, css, javascript, J Query, BootStrap
+eclipese2022-12, intelij 2022-3
