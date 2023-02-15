@@ -4,6 +4,7 @@ import com.recipe.dto.*;
 import com.recipe.security.SecurityUser;
 import com.recipe.service.RecipeServiceImpl;
 import com.recipe.service.ReplyService;
+import com.recipe.util.Search;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -35,16 +36,23 @@ public class RecipeController {
     }
 
     @GetMapping("/common/recipeList")
-    public String getRecipeList(@PageableDefault(size=6,sort = "recipeId", direction = Sort.Direction.DESC) Pageable pageable, Model model, @AuthenticationPrincipal SecurityUser user)
-            throws AbstractMethodError{
-        Page<Recipe> recipePage = recipeService.getRecipeList(pageable);
+    public String getRecipeList(@PageableDefault(size=6,sort = "recipeId", direction = Sort.Direction.DESC) Pageable pageable, Model model,
+                                @AuthenticationPrincipal SecurityUser user, Search search){
+        System.out.println(search);
+        model.addAttribute("search", search);
+        if(search.getSearchKeyword() == null){
+            search.setSearchCondition("Title");
+            search.setSearchKeyword("");
+        }
+
+        Page<Recipe> recipePage = recipeService.getRecipeList(pageable, search);
         if(user != null) {
             Member mem = user.getMember();
             for (Recipe recipe : recipePage.getContent()) {
                     checklikeRecipe(mem, recipe);
             }
         }
-
+        System.out.println(search);
         model.addAttribute("recipeList",recipePage);
         return "/common/recipeMain";
     }
@@ -114,9 +122,13 @@ public class RecipeController {
     }
 
     @RequestMapping("/common/getRecipe")
-    public String getRecipe(Recipe vo, Model model){
-        model.addAttribute("recipe", recipeService.getRecipeById(vo));
+    public String getRecipe(Recipe vo, Model model, @AuthenticationPrincipal SecurityUser user){
+        Recipe recipe = recipeService.getRecipeById(vo);
+        if(user!=null){
+            checklikeRecipe(user.getMember(), recipe);
+        }
 
+        model.addAttribute("recipe", recipe);
         return "common/getRecipe";
     }
 

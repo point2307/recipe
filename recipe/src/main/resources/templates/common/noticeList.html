@@ -21,15 +21,14 @@
   <div class="container">
     <div class="col"> </div>
     <div class="col-10">
-      <h2 th:align="center">자유게시판</h2>
+      <h2 th:align="center">공 지 사 항</h2>
       <br><br>
   <table class="table table-striped table-hover">
     <tr>
       <th width="100">번호</th>
       <th width="200">제목</th>
-      <th width="150">작성자</th>
+      <th>작성자</th>
       <th width="150">등록일</th>
-      <th width="100">추천수</th>
     </tr>
 
     <tr th:each="board,state:${boardList}">
@@ -37,10 +36,8 @@
       <td align="left"><a th:href="@{getBoard(boardId=${board.boardId})}" th:text="${board.boardTitle}"></a></td>
       <td th:text="${board.boardWriter.nickName}"></td>
       <td th:text="${#dates.format(board.boardRegedit, 'yyyy-MM-dd HH:mm:ss')}"></td>
-      <td th:text="${board.boardLikedCount}"></td>
     </tr>
   </table>
-  <a th:href="@{/board/insertBoardForm}">새글 등록</a>
 
   <div class="btn-toolbar mx-auto" role="toolbar" aria-label="Toolbar with button groups">
     <div class="col text-center">

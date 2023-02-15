@@ -1,11 +1,12 @@
 package com.recipe.service;
 
 import com.recipe.dto.Board;
+import com.recipe.util.Search;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 public interface BoardService {
-    Page<Board> getBoardList(Pageable paging);
+    Page<Board> getBoardList(Pageable paging, Search search);
 
     void insertBoard(Board vo);
 

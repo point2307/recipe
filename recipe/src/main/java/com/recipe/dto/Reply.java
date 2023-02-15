@@ -1,7 +1,6 @@
 package com.recipe.dto;
 
 import java.util.Date;
-import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
@@ -13,7 +12,7 @@ import org.hibernate.annotations.CreationTimestamp;
 @Entity
 @Getter
 @Setter
-@ToString(exclude = {"replyWriter", "board", "recipe", "funding"})
+@ToString(exclude = {"writer", "board", "recipe", "funding"})
 public class Reply {
 	@Id
 	@SequenceGenerator(name = "reply_seq", sequenceName = "reply_seq", allocationSize = 1)
@@ -25,7 +24,7 @@ public class Reply {
 	private Member	writer;
 	private	String	content;
 	
-	@Temporal(TemporalType.DATE)
+	@Temporal(TemporalType.TIMESTAMP)
 	@CreationTimestamp
 	private	Date regdate;
 	

@@ -86,8 +86,8 @@ function likeRecipe(e) {
      success(data){
          console.log(data)
          if(data == 1){
-             $('#'+e).load(location.href+' #'+e)
-
+             $('#'+e).load(location.href+' #'+e);
+             $('#likeDiv').load(location.href+' #likeDiv')
          } else{
              alert('좋아요는 로그인 후 사용 가능합니다.!')
          }
@@ -106,7 +106,8 @@ function notlikeRecipe(e) {
         data: {data: e},
         dataType: 'text',
         success(data){
-            $('#'+e).load(location.href+' #'+e)
+            $('#'+e).load(location.href+' #'+e);
+            $('#likeDiv').load(location.href+' #likeDiv');
         }
     })
 
@@ -122,7 +123,7 @@ function makeReply(){
     $.ajax({
         url: '/recipe/makeReply',
         type: 'post',
-        async: true,
+        async: false,
         data: {recipe:recipe, content:content},
         dataType: 'text',
         success(data){
@@ -149,3 +150,4 @@ function deleteReply(e){
         }
     })
 }
+

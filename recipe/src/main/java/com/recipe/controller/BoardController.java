@@ -4,7 +4,9 @@ import com.recipe.dto.Board;
 import com.recipe.security.SecurityUser;
 import com.recipe.service.BoardServiceImpl;
 import com.recipe.util.File;
+import com.recipe.util.Search;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.context.properties.bind.DefaultValue;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -26,9 +28,14 @@ public class BoardController {
     private BoardServiceImpl boardService;
 
     @GetMapping("/common/boardList")
-    public String getBoardList(Model model, @PageableDefault(sort = "boardId" ,direction = Sort.Direction.DESC) Pageable paging){
-
-        Page<Board> list = boardService.getBoardList(paging);
+    public String getBoardList(Model model, @PageableDefault(sort = "boardId" ,direction = Sort.Direction.DESC) Pageable paging,
+                               Search search){
+        model.addAttribute("search", search);
+        if(search.getSearchKeyword() == null){
+            search.setSearchCondition("Title");
+            search.setSearchKeyword("");
+        }
+        Page<Board> list = boardService.getBoardList(paging,search);
         System.out.println(list);
 
         model.addAttribute("boardList", list);

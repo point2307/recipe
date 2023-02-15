@@ -21,9 +21,8 @@
   <div class="container px-4 py-5" id="custom-cards">
     <h2 class="pb-2 border-bottom">지금까지 출시했던 밀키트</h2>
     <br><br>
-    <figure><a th:href="@{/board/insertBoardForm}">새글 등록</a></figure>
     <figure class="text-end">
-      <a th:href="@{/common/kitList(sort='kitId,desc')}">최신순</a> /
+      <a th:href="@{/common/kitList(sort='kitId,desc')}">최근출시순</a> /
       <a th:href="@{/common/kitList(sort='price,desc')}">가격순</a>
     </figure>
 <div class="row">
@@ -39,7 +38,7 @@
                   <middle th:text="'판매량 : '+${#aggregates.sum(kit.funding.![selling])}"></middle>
                 </li>
                 <li class="d-flex align-items-center">
-
+                  <middle th:text="'가격 : '+${kit.price}"></middle>
                 </li>
               </ul>
             </div>

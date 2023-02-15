@@ -1,6 +1,9 @@
 package com.recipe.service;
 
+import com.querydsl.core.BooleanBuilder;
 import com.recipe.dto.Board;
+import com.recipe.dto.QBoard;
+import com.recipe.util.Search;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -17,8 +20,18 @@ public class BoardServiceImpl implements BoardService {
 	@Autowired
 	private BoardRepo bRepo;
 	@Override
-	public Page<Board> getBoardList(Pageable paging){
-		return bRepo.getBoardList(paging);
+	public Page<Board> getBoardList(Pageable paging, Search search){
+		BooleanBuilder builder = new BooleanBuilder();
+
+		QBoard qboard = QBoard.board;
+		if(search.getSearchCondition().equals("Title")){
+			builder.and(qboard.boardTitle.like("%" + search.getSearchKeyword()+ "%"));
+		} else if(search.getSearchCondition().equals("content")){
+			builder.and(qboard.boardContent.like("%"+search.getSearchKeyword()+ "%"));
+		} else if(search.getSearchCondition().equals("Writer")){
+			builder.and(qboard.boardWriter.nickName.like("%"+search.getSearchKeyword()+"%"));
+		}
+		return bRepo.findAll(builder, paging);
 	}
 
 	@Override

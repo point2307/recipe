@@ -1,6 +1,7 @@
 package com.recipe.service;
 
 import com.recipe.dto.*;
+import com.recipe.util.Search;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -13,7 +14,7 @@ public interface RecipeService {
 
     void deleteRecipe(Recipe vo);
 
-    Page<Recipe> getRecipeList(Pageable pageable);
+    Page<Recipe> getRecipeList(Pageable pageable, Search search);
 
     Recipe getRecipeById(Recipe vo);
 

@@ -3,6 +3,7 @@ package com.recipe.service;
 import com.querydsl.core.BooleanBuilder;
 import com.recipe.dto.*;
 import com.recipe.persistence.*;
+import com.recipe.util.Search;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
@@ -10,7 +11,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class RecipeServiceImpl implements RecipeService {
@@ -56,8 +56,16 @@ public class RecipeServiceImpl implements RecipeService {
     }
 
     @Override
-    public Page<Recipe> getRecipeList(Pageable pageable) {
-        return recipeRepo.getAllRecipe(pageable);
+    public Page<Recipe> getRecipeList(Pageable pageable, Search search) {
+        BooleanBuilder builder = new BooleanBuilder();
+        QRecipe qrecipe = QRecipe.recipe;
+        if(search.getSearchCondition().equals("Title")){
+            builder.and(qrecipe.recipeTitle.like("%" + search.getSearchKeyword()+ "%"));
+        } else if(search.getSearchCondition().equals("mater")){
+            builder.and(qrecipe.rawMaterList.any().mater.materName.like("%"+search.getSearchKeyword()+ "%"));
+        }
+
+        return recipeRepo.findAll(builder, pageable);
     }
 
     @Override

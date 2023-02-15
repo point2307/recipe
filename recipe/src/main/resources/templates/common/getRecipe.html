@@ -30,7 +30,7 @@
           <p th:text="${recipe.amount}+'인분'"></p></div>
         <div class="col-4" style="border-right: 1px solid blueviolet"> 소요시간<br>
           <p th:text="${recipe.recipeCookingTime}+'분'"></p></div>
-        <div class="col-4"> 추천 수<br>
+        <div class="col-4" id="likeDiv"> 추천 수<br>
          <p class="bold" th:text="${recipe.likeCount}"></p></div>
         </div>
           <div><h3>주요 재료</h3></div>
@@ -53,8 +53,27 @@
           </tr>
         </th:block>
       </table>
+        <hr>
+        <div class="card-body" th:id="${recipe.recipeId}">
+            <button th:if="${recipe.checkLike == 1}"
+                    type="button" class="btn btn-outline-danger" id="notlikebtn" th:onclick="'notlikeRecipe('+${recipe.recipeId}+')'">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart-fill" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"></path>
+                </svg>
+                좋아요 취소
+            </button>
+            <button th:if="${recipe.checkLike == 0}"
+                    type="button" class="btn btn-outline-danger" id="likebtn" th:onclick="'likeRecipe('+${recipe.recipeId}+')'">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart-fill" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"></path>
+                </svg>
+                좋아요
+            </button>
+        </div>
         <br/><br/>
-      <div class="replyList">
+
+
+      <div class="replyList" id="replyList">
         <th:block sec:authorize="isAuthenticated()">
            <th:block th:each="reply : ${recipe.replyList}">
                <th:block th:if="${reply.writer.userId != #authentication.principal.member.userId}">
@@ -106,7 +125,6 @@
                       <br/>
                   </th:block>
               </th:block>
-
       </div>
         <br/><br/>
       <div>

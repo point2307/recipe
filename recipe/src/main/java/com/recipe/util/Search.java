@@ -11,4 +11,6 @@ public class Search {
 
     private String searchCondition;
     private String searchKeyword;
+    private String sort;
+    private String page;
 }
