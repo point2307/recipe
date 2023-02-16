@@ -18,12 +18,13 @@
           <div class="header__top__links" sec:authorize="!isAuthenticated()">
            <a th:href="@{/common/getCart}">cart</a>
            <a th:href="@{/member/register_form}">Sign in</a>
+   <!--Oauth 로그인창        <a th:href="@{/login/oauth2/code/google}">Log in</a>  -->
            <a th:href="@{/system/login}">Log in</a>
           </div>
           <!-- 회원일 경우 -->
 
           <div class="header__top__hover" sec:authorize="isAuthenticated()"><i class="arrow_carrot-down"></i>
-           <a th:href="@{/myPage/mymain}"><span sec:authentication="principal.member.name"> </span><span>님 환영합니다.</span>
+             <a th:href="@{/myPage/mymain}"><span sec:authentication="principal.member.name"> </span><span>님 환영합니다.</span>
              <img th:width="20px" class="rounded-circle mr-3" th:height="20px" th:src="@{/source/img/}+${#authentication.principal.member.proImg}"/></a>
            <ul>
             <li><a th:href="@{/common/getCart}">My cart</a></li>

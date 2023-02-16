@@ -4,13 +4,14 @@ import java.util.List;
 
 import jakarta.persistence.*;
 
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 @Entity
 @Getter
 @Setter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @ToString(exclude = {"material"})
 public class Member {
 	@Id
@@ -31,5 +32,12 @@ public class Member {
 	@Enumerated(EnumType.STRING)
 	private Role role;
 	private String fax;
-	
+
+	public Member update(String name, String picture){
+		this.name = name;
+		this.proImg = picture;
+
+		return this;
+	}
+
 }
