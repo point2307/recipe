@@ -5,6 +5,7 @@ import com.recipe.dto.Member;
 import com.recipe.security.SecurityUser;
 import com.recipe.service.AdminService;
 import com.recipe.service.CartService;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
@@ -57,4 +58,12 @@ public class CommonController {
         return "/admin/adminMain";
     }
 
+    @GetMapping("/oauth2Suc")
+    public String loginsuccess(Model model, HttpSession session){
+        Member member = (Member) session.getAttribute("member");
+        SecurityUser user = new SecurityUser(member);
+
+        return "/mainPage";
+
+    }
 }
