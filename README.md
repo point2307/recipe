@@ -5,9 +5,12 @@
 
 2023-02-15 초기 형태 완성
 
-2023-02-16 Jwt, OAuth2 로그인 도입 시도 -> AuthenticationPrincipal 사용이 제한되어서 
-프론트 백 여러 부분의 수정이 필요한 관계로 주석형태로 기능만 남겨둠 
-Security Config / header 부분 주석 수정을 통해서 확인만 가능
+2023-02-16 OAuth2 로그인 도입 시도 -> AuthenticationPrincipal 사용이 제한되어서 
+각종 기능과 뷰 페이지에 다수의 수정이 필요한 관계로 주석형태로 기능만 남겨둠 
+pom의 oauth2 의존성 주입, security폴더의 SecurityOauth2Service 주석취소,
+SecurityConfig 의 주석부분 변경
+apprecation.properties의 Oauth2주석 취소
+프론트의 header 부분 주석 수정을 통해서 로그인 방식 변경 가능
 
 
 사용된 기능
