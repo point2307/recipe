@@ -21,15 +21,16 @@ public class Board {
 	
 	@ManyToOne
 	@JoinColumn(name = "writer")
-	private	Member	boardWriter;
-	private	String	boardKind;
-	private	String	boardTitle;
-	private	String	boardContent;
+	private	Member	writer;
+	private	String	category;
+	private	String	title;
+	private	String	content;
 	@Temporal(TemporalType.TIMESTAMP)
 	@CreationTimestamp
+	@Column(updatable = false)
 	private	Date	boardRegedit;
 	private	String	boardImage;  // 후기에만 사용 가능
-	private	int 	boardLikedCount;
+	private	int 	likedCount;
 	private	int	    boardAlert;
 	private int boardCnt;  // 조회수
 	@ManyToOne
@@ -44,7 +45,7 @@ public class Board {
 	@PrePersist
 	public void prePersist(){
 		boardAlert = 0;
-		boardLikedCount = 0;
+		likedCount = 0;
 		boardCnt = 0;
 	}
 

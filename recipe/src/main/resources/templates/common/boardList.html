@@ -26,7 +26,7 @@
       <figure><a th:href="@{/board/insertBoardForm}">새글 등록</a></figure>
       <figure class="text-end">
         <a th:href="@{/common/boardList(sort='boardRegedit,desc')}">최신순</a> /
-        <a th:href="@{/common/boardList(sort='boardLikedCount,desc')}">추천순</a>
+        <a th:href="@{/common/boardList(sort='likedCount,desc')}">추천순</a>
       </figure>
   <table class="table table-striped table-hover">
     <tr>
@@ -39,10 +39,10 @@
 
     <tr th:each="board,state:${boardList}">
       <td th:text="${board.boardId}"></td>
-      <td align="left"><a th:href="@{getBoard(boardId=${board.boardId})}" th:text="${board.boardTitle}"></a></td>
-      <td th:text="${board.boardWriter.nickName}"></td>
+      <td align="left"><a th:href="@{getBoard(boardId=${board.boardId})}" th:text="${board.title}"></a></td>
+      <td th:text="${board.writer.nickName}"></td>
       <td th:text="${#dates.format(board.boardRegedit, 'yyyy-MM-dd HH:mm:ss')}"></td>
-      <td th:text="${board.boardLikedCount}"></td>
+      <td th:text="${board.likedCount}"></td>
     </tr>
   </table>
 

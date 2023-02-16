@@ -59,8 +59,9 @@ public class MealkitController {
 
     @PostMapping("/admin/famousRecipe")
     @ResponseBody
-    public List<Recipe> famousRecipe(){
-        List<Recipe> recipeList = recipeService.famousList(50).getContent();
+    public List<Recipe> famousRecipe(int recom){
+        System.out.println(recom);
+        List<Recipe> recipeList = recipeService.famousList(recom).getContent();
         System.out.println(recipeList);
         return recipeList;
     }

@@ -52,7 +52,7 @@ public class BoardController {
     public String insertBoard(Board vo, @AuthenticationPrincipal SecurityUser principal,
                               @RequestParam(value ="image", required = false)MultipartFile image)
     throws Exception{
-        if(vo.getBoardKind().equals("300")){
+        if(vo.getCategory().equals("300")){
             if(image.isEmpty()){
                 vo.setBoardImage("noImg.jpg");
             } else{
@@ -64,7 +64,7 @@ public class BoardController {
             }
         }
 
-        vo.setBoardWriter(principal.getMember());
+        vo.setWriter(principal.getMember());
         boardService.insertBoard(vo);
         return "redirect:/common/getBoard?boardId="+vo.getBoardId();
     }

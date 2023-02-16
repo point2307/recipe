@@ -82,7 +82,14 @@
 
 
             <div class="input-group mb-3">
-              <span class="input-group-text">레시피 검색</span>
+              레시피 추천 기준 :
+              <input type='radio' name='recom' value='50' checked/>50이상
+              <input type='radio' name='recom' value='100' />100이상
+              <input type='radio' name='recom' value='200' />200이상
+              <input type='radio' name='recom' value='500' />500이상
+
+            </div>
+            <div class="input-group mb-3">
               <input type="text" name="recipeTitle" id="recipeTitle" readonly="readonly" class="form-control">
               <button class="btn btn-outline-secondary" type="button" id="recipebtn">레시피검색</button>
             </div>

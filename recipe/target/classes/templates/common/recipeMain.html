@@ -28,26 +28,26 @@
         <figure th:if="${search.searchKeyword.isEmpty()} and ${search.page==null}" class="text-end">
           <a th:href="@{/common/recipeList(sort='recipeRegedit,desc')}">최신순</a> /
           <a th:href="@{/common/recipeList(sort='likeCount,desc')}">인기순</a> /
-          <a th:href="@{/common/recipeList(sort='recipeCookingTime,asc')}">짧은 조리시간</a> /
-          <a th:href="@{/common/recipeList(sort='recipeCookingTime,desc')}">긴 조리시간</a>
+          <a th:href="@{/common/recipeList(sort='cookingTime,asc')}">짧은 조리시간</a> /
+          <a th:href="@{/common/recipeList(sort='cookingTime,desc')}">긴 조리시간</a>
         </figure>
         <figure th:if="${!search.searchKeyword.isEmpty()} and ${search.page==null}" class="text-end">
           <a th:href="@{/common/recipeList(searchCondition=${search.searchCondition},searchKeyword=${search.searchKeyword},sort='recipeRegedit,desc')}">최신순</a> /
           <a th:href="@{/common/recipeList(searchCondition=${search.searchCondition},searchKeyword=${search.searchKeyword},sort='likeCount,desc')}">인기순</a> /
-          <a th:href="@{/common/recipeList(searchCondition=${search.searchCondition},searchKeyword=${search.searchKeyword},sort='recipeCookingTime,asc')}">짧은 조리시간</a> /
-          <a th:href="@{/common/recipeList(searchCondition=${search.searchCondition},searchKeyword=${search.searchKeyword},sort='recipeCookingTime,desc')}">긴 조리시간</a>
+          <a th:href="@{/common/recipeList(searchCondition=${search.searchCondition},searchKeyword=${search.searchKeyword},sort='cookingTime,asc')}">짧은 조리시간</a> /
+          <a th:href="@{/common/recipeList(searchCondition=${search.searchCondition},searchKeyword=${search.searchKeyword},sort='cookingTime,desc')}">긴 조리시간</a>
         </figure>
         <figure th:if="${search.searchKeyword.isEmpty()} and ${search.page!=null}" class="text-end">
           <a th:href="@{/common/recipeList(page=${search.page},sort='recipeRegedit,desc')}">최신순</a> /
           <a th:href="@{/common/recipeList(page=${search.page},sort='likeCount,desc')}">인기순</a> /
-          <a th:href="@{/common/recipeList(page=${search.page},sort='recipeCookingTime,asc')}">짧은 조리시간</a> /
-          <a th:href="@{/common/recipeList(page=${search.page},sort='recipeCookingTime,desc')}">긴 조리시간</a>
+          <a th:href="@{/common/recipeList(page=${search.page},sort='cookingTime,asc')}">짧은 조리시간</a> /
+          <a th:href="@{/common/recipeList(page=${search.page},sort='cookingTime,desc')}">긴 조리시간</a>
         </figure>
         <figure th:if="${!search.searchKeyword.isEmpty()} and ${search.page!=null}" class="text-end">
           <a th:href="@{/common/recipeList(page=${search.page},searchCondition=${search.searchCondition},searchKeyword=${search.searchKeyword},sort='recipeRegedit,desc')}">최신순</a> /
           <a th:href="@{/common/recipeList(page=${search.page},searchCondition=${search.searchCondition},searchKeyword=${search.searchKeyword},sort='likeCount,desc')}">인기순</a> /
-          <a th:href="@{/common/recipeList(page=${search.page},searchCondition=${search.searchCondition},searchKeyword=${search.searchKeyword},sort='recipeCookingTime,asc')}">짧은 조리시간</a> /
-          <a th:href="@{/common/recipeList(page=${search.page},searchCondition=${search.searchCondition},searchKeyword=${search.searchKeyword},sort='recipeCookingTime,desc')}">긴 조리시간</a>
+          <a th:href="@{/common/recipeList(page=${search.page},searchCondition=${search.searchCondition},searchKeyword=${search.searchKeyword},sort='cookingTime,asc')}">짧은 조리시간</a> /
+          <a th:href="@{/common/recipeList(page=${search.page},searchCondition=${search.searchCondition},searchKeyword=${search.searchKeyword},sort='cookingTime,desc')}">긴 조리시간</a>
         </figure>
 
         <th:block>
@@ -61,7 +61,7 @@
           </div>
           <ul class="list-group list-group-flush">
             <li class="list-group-item" th:text="${recipe.amount} + '인분'"></li>
-            <li class="list-group-item" th:text="${recipe.recipeCookingTime}+'분'"></li>
+            <li class="list-group-item" th:text="${recipe.cookingTime}+'분'"></li>
           </ul>
           <div class="card-body" th:id="${recipe.recipeId}">
             <li class="list-group-item" id="count" th:text="${recipe.likeCount}"></li>

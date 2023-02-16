@@ -25,11 +25,11 @@ public class BoardServiceImpl implements BoardService {
 
 		QBoard qboard = QBoard.board;
 		if(search.getSearchCondition().equals("Title")){
-			builder.and(qboard.boardTitle.like("%" + search.getSearchKeyword()+ "%"));
+			builder.and(qboard.title.like("%" + search.getSearchKeyword()+ "%"));
 		} else if(search.getSearchCondition().equals("content")){
-			builder.and(qboard.boardContent.like("%"+search.getSearchKeyword()+ "%"));
+			builder.and(qboard.content.like("%"+search.getSearchKeyword()+ "%"));
 		} else if(search.getSearchCondition().equals("Writer")){
-			builder.and(qboard.boardWriter.nickName.like("%"+search.getSearchKeyword()+"%"));
+			builder.and(qboard.writer.nickName.like("%"+search.getSearchKeyword()+"%"));
 		}
 		return bRepo.findAll(builder, paging);
 	}
@@ -42,8 +42,8 @@ public class BoardServiceImpl implements BoardService {
 	@Override
 	public void updateBoard(Board vo) {
 		Board update = bRepo.findById(vo.getBoardId()).get();
-		update.setBoardTitle(vo.getBoardTitle());
-		update.setBoardContent(vo.getBoardContent());
+		update.setTitle(vo.getTitle());
+		update.setContent(vo.getContent());
 
 		bRepo.save(update);
 	}

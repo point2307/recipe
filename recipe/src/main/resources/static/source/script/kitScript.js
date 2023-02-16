@@ -1,9 +1,13 @@
 
 $(document).ready(function(){
     $('#recipebtn').click(function() {
+
+        let recom = $('input[name="recom"]:checked').val();
+        console.log(recom);
         $.ajax({
             type: "post",
             async: true,
+            data:{recom : recom},
             dataType: 'json',
             url: "http://localhost:8080/admin/famousRecipe",
             success: function(data) {

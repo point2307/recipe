@@ -85,7 +85,7 @@ public class RecipeServiceImpl implements RecipeService {
 
         QRecipe qrecipe = QRecipe.recipe;
         builder.and(qrecipe.likeCount.goe(set));
-        Pageable paging = PageRequest.of(0, 6, Sort.Direction.DESC, "likeCount");
+        Pageable paging = PageRequest.of(0, 15, Sort.Direction.DESC, "likeCount");
 
         return recipeRepo.findAll(builder, paging);
     }

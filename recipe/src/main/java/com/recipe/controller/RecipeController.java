@@ -38,7 +38,6 @@ public class RecipeController {
     @GetMapping("/common/recipeList")
     public String getRecipeList(@PageableDefault(size=6,sort = "recipeId", direction = Sort.Direction.DESC) Pageable pageable, Model model,
                                 @AuthenticationPrincipal SecurityUser user, Search search){
-        System.out.println(search);
         model.addAttribute("search", search);
         if(search.getSearchKeyword() == null){
             search.setSearchCondition("Title");
@@ -52,7 +51,6 @@ public class RecipeController {
                     checklikeRecipe(mem, recipe);
             }
         }
-        System.out.println(search);
         model.addAttribute("recipeList",recipePage);
         return "/common/recipeMain";
     }
@@ -109,12 +107,9 @@ public class RecipeController {
                 rawMaters.add(raws);
             }
         }
-        System.out.println(procList);
-        System.out.println(rawMaters);
-
         vo.setRawMaterList(rawMaters);
         vo.setRecipe_process(procList);
-        vo.setRecipeCookingTime((hour*60) + (minute));
+        vo.setCookingTime((hour*60) + (minute));
         vo.setWriter(principal.getMember());
 
         recipeService.makeRecipe(vo);
@@ -135,8 +130,6 @@ public class RecipeController {
     @GetMapping("/recipe/searchMater")
     @ResponseBody
     public List<Material> showMaterlist(String value){
-        System.out.println(value);
-        System.out.println(recipeService.searchMater(value));
         return recipeService.searchMater(value);
     }
 

@@ -32,7 +32,7 @@
 					<div class="carousel-caption text-start">
 						<h1 style="color:white" th:text="${banner1.title}"></h1>
 						<p style="color:white" th:text="${banner1.content}"></p>
-						<p><a class="btn btn-lg btn-primary" href="/common/recipeList">더 다양한 레시피 보기</a></p>
+						<p><a class="btn btn-lg btn-primary" th:href="@{/common/recipeList(searchCondition='mater',searchKeyword='딸기')}">더 다양한 레시피 보기</a></p>
 					</div>
 				</div>
 			</div>
@@ -69,11 +69,12 @@
 		</button>
 	</div>
 	<br>
-	<div class="container marketing" sec:authorized="isAuthenticated()">
-		<h3>추천 메뉴</h3>
+	<div class="container marketing">
+
 	<br>
 		<!-- 로그인시 등록된 식재료로 추천메뉴 추천 -->
-		<div class="row">
+		<div class="row" sec:authorize="isAuthenticated()">
+			<h3>맞춤형 추천 메뉴</h3>
 			<div class="col-lg-4">
 				<svg class="bd-placeholder-img rounded-circle" width="140" height="140" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 140x140" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#777"/><text x="50%" y="50%" fill="#777" dy=".3em">140x140</text></svg>
 

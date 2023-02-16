@@ -4,7 +4,7 @@ function addRaws(){
     let mater = $('#searchBox').val();
     let amount= $('#rawAmount').val();
 
-    $('#materList').append('<li id="raw"'+rawCount+'"><a href="#" onclick="deleteThis('+rawCount+
+    $('#materList').append('<li id="raw'+rawCount+'"><a href="#" onclick="deleteThis('+rawCount+
         ')">'+mater+':'+amount+'</a><input type="hidden" name="mater" value="'+mater+'"/>' +
         '<input type="hidden" name="rawsize" value="'+amount+'"/></li>')
 

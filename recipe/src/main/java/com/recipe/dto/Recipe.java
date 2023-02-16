@@ -22,7 +22,7 @@ public class Recipe {
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "recipe_seq")
 	private	Long		recipeId;
 	private	String	recipeTitle;
-	private	int		recipeCookingTime;
+	private	int		cookingTime;
 
 	private	int	amount;
 	private	String image;
