@@ -184,8 +184,13 @@ public class RecipeController {
 
 
     @GetMapping("/myPage/likeyRecipeList")
-    public String getLikeyRecipeList(@PageableDefault(size=6,sort = "recipeId", direction = Sort.Direction.DESC) Pageable pageable, Model model, @AuthenticationPrincipal SecurityUser user) {
-
+    public String getLikeyRecipeList(@PageableDefault(size=6,sort = "recipeId", direction = Sort.Direction.DESC) Pageable pageable, Model model, @AuthenticationPrincipal SecurityUser user
+       ,Search search){
+            model.addAttribute("search", search);
+            if(search.getSearchKeyword() == null){
+                search.setSearchCondition("Title");
+                search.setSearchKeyword("");
+            }
         Page<Recipe> recipePage = recipeService.likeyRecipe(user.getMember(), pageable);
 
         model.addAttribute("recipeList",recipePage);

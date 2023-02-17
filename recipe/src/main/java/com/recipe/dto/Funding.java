@@ -30,6 +30,8 @@ public class Funding {
 	private List<FundingKit> fundingKit = new ArrayList<>();
 	private int likeCount;
 
+	private String process;
+
 	@Transient
 	private int checkLike;
 

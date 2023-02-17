@@ -5,6 +5,7 @@ import com.recipe.dto.Member;
 import com.recipe.security.SecurityUser;
 import com.recipe.service.AdminService;
 import com.recipe.service.CartService;
+import com.recipe.service.RecipeService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -20,15 +21,22 @@ import java.util.List;
 public class CommonController {
 
     @Autowired
+    private RecipeService recipeService;
+    @Autowired
     private CartService cartService;
     @Autowired
     private AdminService adminService;
 
     @RequestMapping({"/mainPage", "/"})
-    public String mainPage(Model model){
+    public String mainPage(Model model, @AuthenticationPrincipal SecurityUser user){
+        if(user != null){
+            model.addAttribute("recipe", recipeService.mainPageRecipe(user.getMember()));
+        }
+
         model.addAttribute("banner1", adminService.recipeBanner());
         model.addAttribute("banner2", adminService.fundingBanner());
         model.addAttribute("banner3", adminService.eventBanner());
+        model.addAttribute("column", adminService.columnList());
         return "/mainPage";
     }
 

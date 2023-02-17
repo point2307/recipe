@@ -28,6 +28,10 @@ public class RecipeServiceImpl implements RecipeService {
 
     @Autowired
     private ReplyRepo replyRepo;
+    @Autowired
+    private MyMaterialRepo myMaterialRepo;
+    @Autowired
+    private RawMaterRepo rawMaterRepo;
 
     @Override
     public void makeRecipe(Recipe vo) {
@@ -160,6 +164,21 @@ public class RecipeServiceImpl implements RecipeService {
         Page<Recipe> page = new PageImpl<>(recipeList,pageable,recipeList.size());
 
         return page;
+    }
+
+    public List<Recipe> mainPageRecipe(Member mem){
+        List<MyMaterial> list = myMaterialRepo.findByMember(mem);
+        List<Recipe> recipeList = new ArrayList<>();
+        Material mater = list.get((int)(Math.random()*list.size())).getMaterial();
+        List<RawMater> list1 = rawMaterRepo.findByMater(mater);
+        for(RawMater rawMater : list1){
+            recipeList.add(rawMater.getRecipe());
+            if(recipeList.size() == 2){
+                break;
+            }
+        }
+
+        return recipeList;
     }
 
 }

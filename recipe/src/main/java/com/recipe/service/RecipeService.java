@@ -39,4 +39,6 @@ public interface RecipeService {
     void saveRecipeReply(Reply reply);
 
     Page<Recipe> likeyRecipe(Member member, Pageable pageable);
+
+    List<Recipe> mainPageRecipe(Member member);
 }

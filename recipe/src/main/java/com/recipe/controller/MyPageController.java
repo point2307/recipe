@@ -188,4 +188,31 @@ public class MyPageController {
         return "redirect:/myPage/buyList?userId="+userId;
     }
 
+    @GetMapping("/myPage/categoryMater")
+    @ResponseBody
+    public List<Material> materials(Long data){
+        System.out.println(data);
+        System.out.println(myPageService.listMater(data));
+        return myPageService.listMater(data);
+    }
+
+    @GetMapping("/myPage/insertMyMater")
+    public String insertMyMater(){
+        return "/myPage/insertMyMater";
+    }
+    @GetMapping("/myPage/insertMater")
+    @ResponseBody
+    public int insertMater(String data, @AuthenticationPrincipal SecurityUser user){
+        if(user==null){
+            return 0;
+        } else {
+            Member member = user.getMember();
+            myPageService.insertMater(member, data);
+            return 1;
+        }
+
+    }
+
+
+
 }

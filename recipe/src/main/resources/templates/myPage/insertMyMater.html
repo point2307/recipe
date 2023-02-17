@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+
+<!-- index.html 고유 CSS 추가 -->
+<th:block layout:fragment="css">
+  <!--    <link rel="stylesheet" th:href="@{/css/page/home.css}" >-->
+</th:block>
+<!-- index.html 고유 스크립트 추가 -->
+<th:block layout:fragment="script">
+      <script th:src="@{/source/script/materScript.js}"></script>
+</th:block>
+
+<!-- Content -->
+<div layout:fragment="content">
+
+  <h2>나의 식재료 등록</h2>
+
+  <p>시간상 일부만 구현</p>
+  <ul id="mater">
+    <li><a href="#" onclick="categoryFirst(0)">식물성 재료</a></li>
+    <li><a href="#" onclick="categoryFirst(1)">동물성 재료</a></li>
+  </ul>
+
+  <ul id="categoryBig">
+
+  </ul>
+
+  <ul id="categoryMiddle">
+
+  </ul>
+    <ul id="categorySmall">
+
+    </ul>
+    <ul id="selectMater">
+
+    </ul>
+
+</div>
+
+</html>
