@@ -169,12 +169,16 @@ public class RecipeServiceImpl implements RecipeService {
     public List<Recipe> mainPageRecipe(Member mem){
         List<MyMaterial> list = myMaterialRepo.findByMember(mem);
         List<Recipe> recipeList = new ArrayList<>();
-        Material mater = list.get((int)(Math.random()*list.size())).getMaterial();
-        List<RawMater> list1 = rawMaterRepo.findByMater(mater);
-        for(RawMater rawMater : list1){
-            recipeList.add(rawMater.getRecipe());
-            if(recipeList.size() == 2){
-                break;
+        if(list.isEmpty()){
+
+        } else {
+            Material mater = list.get((int) (Math.random() * list.size())).getMaterial();
+            List<RawMater> list1 = rawMaterRepo.findByMater(mater);
+            for (RawMater rawMater : list1) {
+                recipeList.add(rawMater.getRecipe());
+                if (recipeList.size() == 3) {
+                    break;
+                }
             }
         }
 

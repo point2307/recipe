@@ -1,24 +1,31 @@
 package com.recipe.security;
 
-import org.springframework.security.core.authority.AuthorityUtils;
-import org.springframework.security.core.userdetails.User;
-
 import com.recipe.dto.Member;
 
+import java.util.Map;
 
-public class SecurityUser extends User {
+
+public class SecurityUser extends SecurityUserDetail {
 
 	private static final long serialVersionUID = 1L;
 	private Member member;
-	
-	public SecurityUser(Member member) {
-		super(member.getUserId(), member.getPassword(),
-				AuthorityUtils.createAuthorityList(member.getRole().toString()));
+
+	private Map<String, Object> attributes;
+
+	public SecurityUser(Member member){
+		super(member);
 		this.member = member;
 	}
+
+	public SecurityUser(Member member, Map<String, Object> attributes){
+		super(member, attributes);
+		this.member = member;
+		this.attributes = attributes;
+	}
+
 	
 	public Member getMember() {
 		return member;
 	}
-	
+
 }

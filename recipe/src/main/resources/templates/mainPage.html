@@ -75,6 +75,9 @@
 		<!-- 로그인시 등록된 식재료로 추천메뉴 추천 -->
 		<div class="row" sec:authorize="isAuthenticated()">
 			<h3>맞춤형 추천 메뉴</h3>
+			<th:block th:if="${#lists.isEmpty(recipe)}">
+				<h4><a href="/myPage/insertMyMater">보유한 식자재를 등록해주세요</a></h4>
+			</th:block>
 			<th:block th:each="reci, index : ${recipe}">
 			<div class="col-lg-4">
 				<img class="bd-placeholder-img rounded-circle" width="140" height="140" th:src="@{/source/img/}+${reci.image}"></img>
