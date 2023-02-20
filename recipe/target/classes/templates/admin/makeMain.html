@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      layout:decorate="~{layout}">
+
+<!-- index.html 고유 CSS 추가 -->
+<th:block layout:fragment="css">
+  <!--    <link rel="stylesheet" th:href="@{/css/page/home.css}" >-->
+</th:block>
+<!-- index.html 고유 스크립트 추가 -->
+<th:block layout:fragment="script">
+  <!--    <script th:src="@{/js/page/home.js}"></script>-->
+</th:block>
+
+<!-- Content -->
+<div layout:fragment="content" th:align="center">
+  <h2>새 글 쓰기</h2>
+<br><br>
+  <form th:action="@{/admin/makeMain}" method="post" enctype="multipart/form-data">
+
+    <table border="1" cellpadding="0" cellspacing="0">
+      <tr>
+        <td>제목</td><td align="left">
+        <input type="text" th:name="title"/></td>
+      </tr>
+      <tr>
+        <td>글 종류</td>
+        <td>
+        <select th:name="kind">
+          <option th:value="500" th:selected="500">공지사항</option>
+          <option th:value="600">메인 컬럼</option>
+          <option th:value="700">레시피 알림</option>
+          <option th:value="800">밀키트 알림</option>
+          <option th:value="900">이벤트 알림</option>
+        </select>
+        </td>
+      </tr>
+      <tr>
+        <td>내용</td><td align="left">
+        <textarea th:name="content" cols="40" rows="10"></textarea></td>
+      </tr>
+      <tr>
+        <td>
+          사진
+        </td>
+        <td>
+          <input th:type="file" th:name="pic">
+        </td>
+
+      </tr>
+      <tr>
+        <td colspan="2" align="center">
+          <input type="submit" value="공지 등록"/></td>
+      </tr>
+    </table>
+  </form>
+</div>
+</html>
