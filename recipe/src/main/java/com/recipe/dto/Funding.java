@@ -37,6 +37,7 @@ public class Funding {
 
 	@PrePersist
 	public void prePersist(){
+		this.process = "펀딩 진행 중";
 		this.fund = 0;
 		this.likeCount = 0;
 		this.checkLike = 0;
