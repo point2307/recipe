@@ -12,10 +12,9 @@ function addRaws(){
     $('#rawAmount').val("");
 }
 
-let procIndex = 1
+let procIndex = 15
 function plusProc() {
 
-    $('#procCount').val(procCount)
     $('#process').append("<div id='index"+procIndex+"'>" +
         "<div class='input-group mb-3'>" +
         "        <label class='input-group-text' for='inputGroupFile01'>사 진</label>" +
@@ -120,6 +119,10 @@ function notlikeRecipe(e) {
 }
 function deleteThis(e){
     $("#raw"+e).empty();
+}
+
+function deleteraws(e){
+    $('#'+e).empty();
 }
 
 function makeReply(){

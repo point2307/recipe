@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class RecipeServiceImpl implements RecipeService {
@@ -166,6 +167,7 @@ public class RecipeServiceImpl implements RecipeService {
         return page;
     }
 
+    @Override
     public List<Recipe> mainPageRecipe(Member mem){
         List<MyMaterial> list = myMaterialRepo.findByMember(mem);
         List<Recipe> recipeList = new ArrayList<>();
@@ -183,6 +185,21 @@ public class RecipeServiceImpl implements RecipeService {
         }
 
         return recipeList;
+    }
+    @Override
+    public RecipeProc getProc(Long id){
+        return recipeProcRepo.findById(id).get();
+    }
+
+    @Override
+    public RawMater getRaws(Long id){
+        Optional<RawMater> optional =  rawMaterRepo.findById(id);
+        if(optional.isPresent()){
+            return optional.get();
+        } else{
+            return null;
+        }
+
     }
 
 }

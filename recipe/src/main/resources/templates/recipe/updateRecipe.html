@@ -30,13 +30,13 @@
             <tr>
               <div class="input-group mb-3">
                 <span class="input-group-text">레시피 이름</span>
-                <input type="text" th:name="recipeTitle" id="recipeTitle" class="form-control" readonly="readonly">
+                <input type="text" th:name="${recipe.recipeTitle}" id="recipeTitle" class="form-control" readonly="readonly">
               </div>
             </tr>
             <tr>
               <div class="input-group mb-3">
                 <span class="input-group-text">요 리 설 명</span>
-                <input type="text" th:name="recipeDetail" id="recipeDetail" class="form-control" placeholder="Explain">
+                <input type="text" th:name="${recipe.recipeDetail}" id="recipeDetail" class="form-control" placeholder="Explain">
               </div>
             </tr>
 
@@ -51,10 +51,10 @@
               <ul id="materList">
                 <th:block th:each="raws : ${recipe.rawMaterList}">
                   <li th:id="${raws.rawId}">
-                    <a href="#" th:onclick="|deleteIt(${raws.rawId})|">
-                      <span th:text="${raws.mater}"></span> :
+                    <a href="#" th:onclick="|deleteraws(${raws.rawId})|">
+                      <span th:text="${raws.mater.materName}"></span> :
                       <span th:text="${raws.amount}"></span>
-                      <input type="hidden" name="rawsId" th:value="${raws.mater}">
+                      <input type="hidden" name="rawsId" th:value="${raws.rawId}">
                     </a>
                   </li>
                 </th:block>
@@ -103,17 +103,18 @@
           <h4>상세 조리 과정</h4>
           <!-- 조 리 방 법 -->
           <div class="process" id="process">
-            <th:block th:each="proc,${recipe.recipe_process}">
+            <th:block th:each="proc:${recipe.recipe_process}">
             <div class="procDe" id="procDe">
               <div class="input-group mb-3">
                 <label class="input-group-text" for="inputGroupFile01">사 진</label>
                 <input type="file" multiple="multiple" name="procImg" class="form-control" id="procimg">
-                <input type="hidden" th:value="${proc.procPicName}" name="proc_oriPic">
+                <input type="hidden" th:value="${proc.procPicName}" name="procOriPic">
+                <input type="hidden" th:value="${proc.procId}" name="procId">
               </div>
 
               <div class="mb-3">
                     <textarea class="form-control" th:name="procDetail" id="exampleFormControlTextarea1" rows="3"
-                             th:value="${proc.procDetail}"></textarea>
+                             >[[${proc.procDetail}]]</textarea>
               </div>
             </div>
           </th:block>

@@ -41,4 +41,8 @@ public interface RecipeService {
     Page<Recipe> likeyRecipe(Member member, Pageable pageable);
 
     List<Recipe> mainPageRecipe(Member member);
+
+    RecipeProc getProc(Long id);
+
+    RawMater getRaws(Long id);
 }

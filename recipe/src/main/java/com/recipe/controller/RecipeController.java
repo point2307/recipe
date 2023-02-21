@@ -2,7 +2,7 @@ package com.recipe.controller;
 
 import com.recipe.dto.*;
 import com.recipe.security.SecurityUser;
-import com.recipe.service.RecipeServiceImpl;
+import com.recipe.service.RecipeService;
 import com.recipe.service.ReplyService;
 import com.recipe.util.Search;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +24,7 @@ import java.util.UUID;
 public class RecipeController {
 
     @Autowired
-    private RecipeServiceImpl recipeService;
+    private RecipeService recipeService;
     @Autowired
     private ReplyService replyService;
     // 좋아요 체크 메소드
@@ -140,32 +140,47 @@ public class RecipeController {
                              @RequestParam(value = "procImg", required = false) List<MultipartFile> procImg,
                              @RequestParam(value = "rawsize", required = false) List<String> size,
                              @RequestParam(value = "mater", required = false) List<String> mater,
-                             int hour, int minute, @AuthenticationPrincipal SecurityUser principal)
+                             @RequestParam(value = "raw", required = false) List<Long> rawId,
+                             @RequestParam(value = "procId", required = false) List<Long> procId,
+                             @RequestParam(value = "procOriPic", required = false) List<String> procOriPic,
+                             @AuthenticationPrincipal SecurityUser principal, String oriImg)
             throws Exception {
         List<RawMater> rawMaters = new ArrayList<>();
         List<RecipeProc> procList = new ArrayList<>();
         if(procDetail != null){
             for(int i = 0; i< procDetail.size(); i++){
-                RecipeProc proc = new RecipeProc();
-                proc.setProcDetail(procDetail.get(i));
-
-                MultipartFile pic = procImg.get(i);
-                if(pic.isEmpty()){
-                    proc.setProcPicName("noProcImg.jpg");
+                RecipeProc proc = recipeService.getProc(procId.get(i));
+                if(proc==null){
+                  proc= new RecipeProc();
+                  MultipartFile pic = procImg.get(i);
+                  if(pic.isEmpty()){
+                        proc.setProcPicName("noProcImg.jpg");
+                  } else{
+                      com.recipe.util.File file = new com.recipe.util.File(UUID.randomUUID().toString(), pic.getOriginalFilename(),
+                                pic.getContentType());
+                        java.io.File newFileName = new java.io.File(file.getUuid()+"_"+file.getOriginalName());
+                        pic.transferTo(newFileName);
+                        proc.setProcPicName(newFileName.toString());
+                    }
                 } else{
-                    com.recipe.util.File file = new com.recipe.util.File(UUID.randomUUID().toString(), pic.getOriginalFilename(),
-                            pic.getContentType());
-                    java.io.File newFileName = new java.io.File(file.getUuid()+"_"+file.getOriginalName());
-                    pic.transferTo(newFileName);
-                    proc.setProcPicName(newFileName.toString());
+                    MultipartFile pic = procImg.get(i);
+                    if(pic.isEmpty()){
+                        proc.setProcPicName(procOriPic.get(i));
+                    } else{
+                        com.recipe.util.File file = new com.recipe.util.File(UUID.randomUUID().toString(), pic.getOriginalFilename(),
+                                pic.getContentType());
+                        java.io.File newFileName = new java.io.File(file.getUuid()+"_"+file.getOriginalName());
+                        pic.transferTo(newFileName);
+                        proc.setProcPicName(newFileName.toString());
+                    }
                 }
-
+                proc.setProcDetail(procDetail.get(i));
                 proc.setRecipe(vo);
                 procList.add(proc);
             }
         }
         if(eximage.isEmpty()){
-            vo.setImage("noRecipeImg.jpg");
+            vo.setImage(oriImg);
         } else{
             com.recipe.util.File file = new com.recipe.util.File(UUID.randomUUID().toString(), eximage.getOriginalFilename(),
                     eximage.getContentType());
@@ -173,7 +188,7 @@ public class RecipeController {
             eximage.transferTo(newFileName);
             vo.setImage(newFileName.toString());
         }
-        if(mater!=null ) {
+        if(mater!=null) {
             for (int i = 0; i < mater.size(); i++) {
                 RawMater raws = new RawMater();
                 raws.setMater(recipeService.searchMaterForRaw(mater.get(i)));
@@ -182,11 +197,13 @@ public class RecipeController {
                 rawMaters.add(raws);
             }
         }
+        if(rawId != null){
+            for(Long i : rawId){
+                rawMaters.add(recipeService.getRaws(i));
+            }
+        }
         vo.setRawMaterList(rawMaters);
         vo.setRecipe_process(procList);
-        vo.setCookingTime((hour*60) + (minute));
-        vo.setWriter(principal.getMember());
-
         recipeService.makeRecipe(vo);
         return "redirect:/common/getRecipe?recipeId="+vo.getRecipeId();
     }
