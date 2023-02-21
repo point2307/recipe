@@ -113,8 +113,24 @@
                 <button th:if="${!search.searchKeyword.isEmpty()} and ${search.sort!=null}" type="button" class="btn btn-secondary" th:onclick="|location.href='@{/common/recipeList(sort=${search.sort},searchCondition=${search.searchCondition},searchKeyword=${search.searchKeyword},page=${page-1})}'|" th:text="${page}"></button>
 
               </th:block>
-              <button th:if="${end < recipeList.totalPages}" type="button" class="btn btn-secondary" th:onclick="|location.href='@{/common/recipeList(page=${start + 10})}'|" th:text="'>'"></button>
-              <button th:if="${end < recipeList.totalPages}" type="button" class="btn btn-secondary" th:onclick="|location.href='@{/common/recipeList(page=${recipeList.totalPages-1})}'|" th:text="'>>'"></button>
+              <th:block th:if="${search.searchKeyword.isEmpty()} and ${search.sort==null}">
+                <button th:if="${end < recipeList.totalPages}" type="button" class="btn btn-secondary" th:onclick="|location.href='@{/common/recipeList(page=${start + 10})}'|" th:text="'>'"></button>
+                <button th:if="${end < recipeList.totalPages}" type="button" class="btn btn-secondary" th:onclick="|location.href='@{/common/recipeList(page=${recipeList.totalPages-1})}'|" th:text="'>>'"></button>
+              </th:block>
+
+              <th:block th:if="${!search.searchKeyword.isEmpty()} and ${search.sort==null}">
+                <button th:if="${end < recipeList.totalPages}" type="button" class="btn btn-secondary" th:onclick="|location.href='@{/common/recipeList(searchCondition=${search.searchCondition},searchKeyword=${search.searchKeyword},page=${start + 10})}'|" th:text="'>'"></button>
+                <button th:if="${end < recipeList.totalPages}" type="button" class="btn btn-secondary" th:onclick="|location.href='@{/common/recipeList(searchCondition=${search.searchCondition},searchKeyword=${search.searchKeyword},page=${recipeList.totalPages-1})}'|" th:text="'>>'"></button>
+              </th:block>
+              <th:block th:if="${search.searchKeyword.isEmpty()} and ${search.sort!=null}">
+                <button th:if="${end < recipeList.totalPages}" type="button" class="btn btn-secondary" th:onclick="|location.href='@{/common/recipeList(sort=${search.sort},page=${start + 10})}'|" th:text="'>'"></button>
+                <button th:if="${end < recipeList.totalPages}" type="button" class="btn btn-secondary" th:onclick="|location.href='@{/common/recipeList(sort=${search.sort},page=${recipeList.totalPages-1})}'|" th:text="'>>'"></button>
+              </th:block>
+              <th:block th:if="${!search.searchKeyword.isEmpty()} and ${search.sort!=null}">
+                <button th:if="${end < recipeList.totalPages}" type="button" class="btn btn-secondary" th:onclick="|location.href='@{/common/recipeList(sort=${search.sort},searchCondition=${search.searchCondition},searchKeyword=${search.searchKeyword},page=${start + 10})}'|" th:text="'>'"></button>
+                <button th:if="${end < recipeList.totalPages}" type="button" class="btn btn-secondary" th:onclick="|location.href='@{/common/recipeList(sort=${search.sort},searchCondition=${search.searchCondition},searchKeyword=${search.searchKeyword},page=${recipeList.totalPages-1})}'|" th:text="'>>'"></button>
+              </th:block>
+
 
             </div>
           </div>

@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+
+<!-- index.html 고유 CSS 추가 -->
+<th:block layout:fragment="css">
+  <link rel="stylesheet" th:href="@{//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css}">
+</th:block>
+<!-- index.html 고유 스크립트 추가 -->
+<th:block layout:fragment="script">
+  <script type="text/javascript" th:src="@{/source/script/recipeScript.js}"></script>
+
+</th:block>
+
+<!-- Content -->
+<br><br>
+<div layout:fragment="content">
+  <div class="container text-center">
+    <div class="row">
+      <div class="col"> </div>
+      <div class="col-8">
+        <h2>레시피 작성</h2>
+        <br>
+        <form th:id="recipeForm" method="post" enctype="multipart/form-data" th:action="@{/recipe/updateRecipe}">
+
+          <table>
+            <tr>
+              <div class="input-group mb-3">
+                <span class="input-group-text">레시피 이름</span>
+                <input type="text" th:name="recipeTitle" id="recipeTitle" class="form-control" readonly="readonly">
+              </div>
+            </tr>
+            <tr>
+              <div class="input-group mb-3">
+                <span class="input-group-text">요 리 설 명</span>
+                <input type="text" th:name="recipeDetail" id="recipeDetail" class="form-control" placeholder="Explain">
+              </div>
+            </tr>
+
+            <tr>
+              <div class="input-group mb-3">
+                <span class="input-group-text">재 료</span>
+                <input name="rawName" id="searchBox" class="form-control" placeholder="이름">
+                <span class="input-group-text">:</span>
+                <input type="text" name="rawAmount" id="rawAmount" class="form-control" placeholder="분량">
+                <button class="btn btn-outline-secondary" type="button" id="button-addon2" onclick="addRaws()">추가</button>
+              </div>
+              <ul id="materList">
+                <th:block th:each="raws : ${recipe.rawMaterList}">
+                  <li th:id="${raws.rawId}">
+                    <a href="#" th:onclick="|deleteIt(${raws.rawId})|">
+                      <span th:text="${raws.mater}"></span> :
+                      <span th:text="${raws.amount}"></span>
+                      <input type="hidden" name="rawsId" th:value="${raws.mater}">
+                    </a>
+                  </li>
+                </th:block>
+              </ul>
+            </tr>
+            <!--
+             <li class="rawList">
+               <th:block th:each = "raw, i:${rawMaterList}" >
+                 <ul th:text="${raw.mater}" + ":" + "${raw.amount}"></ul>
+                 </th:each>
+             </li>  -->
+            <tr>
+              <div class="input-group mb-3">
+                <span class="input-group-text">조 리 시 간</span>
+                <input type="number" th:name="cookingTime" th:value="${recipe.cookingTime}" class="form-control" min = "0">
+                <span class="input-group-text">분</span>
+              </div>
+            </tr>
+            <tr>
+              <div class="input-group mb-3">
+                <span class="input-group-text">제 공 량</span>
+                <input type="number" th:name="amount" id="amount" value="1" class="form-control" placeholder="(인분)" aria-label="Recipient's username" aria-describedby="button-addon2">
+              </div>
+            </tr>
+            <div class="modal fade" tabindex="-1" id="delete">
+              <div class="modal-dialog" role="document">
+                <div class="modal-content rounded-3 shadow">
+                  <div class="modal-body p-4 text-center">
+                    <h5 class="mb-0">이 레시피를 삭제하시겠습니까?</h5>
+                    <p class="mb-0">삭제시 밀키트 수수료를 얻을수 없습니다.</p>
+                  </div>
+                  <div class="modal-footer flex-nowrap p-0">
+                    <button type="button" class="btn btn-lg btn-link fs-6 text-decoration-none col-6 m-0 rounded-0 border-end" th:onclick="|deleteRecipe(${recipe.recipeId})|" ><strong>네, 삭제합니다</strong></button>
+                    <button type="button" class="btn btn-lg btn-link fs-6 text-decoration-none col-6 m-0 rounded-0" data-bs-dismiss="modal">아니요, 취소합니다</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <tr>
+              <div class="input-group mb-3">
+                <label class="input-group-text" for="inputGroupFile01">조 리 예</label>
+                <input type="file" th:name="eximage" class="form-control" id="inputGroupFile01">
+              </div>
+            </tr>
+          </table>
+          <h4>상세 조리 과정</h4>
+          <!-- 조 리 방 법 -->
+          <div class="process" id="process">
+            <th:block th:each="proc,${recipe.recipe_process}">
+            <div class="procDe" id="procDe">
+              <div class="input-group mb-3">
+                <label class="input-group-text" for="inputGroupFile01">사 진</label>
+                <input type="file" multiple="multiple" name="procImg" class="form-control" id="procimg">
+                <input type="hidden" th:value="${proc.procPicName}" name="proc_oriPic">
+              </div>
+
+              <div class="mb-3">
+                    <textarea class="form-control" th:name="procDetail" id="exampleFormControlTextarea1" rows="3"
+                             th:value="${proc.procDetail}"></textarea>
+              </div>
+            </div>
+          </th:block>
+          </div>
+
+          <button class="btn btn-primary" type="button" onclick="plusProc()">내용 추가</button>
+
+          <br/><br/>
+          <div>
+            <input type="hidden" th:value="${recipe.recipeId}" name="recipeId">
+            <input type="hidden" th:value="${recipe.likeCount}" name="likeCount">
+            <input type="hidden" th:value="${recipe.image}" name="oriImg">
+
+            <button class="btn btn-outline-secondary">수정하기</button>
+            <button class="btn btn-outline-secondary" onclick="deleteRecipeCheck()">삭제하기</button>
+          </div>
+
+        </form>
+      </div>
+      <div class="col"> </div>
+    </div>
+  </div>
+</div>
+</html>
+</div>
+</html>

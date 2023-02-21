@@ -40,18 +40,6 @@ public class SecurityConfig {
 		});
 		security.csrf().disable();
 
-		// OAuth2 를 이용한 구글 로그인 방식
-/*
-		security.headers().frameOptions().disable();
-		security.formLogin().disable()
-				.httpBasic().disable()
-				.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
-				.oauth2Login().userInfoEndpoint().userService(oauth2Service);
-		security.logout().logoutSuccessUrl("/oauth2Suc");
-		return security.build();
-*/
-		// 세션을 이용한 기존의 로그인 방식
-
 		security.formLogin().loginPage("/system/login").defaultSuccessUrl("/mainPage", true);
 		security.exceptionHandling().accessDeniedPage("/system/accessDenied");
 		security.logout().logoutUrl("/system/logout").invalidateHttpSession(true).logoutSuccessUrl("/mainPage");
@@ -85,47 +73,5 @@ public class SecurityConfig {
 	}
 }
 
-@EnableWebSecurity
-@Configuration
-@Order(1)
-class SecurityConfig2 {
-
-	@Autowired
-	private SecurityOauth2Service oauth2Service;
-	@Autowired
-	private SecurityUserDetailsService suds;
-
-	@Bean
-	protected SecurityFilterChain filter2(HttpSecurity security) throws Exception{
-		security.authorizeHttpRequests().requestMatchers("/login/oauth2/**").authenticated();
-
-		security.csrf().disable();
-		security.headers().frameOptions().disable();
-		security.formLogin().disable()
-				.httpBasic().disable()
-				.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
-				.oauth2Login().userInfoEndpoint().userService(oauth2Service);
-		security.logout().logoutSuccessUrl("/oauth2Suc");
-		return security.build();
-
-	}
-}
-/*
-	public RoleHierarchy roleHierarchy(){
-		RoleHierarchyImpl roleHierarchy = new RoleHierarchyImpl();
-		String hierarchy = "ROLE_ADMIN > ROLE_PARTNERSHIP > ROLE_CUSTOMER";
-		roleHierarchy.setHierarchy(hierarchy);
-
-		return roleHierarchy;
-	}
-
-	@Bean
-	public DefaultWebSecurityExpressionHandler webSecurityExpressionHandler(){
-		DefaultWebSecurityExpressionHandler expressionHandler = new DefaultWebSecurityExpressionHandler();
-		expressionHandler.setRoleHierarchy(roleHierarchy());
-		return expressionHandler;
-	}
-	}
- */
 
 

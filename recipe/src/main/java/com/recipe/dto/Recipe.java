@@ -41,11 +41,13 @@ public class Recipe {
 	@JsonIgnore
 	private	Member writer;
 	@CreationTimestamp
+	@Column(updatable = false)
 	private	Date	recipeRegedit;
 	private	int		recipeAlert;
 
 	@OneToMany(mappedBy = "recipe",fetch = FetchType.LAZY)
 	@JsonIgnore
+	@OrderBy("regdate")
 	private List<Reply> replyList;
 
 	@OneToMany(mappedBy = "recipe")

@@ -68,8 +68,6 @@ public class CommonController {
 
     @GetMapping("/oauth2Suc")
     public String loginsuccess(Model model, HttpSession session){
-        Member member = (Member) session.getAttribute("member");
-        SecurityUser user = new SecurityUser(member);
 
         return "/mainPage";
 

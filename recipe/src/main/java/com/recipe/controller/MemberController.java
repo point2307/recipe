@@ -32,7 +32,8 @@ public class MemberController {
 	}
 	
 	@PostMapping("register")
-	public String register(Member vo, String row_pass, MultipartFile pic, String ema, String il) throws IllegalStateException, IOException {
+	public String register(Member vo, String row_pass, MultipartFile pic, String ema, String il
+	,String zip, String bigAdd, String detailAdd) throws IllegalStateException, IOException {
 		if(pic.isEmpty()){
 			vo.setProImg("noPic.jpg");
 		} else{
@@ -42,8 +43,8 @@ public class MemberController {
 			pic.transferTo(newFileName);
 			vo.setProImg(newFileName.toString());
 		}
-
-
+		String address = "("+zip+")"+bigAdd+", "+detailAdd;
+		vo.setAddress(address);
 		vo.setPassword(encoder.encode(row_pass));
 		vo.setEmail(ema+"@"+il);
 		memServ.register(vo);

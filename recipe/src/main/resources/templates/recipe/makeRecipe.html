@@ -30,13 +30,13 @@
               <tr>
                 <div class="input-group mb-3">
                   <span class="input-group-text">레시피 이름</span>
-                  <input type="text" th:name="recipeTitle" id="recipeTitle" class="form-control" placeholder="Cook Name" aria-label="Recipient's username" aria-describedby="button-addon2">
+                  <input type="text" th:name="recipeTitle" id="recipeTitle" class="form-control" placeholder="Cook Name">
                 </div>
               </tr>
               <tr>
                 <div class="input-group mb-3">
                   <span class="input-group-text">요 리 설 명</span>
-                  <input type="text" th:name="recipeDetail" id="recipeDetail" class="form-control" placeholder="Cook Name" aria-label="Recipient's username" aria-describedby="button-addon2">
+                  <input type="text" th:name="recipeDetail" id="recipeDetail" class="form-control" placeholder="Explain">
                 </div>
               </tr>
 
@@ -45,13 +45,11 @@
                   <span class="input-group-text">재 료</span>
                   <input name="rawName" id="searchBox" class="form-control" placeholder="이름">
                   <span class="input-group-text">:</span>
-                  <input type="text" name="rawAmount" id="rawAmount" class="form-control" placeholder="분량" aria-label="Server">
-
+                  <input type="text" name="rawAmount" id="rawAmount" class="form-control" placeholder="분량">
                   <button class="btn btn-outline-secondary" type="button" id="button-addon2" onclick="addRaws()">추가</button>
-                  <ul id="materList">
-
-                  </ul>
                 </div>
+                <ul id="materList">
+                </ul>
               </tr>
              <!--
               <li class="rawList">
@@ -63,8 +61,9 @@
                 <div class="input-group mb-3">
                   <span class="input-group-text">조 리 시 간</span>
                   <input type="number" th:name="hour" class="form-control" placeholder="시간" value="0">
-                  <span class="input-group-text">:</span>
+                  <span class="input-group-text">시간</span>
                   <input type="number" th:name="minute" class="form-control" placeholder="분" value="0" min = "0" max="59">
+                  <span class="input-group-text">분</span>
                 </div>
               </tr>
               <tr>
@@ -90,7 +89,6 @@
                   </div>
 
                   <div class="mb-3">
-                    <label for="exampleFormControlTextarea1" class="form-label">조리 방법</label>
                     <textarea class="form-control" th:name="procDetail" id="exampleFormControlTextarea1" rows="3"
                     placeholder="조리 방법"></textarea>
                   </div>

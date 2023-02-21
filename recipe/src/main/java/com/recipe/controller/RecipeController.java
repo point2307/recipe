@@ -121,10 +121,82 @@ public class RecipeController {
         Recipe recipe = recipeService.getRecipeById(vo);
         if(user!=null){
             checklikeRecipe(user.getMember(), recipe);
+            model.addAttribute("user",user.getMember());
         }
 
         model.addAttribute("recipe", recipe);
         return "common/getRecipe";
+    }
+    @GetMapping("/recipe/updateRecipe")
+    public String updateRecipeForm(Recipe vo, Model model){
+        Recipe recipe = recipeService.getRecipeById(vo);
+
+        model.addAttribute("recipe", recipe);
+        return "/recipe/updateRecipe";
+    }
+    @PostMapping("/recipe/updateRecipe")
+    public String updateRecipe(Recipe vo, MultipartFile eximage,
+                             @RequestParam(value = "procDetail" , required = false) List<String> procDetail,
+                             @RequestParam(value = "procImg", required = false) List<MultipartFile> procImg,
+                             @RequestParam(value = "rawsize", required = false) List<String> size,
+                             @RequestParam(value = "mater", required = false) List<String> mater,
+                             int hour, int minute, @AuthenticationPrincipal SecurityUser principal)
+            throws Exception {
+        List<RawMater> rawMaters = new ArrayList<>();
+        List<RecipeProc> procList = new ArrayList<>();
+        if(procDetail != null){
+            for(int i = 0; i< procDetail.size(); i++){
+                RecipeProc proc = new RecipeProc();
+                proc.setProcDetail(procDetail.get(i));
+
+                MultipartFile pic = procImg.get(i);
+                if(pic.isEmpty()){
+                    proc.setProcPicName("noProcImg.jpg");
+                } else{
+                    com.recipe.util.File file = new com.recipe.util.File(UUID.randomUUID().toString(), pic.getOriginalFilename(),
+                            pic.getContentType());
+                    java.io.File newFileName = new java.io.File(file.getUuid()+"_"+file.getOriginalName());
+                    pic.transferTo(newFileName);
+                    proc.setProcPicName(newFileName.toString());
+                }
+
+                proc.setRecipe(vo);
+                procList.add(proc);
+            }
+        }
+        if(eximage.isEmpty()){
+            vo.setImage("noRecipeImg.jpg");
+        } else{
+            com.recipe.util.File file = new com.recipe.util.File(UUID.randomUUID().toString(), eximage.getOriginalFilename(),
+                    eximage.getContentType());
+            java.io.File newFileName = new java.io.File(file.getUuid()+"_"+file.getOriginalName());
+            eximage.transferTo(newFileName);
+            vo.setImage(newFileName.toString());
+        }
+        if(mater!=null ) {
+            for (int i = 0; i < mater.size(); i++) {
+                RawMater raws = new RawMater();
+                raws.setMater(recipeService.searchMaterForRaw(mater.get(i)));
+                raws.setAmount(size.get(i));
+                raws.setRecipe(vo);
+                rawMaters.add(raws);
+            }
+        }
+        vo.setRawMaterList(rawMaters);
+        vo.setRecipe_process(procList);
+        vo.setCookingTime((hour*60) + (minute));
+        vo.setWriter(principal.getMember());
+
+        recipeService.makeRecipe(vo);
+        return "redirect:/common/getRecipe?recipeId="+vo.getRecipeId();
+    }
+
+    @GetMapping("/recipe/deleteRecipe")
+    @ResponseBody
+    public int deleteRecipe(Long id){
+        Recipe recipe = recipeService.getRecipe(id);
+        recipeService.deleteRecipe(recipe);
+        return 1;
     }
 
     @GetMapping("/recipe/searchMater")
@@ -161,7 +233,7 @@ public class RecipeController {
     @ResponseBody
     public int writeRecipeReply(Long recipe, String content,
                                 @AuthenticationPrincipal SecurityUser user){
-        System.out.println(content);
+
         if(user==null){
             return 0;
         } else{
@@ -174,6 +246,17 @@ public class RecipeController {
         }
     }
 
+    @PostMapping("/recipe/updateReply")
+    @ResponseBody
+    public int updateRecipeReply(Long id, String content,
+                                @AuthenticationPrincipal SecurityUser user){
+        if(user==null){
+            return 0;
+        } else{
+            replyService.updateReply(id, content);
+            return 1;
+        }
+    }
     @PostMapping("/recipe/deleteReply")
     @ResponseBody
     public int deleteRecipeReply(Long id){
