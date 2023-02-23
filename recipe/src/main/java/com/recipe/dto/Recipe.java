@@ -29,7 +29,7 @@ public class Recipe {
 
 	private int likeCount;  //좋아요 개수
 	private String recipeDetail;
-	@OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL, orphanRemoval = true)
 	@JsonIgnore
 	private List<RawMater> rawMaterList = new ArrayList<>();
 	

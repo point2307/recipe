@@ -7,6 +7,7 @@ import com.recipe.util.Search;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -33,6 +34,8 @@ public class RecipeServiceImpl implements RecipeService {
     private MyMaterialRepo myMaterialRepo;
     @Autowired
     private RawMaterRepo rawMaterRepo;
+    @Autowired
+    private MemberRepo memberRepo;
 
     @Override
     public void makeRecipe(Recipe vo) {
@@ -73,6 +76,7 @@ public class RecipeServiceImpl implements RecipeService {
         return recipeRepo.findAll(builder, pageable);
     }
 
+
     @Override
     public Recipe getRecipeById(Recipe vo) {
         return recipeRepo.findById(vo.getRecipeId()).get();
@@ -90,7 +94,7 @@ public class RecipeServiceImpl implements RecipeService {
 
         QRecipe qrecipe = QRecipe.recipe;
         builder.and(qrecipe.likeCount.goe(set));
-        Pageable paging = PageRequest.of(0, 15, Sort.Direction.DESC, "likeCount");
+        Pageable paging = PageRequest.of(0, 25, Sort.Direction.DESC, "likeCount");
 
         return recipeRepo.findAll(builder, paging);
     }
@@ -148,6 +152,12 @@ public class RecipeServiceImpl implements RecipeService {
     @Override
     public void saveRecipeReply(Reply reply) {
         replyRepo.save(reply);
+        Recipe recipe = reply.getRecipe();
+        recipe.setRecipeAlert(recipe.getRecipeAlert()+1);
+        recipeRepo.save(recipe);
+        Member writer = recipe.getWriter();
+        writer.setAlarm(writer.getAlarm()+1);
+        memberRepo.save(writer);
     }
 
     @Override
@@ -202,4 +212,8 @@ public class RecipeServiceImpl implements RecipeService {
 
     }
 
+    public Page<Recipe> myRecipeList(Member member){
+        Pageable pageable = PageRequest.of(0, 120, Sort.Direction.DESC, "recipeRegedit");
+        return recipeRepo.findByWriter(member, pageable);
+    }
 }

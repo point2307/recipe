@@ -32,7 +32,7 @@
 					<div class="carousel-caption text-start">
 						<h1 style="color:white" th:text="${banner1.title}"></h1>
 						<p style="color:white" th:text="${banner1.content}"></p>
-						<p><a class="btn btn-lg btn-primary" th:href="@{/common/recipeList(searchCondition='mater',searchKeyword='딸기')}">더 다양한 레시피 보기</a></p>
+						<p><a class="btn btn-lg btn-primary" th:href="@{/common/recipeList(searchCondition='mater',searchKeyword=${banner1.keyword})}">더 다양한 레시피 보기</a></p>
 					</div>
 				</div>
 			</div>

@@ -140,7 +140,7 @@ public class RecipeController {
                              @RequestParam(value = "procImg", required = false) List<MultipartFile> procImg,
                              @RequestParam(value = "rawsize", required = false) List<String> size,
                              @RequestParam(value = "mater", required = false) List<String> mater,
-                             @RequestParam(value = "raw", required = false) List<Long> rawId,
+                             @RequestParam(value = "rawsId", required = false) List<Long> rawId,
                              @RequestParam(value = "procId", required = false) List<Long> procId,
                              @RequestParam(value = "procOriPic", required = false) List<String> procOriPic,
                              @AuthenticationPrincipal SecurityUser principal, String oriImg)
@@ -149,20 +149,8 @@ public class RecipeController {
         List<RecipeProc> procList = new ArrayList<>();
         if(procDetail != null){
             for(int i = 0; i< procDetail.size(); i++){
-                RecipeProc proc = recipeService.getProc(procId.get(i));
-                if(proc==null){
-                  proc= new RecipeProc();
-                  MultipartFile pic = procImg.get(i);
-                  if(pic.isEmpty()){
-                        proc.setProcPicName("noProcImg.jpg");
-                  } else{
-                      com.recipe.util.File file = new com.recipe.util.File(UUID.randomUUID().toString(), pic.getOriginalFilename(),
-                                pic.getContentType());
-                        java.io.File newFileName = new java.io.File(file.getUuid()+"_"+file.getOriginalName());
-                        pic.transferTo(newFileName);
-                        proc.setProcPicName(newFileName.toString());
-                    }
-                } else{
+                if(i<procId.size()) {
+                    RecipeProc proc = recipeService.getProc(procId.get(i));
                     MultipartFile pic = procImg.get(i);
                     if(pic.isEmpty()){
                         proc.setProcPicName(procOriPic.get(i));
@@ -173,10 +161,24 @@ public class RecipeController {
                         pic.transferTo(newFileName);
                         proc.setProcPicName(newFileName.toString());
                     }
+                    proc.setProcDetail(procDetail.get(i));
+                    procList.add(proc);
+                } else{
+                    RecipeProc proc= new RecipeProc();
+                    MultipartFile pic = procImg.get(i);
+                      if(pic.isEmpty()){
+                            proc.setProcPicName("noProcImg.jpg");
+                      } else{
+                          com.recipe.util.File file = new com.recipe.util.File(UUID.randomUUID().toString(), pic.getOriginalFilename(),
+                                    pic.getContentType());
+                            java.io.File newFileName = new java.io.File(file.getUuid()+"_"+file.getOriginalName());
+                            pic.transferTo(newFileName);
+                            proc.setProcPicName(newFileName.toString());
+                      }
+                    proc.setRecipe(vo);
+                    proc.setProcDetail(procDetail.get(i));
+                    procList.add(proc);
                 }
-                proc.setProcDetail(procDetail.get(i));
-                proc.setRecipe(vo);
-                procList.add(proc);
             }
         }
         if(eximage.isEmpty()){
@@ -202,6 +204,7 @@ public class RecipeController {
                 rawMaters.add(recipeService.getRaws(i));
             }
         }
+        vo.setWriter(principal.getMember());
         vo.setRawMaterList(rawMaters);
         vo.setRecipe_process(procList);
         recipeService.makeRecipe(vo);
@@ -284,7 +287,7 @@ public class RecipeController {
 
 
     @GetMapping("/myPage/likeyRecipeList")
-    public String getLikeyRecipeList(@PageableDefault(size=6,sort = "recipeId", direction = Sort.Direction.DESC) Pageable pageable, Model model, @AuthenticationPrincipal SecurityUser user
+    public String getLikeyRecipeList(@PageableDefault(size=24,sort = "recipeId", direction = Sort.Direction.DESC) Pageable pageable, Model model, @AuthenticationPrincipal SecurityUser user
        ,Search search){
             model.addAttribute("search", search);
             if(search.getSearchKeyword() == null){
@@ -294,6 +297,20 @@ public class RecipeController {
         Page<Recipe> recipePage = recipeService.likeyRecipe(user.getMember(), pageable);
 
         model.addAttribute("recipeList",recipePage);
-        return "/common/recipeMain";
+        return "/myPage/myRecipe";
+    }
+
+    @GetMapping("/myPage/myRecipe")
+    public String myRecipeList( Model model, @AuthenticationPrincipal SecurityUser user ,Search search){
+        Page<Recipe> recipePage = recipeService.myRecipeList(user.getMember());
+
+        if(search.getSearchKeyword() == null){
+            search.setSearchCondition("Title");
+            search.setSearchKeyword("");
+        }
+        model.addAttribute("recipeList",recipePage);
+        model.addAttribute("search", search);
+
+        return "/myPage/myRecipe";
     }
 }

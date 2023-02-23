@@ -213,6 +213,13 @@ public class MyPageController {
 
     }
 
-
+    @GetMapping("/myPage/checkAlarm")
+    @ResponseBody
+    public int checkAlarm(@AuthenticationPrincipal SecurityUser user){
+        Member mem = user.getMember();
+        mem.setAlarm(0);
+        memberService.register(mem);
+        return 0;
+    }
 
 }

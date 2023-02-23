@@ -128,7 +128,7 @@ ol {
 }
 
 .header__top {
-	background: #111111;
+	background: #777777;
 	padding: 1px 0;
 }
 
@@ -219,9 +219,15 @@ ol {
 	display: inline-block;
 }
 
+.neon {
+	font-family: neon;
+	color: #e84466;
+	text-shadow: 0 0 3vw #F40A35;
+}
+
 .header__menu {
 	text-align: center;
-	padding: 26px 0 25px;
+	padding: 12px 0 12px;
 }
 
 .header__menu ul li {

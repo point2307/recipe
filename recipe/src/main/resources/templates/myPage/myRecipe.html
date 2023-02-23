@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+
+<!-- index.html 고유 CSS 추가 -->
+<th:block layout:fragment="css">
+  <!--    <link rel="stylesheet" th:href="@{/css/page/home.css}" >-->
+</th:block>
+<!-- index.html 고유 스크립트 추가 -->
+<th:block layout:fragment="script">
+  <script type="text/javascript" th:src="@{/source/script/recipeScript.js}"></script>
+</th:block>
+
+<!-- Content -->
+<div layout:fragment="content">
+
+
+  </figure>
+  <br><br>
+  <div class="container text-center">
+    <div class="row">
+    <div class="col"> </div>
+      <div class="col-10">
+        <h5>  <a th:href="@{/recipe/makeRecipe}">레시피 작성하기</a></h5>
+        <figure th:if="${search.searchKeyword.isEmpty()} and ${search.page==null}" class="text-end">
+          <a th:href="@{/common/recipeList(sort='recipeRegedit,desc')}">최신순</a> /
+          <a th:href="@{/common/recipeList(sort='likeCount,desc')}">인기순</a> /
+          <a th:href="@{/common/recipeList(sort='cookingTime,asc')}">짧은 조리시간</a> /
+          <a th:href="@{/common/recipeList(sort='cookingTime,desc')}">긴 조리시간</a>
+        </figure>
+        <figure th:if="${!search.searchKeyword.isEmpty()} and ${search.page==null}" class="text-end">
+          <a th:href="@{/common/recipeList(searchCondition=${search.searchCondition},searchKeyword=${search.searchKeyword},sort='recipeRegedit,desc')}">최신순</a> /
+          <a th:href="@{/common/recipeList(searchCondition=${search.searchCondition},searchKeyword=${search.searchKeyword},sort='likeCount,desc')}">인기순</a> /
+          <a th:href="@{/common/recipeList(searchCondition=${search.searchCondition},searchKeyword=${search.searchKeyword},sort='cookingTime,asc')}">짧은 조리시간</a> /
+          <a th:href="@{/common/recipeList(searchCondition=${search.searchCondition},searchKeyword=${search.searchKeyword},sort='cookingTime,desc')}">긴 조리시간</a>
+        </figure>
+        <figure th:if="${search.searchKeyword.isEmpty()} and ${search.page!=null}" class="text-end">
+          <a th:href="@{/common/recipeList(page=${search.page},sort='recipeRegedit,desc')}">최신순</a> /
+          <a th:href="@{/common/recipeList(page=${search.page},sort='likeCount,desc')}">인기순</a> /
+          <a th:href="@{/common/recipeList(page=${search.page},sort='cookingTime,asc')}">짧은 조리시간</a> /
+          <a th:href="@{/common/recipeList(page=${search.page},sort='cookingTime,desc')}">긴 조리시간</a>
+        </figure>
+        <figure th:if="${!search.searchKeyword.isEmpty()} and ${search.page!=null}" class="text-end">
+          <a th:href="@{/common/recipeList(page=${search.page},searchCondition=${search.searchCondition},searchKeyword=${search.searchKeyword},sort='recipeRegedit,desc')}">최신순</a> /
+          <a th:href="@{/common/recipeList(page=${search.page},searchCondition=${search.searchCondition},searchKeyword=${search.searchKeyword},sort='likeCount,desc')}">인기순</a> /
+          <a th:href="@{/common/recipeList(page=${search.page},searchCondition=${search.searchCondition},searchKeyword=${search.searchKeyword},sort='cookingTime,asc')}">짧은 조리시간</a> /
+          <a th:href="@{/common/recipeList(page=${search.page},searchCondition=${search.searchCondition},searchKeyword=${search.searchKeyword},sort='cookingTime,desc')}">긴 조리시간</a>
+        </figure>
+
+        <th:block>
+    <div class="row">
+      <div class="col-4" th:each="recipe, state:${recipeList}">
+        <div class="card" th:id="'card'+${recipe.recipeId}">
+          <img th:src="@{/source/img/} + ${recipe.image}" class="card-img-top" style="width: 100%; aspect-ratio: 4/3; object-fit: cover">
+          <div class="card-body">
+            <h5 class="card-title" th:text="${recipe.recipeTitle}"></h5>
+            <p class="card-text" th:text="${recipe.recipeDetail}"></p>
+          </div>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item" th:text="${recipe.amount} + '인분'"></li>
+            <li class="list-group-item" th:text="${recipe.cookingTime}+'분'"></li>
+          </ul>
+          <div class="card-body" th:id="${recipe.recipeId}">
+            <li class="list-group-item" id="count" th:text="${recipe.likeCount}"></li>
+
+            <a th:href="@{/common/getRecipe(recipeId=${recipe.recipeId})}" class="card-link">자세히보기</a>
+          </div>
+        </div>
+        </div>
+      </div>
+    <br>
+
+  </th:block>
+
+    </div>
+
+    <div class="col"> </div>
+    </div>
+</div>
+</div>
+</html>

@@ -45,4 +45,5 @@ public interface RecipeService {
     RecipeProc getProc(Long id);
 
     RawMater getRaws(Long id);
+    Page<Recipe> myRecipeList(Member member);
 }

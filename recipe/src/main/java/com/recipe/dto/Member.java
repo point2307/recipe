@@ -24,7 +24,7 @@ public class Member {
 	private String email;
 	private char agree; // 약관 동의 여부
 	private String	account;
-	
+	private int alarm;
 	@OneToMany(mappedBy = "member")
 	private List<MyMaterial> material;  // 내가 가진 재료
 	private String	proImg;
@@ -32,6 +32,11 @@ public class Member {
 	@Enumerated(EnumType.STRING)
 	private Role role;
 	private String fax;
+
+	@PrePersist
+	public void prePersist(){
+		this.alarm = 0;
+	}
 
 	public Member update(String name, String picture){
 		this.name = name;

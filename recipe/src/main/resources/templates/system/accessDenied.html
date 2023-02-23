@@ -3,6 +3,7 @@
       xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
       layout:decorate="~{layout}">
 
 <!-- index.html 고유 CSS 추가 -->
@@ -17,6 +18,13 @@
 <!-- Content -->
 <div layout:fragment="content">
     <h2>권한이 없습니다</h2>
-    <a th:href="@{/system/login}"><h3>로그인 해주세요</h3></a>
+    <th:block sec:authorize="!authenticated">
+    <a th:href="@{/system/login}"><h3>로그인 해주세요.</h3></a>
+    </th:block>
+    <th:block sec:authorize="authenticated">
+    <h2>
+        <a th:href="@{/}">메인 인증을 진행해주세요.</a>
+    </h2>
+    </th:block>
 </div>
 </html>

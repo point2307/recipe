@@ -113,6 +113,7 @@ function notlikeRecipe(e) {
         success(data){
             $('#'+e).load(location.href+' #'+e);
             $('#likeDiv').load(location.href+' #likeDiv');
+            $('card'+e).load(location.href+' #card'+e);
         }
     })
 

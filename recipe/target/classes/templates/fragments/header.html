@@ -3,17 +3,14 @@
 <!--headerFragment 선언-->
 <!-- 합쳐지고 최소화된 최신 CSS -->
 <div th:fragment="headerFragment">
-   <div class="header__top">
-    <div class="container">
-     <div class="row">
-      <div class="col-lg-5 col-md-6">
-       <div class="header__top__left">
-        <p>레시피 저금통</p>
-       </div>
-      </div>
 
-      <th:block>
-        <div class="col-lg-6 col-md-5">
+     <div class="row">
+      <div class="col-5">
+       <a href="/"><img src="/source/img/rec.jpg" style="max-height: 85px"></a>
+      </div>
+       <div class="col-7">
+        <div class="row">
+         <div class="col-12" style="background-color: black">
          <div class="header__top__right">
           <div class="header__top__links" sec:authorize="!isAuthenticated()">
            <a th:href="@{/common/getCart}">cart</a>
@@ -24,73 +21,76 @@
           <!-- 회원일 경우 -->
 
           <div class="header__top__hover" sec:authorize="isAuthenticated()"><i class="arrow_carrot-down"></i>
-             <a th:href="@{/myPage/mymain}"><span sec:authentication="principal.member.name"> </span><span>님 환영합니다.</span>
+
+            <a th:href="@{/myPage/mymain}"><span sec:authentication="principal.member.name"> </span><span>님 환영합니다.</span>
              <img th:width="20px" class="rounded-circle mr-3" th:height="20px" th:src="@{/source/img/}+${#authentication.principal.member.proImg}"/></a>
            <ul>
             <li><a th:href="@{/common/getCart}">My cart</a></li>
             <li>My Page</li>
-            <li>My recipe</li>
+            <li><a th:href="@{/myPage/myRecipe}">My recipe</a></li>
             <li>My buy</li>
             <li sec:authorize="hasRole('ADMIN')"><a th:href="@{/admin/adminMain}">관리자 페이지</a></li>
             <li><a th:href="@{/system/logout}">로그아웃</a> </li>
            </ul>
           </div>
+         </div>
+         </div>
+          <div class="col-10">
+           <nav class="header__menu mobile-menu">
+            <ul id="navvar">
+
+             <li><a th:href="@{/common/recipeList}">레시피</a>
+              <ul class="dropdown">
+               <li><a th:href="@{/common/recipeList}">레시피 목록</a></li>
+               <li><a th:href="@{/recipe/makeRecipe}">레시피 작성</a></li>
+               <li><a th:href="@{/myPage/likeyRecipeList}">찜한 레시피</a></li>
+              </ul>
+             </li>
+             <li><a href="#">밀키트</a>
+              <ul class="dropdown">
+               <li><a th:href="@{/common/kitList}">밀키트 리스트</a></li>
+               <li><a th:href="@{/common/fundingList}">펀딩 리스트</a></li>
+              </ul>
+             </li>
+             <li><a href="">새소식</a>
+              <ul class="dropdown">
+               <li><a href="">공지사항</a></li>
+               <li><a href="">이벤트 안내</a></li>
+              </ul>
+             </li>
+             <li><a th:href="@{/common/boardList}">커뮤니티</a>
+              <ul class="dropdown">
+               <li><a th:href="@{/common/boardList}">자유게시판</a></li>
+               <li><a href="#">밀키트 후기</a></li>
+              </ul>
+
+
+            </ul>
+           </nav>
+
+
 
 
         </div>
+         <div id="alarmck" class="col-2" sec:authorize="isAuthenticated()">
+          <th:block th:if="${#authentication.principal.member.alarm > 0}">
+           <li class="neon"><a href="#" onclick="checkAlarm()">새알림</a>
+            <script th:inline="javascript">
+             checkAlarm = () =>{
+              $.ajax({
+               url:'/myPage/checkAlarm',
+               type: 'get',
+               success(data){
+                $('#alarmck').load(location.href+' #alarmck');
+               } })
+             }
+            </script>
+           </li>
+          </th:block>
+         </div>
        </div>
-      </th:block>
-   <div calss="col-1"> </div>
+
+        </div>
      </div>
     </div>
-   </div>
-   <div class="head_container" style="border-bottom: 1px solid #0d0d0d; margin-bottom: 12px">
-    <div class="row">
-     <div class="col-lg-2 col-md-2">
-      <div class="header__logo">
-       <a href="./index.html"><img src="img/logo.png" alt=""></a>
-      </div>
-     </div>
-     <div class="col-lg-2 col-md-2">
-      <div class="header__logo">
-       <a href="/"><img src="/source/img/rec.jpg" style="max-height: 65px"></a>
-      </div>
-     </div>
-     <div class="col-lg-8 col-md-8">
-      <nav class="header__menu mobile-menu">
-       <ul>
-
-        <li><a th:href="@{/common/recipeList}">레시피</a>
-         <ul class="dropdown">
-          <li><a th:href="@{/common/recipeList}">레시피 목록</a></li>
-          <li><a th:href="@{/recipe/makeRecipe}">레시피 작성</a></li>
-          <li><a th:href="@{/myPage/likeyRecipeList}">찜한 레시피</a></li>
-         </ul>
-        </li>
-        <li><a href="#">밀키트</a>
-         <ul class="dropdown">
-          <li><a th:href="@{/common/kitList}">밀키트 리스트</a></li>
-          <li><a th:href="@{/common/fundingList}">펀딩 리스트</a></li>
-         </ul>
-        </li>
-        <li><a href="">새소식</a>
-         <ul class="dropdown">
-         <li><a href="">공지사항</a></li>
-         <li><a href="">이벤트 안내</a></li>
-        </ul>
-        </li>
-        <li><a th:href="@{/common/boardList}">커뮤니티</a>
-         <ul class="dropdown">
-          <li><a th:href="@{/common/boardList}">자유게시판</a></li>
-          <li><a href="#">밀키트 후기</a></li>
-
-         </ul>
-        </li>
-       </ul>
-      </nav>
-     </div>
-    </div>
-    <div class="canvas__open"><i class="fa fa-bars"></i></div>
-   </div>
-</div>
 </html>

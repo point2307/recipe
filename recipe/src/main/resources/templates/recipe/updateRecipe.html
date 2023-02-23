@@ -22,7 +22,7 @@
     <div class="row">
       <div class="col"> </div>
       <div class="col-8">
-        <h2>레시피 작성</h2>
+        <h2>레시피 수정</h2>
         <br>
         <form th:id="recipeForm" method="post" enctype="multipart/form-data" th:action="@{/recipe/updateRecipe}">
 
@@ -30,13 +30,13 @@
             <tr>
               <div class="input-group mb-3">
                 <span class="input-group-text">레시피 이름</span>
-                <input type="text" th:name="${recipe.recipeTitle}" id="recipeTitle" class="form-control" readonly="readonly">
+                <input type="text" name="recipeTitle" id="recipeTitle" th:value="${recipe.recipeTitle}" class="form-control" readonly="readonly">
               </div>
             </tr>
             <tr>
               <div class="input-group mb-3">
                 <span class="input-group-text">요 리 설 명</span>
-                <input type="text" th:name="${recipe.recipeDetail}" id="recipeDetail" class="form-control" placeholder="Explain">
+                <input type="text" name="recipeDetail" th:value="${recipe.recipeDetail}" id="recipeDetail" class="form-control" placeholder="Explain">
               </div>
             </tr>
 
