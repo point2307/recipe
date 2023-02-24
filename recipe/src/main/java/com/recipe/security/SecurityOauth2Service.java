@@ -2,8 +2,11 @@ package com.recipe.security;
 
 import com.recipe.persistence.MemberRepo;
 import jakarta.servlet.http.HttpSession;
-/*
+
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserService;
@@ -13,6 +16,7 @@ import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 import com.recipe.dto.Member;
 
+import java.security.Principal;
 import java.util.Collections;
 import java.util.Optional;
 
@@ -38,16 +42,13 @@ public class SecurityOauth2Service implements OAuth2UserService<OAuth2UserReques
         String userNameAttributeName = userRequest.getClientRegistration().getProviderDetails().getUserInfoEndpoint().getUserNameAttributeName();
 
         OAuthAttributes attr = OAuthAttributes.of(registrationId,userNameAttributeName,oauth2User.getAttributes());
-        Member member = SaveOrUpdate(attr);
+        Member member = SaveOrLoad(attr);
         httpSession.setAttribute("user", member);
 
-        return new DefaultOAuth2User(
-                Collections.singleton(new SimpleGrantedAuthority(member.getRole().toString())),
-                attr.getAttributes(), attr.getNameAttributeKey()
-        );
+        return new SecurityUser(member);
     }
 
-    private Member SaveOrUpdate(OAuthAttributes attr){
+    private Member SaveOrLoad(OAuthAttributes attr){
         Optional search = memberRepo.findByEmail(attr.getEmail());
         Member member = new Member();
         if(search == null || search.isEmpty()){
@@ -59,4 +60,3 @@ public class SecurityOauth2Service implements OAuth2UserService<OAuth2UserReques
 
     }
 }
-*/

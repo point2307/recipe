@@ -25,6 +25,7 @@ public class Notice {
 
     private String image;
 
+    private String keyword;
     @Temporal(TemporalType.DATE)
     @CreationTimestamp
     private Date regDate;

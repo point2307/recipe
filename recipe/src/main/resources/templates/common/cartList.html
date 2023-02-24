@@ -37,10 +37,10 @@
             <td th:text="${state.count}"></th>
             <td th:text="${cart.fundingKit.funding.title}"></td>
             <td th:text="${cart.fundingKit.mealkit.kitName}"></td>
-            <td><input type="nu                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 mber" name="quantity" th:id="'cartquan'+${cart.cartId}" th:value="${cart.quantity}" size="3"
+            <td><input type="number" name="quantity" th:id="'cartquan'+${cart.cartId}" th:value="${cart.quantity}" size="3"
             min="1" th:onchange="'changeIt('+${cart.cartId}+','+${state.count}+')'"></td>
             <td th:text="${cart.fundingKit.mealkit.price * cart.quantity}"></td>
-            <td><input type="checkbox" name="cart" th:value="${cart.cartId}" checked></td>
+            <td><input type="checkbox" name="cart" th:id="|cb${cart.cartId}|" th:value="${cart.cartId}" th:onclick="|change(${cart.cartId},${cart.fundingKit.mealkit.price * cart.quantity})|" checked="checked"></td>
             <th><input type="button" th:value="삭제하기" th:onclick="'deleteIt('+${cart.cartId}+')'"></th>
           </tr>
           </th:block>
@@ -51,10 +51,24 @@
             <td></td>
             <td></td>
             <td></td>
-            <td th:text = "|총금액: ${#numbers.formatInteger(total,1,'COMMA')}원|"></td>
-            <input type="hidden" name="carttotal" th:value="${total}"/>
+            <td>총 금액 : <span id="cartto" th:text = "|${#numbers.formatInteger(total,1,'COMMA')}|"></span>원</td>
+            <input type="hidden" name="carttotal" id="carttotal" th:value="${total}"/>
           </tr>
         </table>
+          <script th:inline="javascript">
+            var total = [[${total}]]
+            change = (d,e) =>{
+              console.log($('#cb'+d))
+              if($('#cb'+d).is(':checked')){
+                total = total + e;
+              }else {
+                total = total - e;
+              }
+              console.log(total)
+              $('#carttotal').val(total);
+              $('#cartto').text(total);
+            }
+          </script>
 
 
           <button type="submit">구매하기</button>

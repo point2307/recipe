@@ -9,4 +9,5 @@ import java.util.Optional;
 public interface MemberRepo extends CrudRepository<Member, String> {
 
     Optional findByEmail(String email);
+
 }

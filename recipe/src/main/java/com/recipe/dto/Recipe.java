@@ -29,7 +29,7 @@ public class Recipe {
 
 	private int likeCount;  //좋아요 개수
 	private String recipeDetail;
-	@OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL, orphanRemoval = true)
 	@JsonIgnore
 	private List<RawMater> rawMaterList = new ArrayList<>();
 	
@@ -41,11 +41,13 @@ public class Recipe {
 	@JsonIgnore
 	private	Member writer;
 	@CreationTimestamp
+	@Column(updatable = false)
 	private	Date	recipeRegedit;
 	private	int		recipeAlert;
 
 	@OneToMany(mappedBy = "recipe",fetch = FetchType.LAZY)
 	@JsonIgnore
+	@OrderBy("regdate")
 	private List<Reply> replyList;
 
 	@OneToMany(mappedBy = "recipe")

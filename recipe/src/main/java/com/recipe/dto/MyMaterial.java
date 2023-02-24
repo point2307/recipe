@@ -8,7 +8,7 @@ import lombok.ToString;
 @Entity
 @Getter
 @Setter
-@ToString
+@ToString(exclude = {"member, material"})
 public class MyMaterial {
     @Id
     @SequenceGenerator(name = "mymater_seq", sequenceName = "mymater_seq", allocationSize = 1)
@@ -22,6 +22,5 @@ public class MyMaterial {
     @JoinColumn(name = "material")
     private Material material;
 
-    private int amount;
 
 }

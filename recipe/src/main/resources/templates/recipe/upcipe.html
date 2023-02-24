@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      layout:decorate="~{layout}">
+
+<!-- index.html 고유 CSS 추가 -->
+<th:block layout:fragment="css">
+  <!--    <link rel="stylesheet" th:href="@{/css/page/home.css}" >-->
+</th:block>
+<!-- index.html 고유 스크립트 추가 -->
+<th:block layout:fragment="script">
+  <script type="text/javascript" th:src="@{/source/script/recipeScript.js}"></script>
+</th:block>
+
+<!-- Content -->
+<div layout:fragment="content">
+  <div class="container">
+      <form method="post" action="/recipe/updateRecipe">
+    <div class="row">
+     <div class="col-1"> </div>
+      <div class="col-10">
+       <img th:src="@{/source/img/}+${recipe.image}" style="width: auto; max-height:200px;">
+       <h2 th:text="${recipe.recipeTitle}"></h2><br/>
+        <h5 th:text="${recipe.recipeDetail}"></h5>
+          <br><br>
+        <div class="row" style="border-top: 1px solid red; border-bottom:1px solid red">
+        <div class="col-4" style="border-right: 1px solid blueviolet"> 제공량 <br>
+          <input type="text" name="amount" th:value="${recipe.amount}"></input></div>
+        <div class="col-4" style="border-right: 1px solid blueviolet"> 소요시간<br>
+          <input type="text" name="cookingTime""></input></div>
+        <div class="col-4" id="likeDiv"> 추천 수<br>
+         <p class="bold" th:text="${recipe.likeCount}"></p></div>
+        </div>
+          <div><h3>주요 재료</h3></div>
+          <div class="input-group mb-3">
+              <span class="input-group-text">재 료</span>
+              <input name="rawName" id="searchBox" class="form-control" placeholder="이름">
+              <span class="input-group-text">:</span>
+              <input type="text" name="rawAmount" id="rawAmount" class="form-control" placeholder="분량">
+              <button class="btn btn-outline-secondary" type="button" id="button-addon2" onclick="addRaws()">추가</button>
+          </div>
+        <ul id="materList">
+        <th:block th:each="raw : ${recipe.rawMaterList}">
+          <li th:id="${raw.rawId}">[[${raw.mater.materName}]] : [[${raw.amount}]] <button type="button" th:onclick="|deleteRaw(${raw.rawId})|">삭제하기</button> </li>
+        </th:block>
+        </ul>
+     </div>
+
+      <table>
+        <th:block th:each="process, index:${recipe.recipe_process}">
+          <tr style="border: 1px solid black">
+            <th><h3 th:text="${index.count}"></h3></th>
+            <th><th:block th:if="${process.procPicName!='noProcImg.jpg'}">
+                <img th:src="@{/source/img/}+${process.procPicName}" style="width:300px; height:200px;">
+                <input type="hidden" th:value="${process.procPicName}" name="noChangeImg">
+            </th:block>
+                <div class="input-group mb-3">
+                    <label class="input-group-text">사 진</label>
+                    <input type="file" multiple="multiple" name="procImg" class="form-control" id="procimg">
+                </div>
+            </th>
+            <th>
+              <div class="mb-3">
+                    <textarea class="form-control" th:name="procDetail" id="exampleFormControlTextarea1" rows="3" th:value="${process.procDetail}"
+                              placeholder="조리 방법"></textarea>
+              </div>
+            </th>
+          </tr>
+        </th:block>
+      </table>
+        <hr>
+        <div>
+            <button class="btn btn-outline-secondary">수정하기</button>
+            <button class="btn btn-outline-secondary" onclick="deleteRecipeCheck()">삭제하기</button>
+        </div>
+      </div>
+      </form>
+    </div>
+  </div>
+
+</div>
+</html>

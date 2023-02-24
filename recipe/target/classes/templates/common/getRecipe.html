@@ -40,36 +40,57 @@
         </th:block>
         </ul>
      </div>
-
+        <div class="modal fade" tabindex="-1" id="delete">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content rounded-3 shadow">
+                    <div class="modal-body p-4 text-center">
+                        <h5 class="mb-0">이 레시피를 삭제하시겠습니까?</h5>
+                        <p class="mb-0">삭제시 밀키트 수수료를 얻을수 없습니다.</p>
+                    </div>
+                    <div class="modal-footer flex-nowrap p-0">
+                        <button type="button" class="btn btn-lg btn-link fs-6 text-decoration-none col-6 m-0 rounded-0 border-end" th:onclick="|deleteRecipe(${recipe.recipeId})|" ><strong>네, 삭제합니다</strong></button>
+                        <button type="button" class="btn btn-lg btn-link fs-6 text-decoration-none col-6 m-0 rounded-0" data-bs-dismiss="modal">아니요, 취소합니다</button>
+                    </div>
+                </div>
+            </div>
+        </div>
       <table>
         <th:block th:each="process, index:${recipe.recipe_process}">
-          <tr style="border: 1px solid black">
-            <th><h3 th:text="${index.count}"></h3></th>
-            <th><th:block th:if="${process.procPicName!='noProcImg.jpg'}">
+          <tr height="215px" style="border: 1px solid black">
+            <th width="40px"><h3 th:text="${index.count}"></h3></th>
+            <th width="350px"><th:block th:if="${process.procPicName!='noProcImg.jpg'}">
                 <img th:src="@{/source/img/}+${process.procPicName}" style="width:300px; height:200px;">
             </th:block>
             </th>
-            <th th:text="${process.procDetail}"></th>
+            <th width="600px" th:text="${process.procDetail}"></th>
           </tr>
         </th:block>
       </table>
         <hr>
-        <div class="card-body" th:id="${recipe.recipeId}">
-            <button th:if="${recipe.checkLike == 1}"
-                    type="button" class="btn btn-outline-danger" id="notlikebtn" th:onclick="'notlikeRecipe('+${recipe.recipeId}+')'">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart-fill" viewBox="0 0 16 16">
-                    <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"></path>
-                </svg>
-                좋아요 취소
-            </button>
-            <button th:if="${recipe.checkLike == 0}"
-                    type="button" class="btn btn-outline-danger" id="likebtn" th:onclick="'likeRecipe('+${recipe.recipeId}+')'">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart-fill" viewBox="0 0 16 16">
-                    <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"></path>
-                </svg>
-                좋아요
-            </button>
-        </div>
+        <th:block th:if="${user != null}">
+            <th:block th:unless="${#strings.equals(user.userId, recipe.writer.userId)}">
+                <div class="card-body" th:id="${recipe.recipeId}">
+                    <button th:if="${recipe.checkLike == 1}"
+                            type="button" class="btn btn-outline-danger" id="notlikebtn" th:onclick="'notlikeRecipe('+${recipe.recipeId}+')'">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart-fill" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"></path>
+                        </svg>
+                        좋아요 취소
+                    </button>
+                    <button th:if="${recipe.checkLike == 0}"
+                            type="button" class="btn btn-outline-danger" id="likebtn" th:onclick="'likeRecipe('+${recipe.recipeId}+')'">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart-fill" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"></path>
+                        </svg>
+                        좋아요
+                    </button>
+                </div>
+            </th:block>
+            <th:block th:if="${#strings.equals(user.userId, recipe.writer.userId)}">
+                <button class="btn btn-outline-secondary" th:onclick="|location.href='@{/recipe/updateRecipe(recipeId=${recipe.recipeId})}'|">수정하기</button>
+                <button type="button" class="btn btn-outline-secondary" onclick="deleteRecipeCheck()">삭제하기</button>
+            </th:block>
+        </th:block>
         <br/><br/>
 
 
@@ -95,7 +116,7 @@
                        <div class="col-1"> </div>
                        <div class="col-2"><p th:text="${reply.writer.nickName}"></p></div>
                        <div class="col-8 text-end">
-                           <button type="button" th:onclick="|updateReply(${reply.replyId})|" class="btn btn-outline-secondary">수정하기</button>
+                           <button type="button" th:onclick="|updateReplyForm(${reply.replyId})|" class="btn btn-outline-secondary">수정하기</button>
                            <button type="button" th:onclick="|deleteReply(${reply.replyId})|" class="btn btn-outline-success">삭제하기</button>
                            <p th:text="${reply.regdate}"></p>
                        </div>
@@ -134,10 +155,10 @@
               <textarea class="form-control" id="content" cols="20" rows="3"></textarea>
               <button class="input-group-text" onclick="makeReply()">댓글쓰기</button>
           </div>
-
-          </div>
-
         </form>
+      </div>
+
+
       </div>
     </div>
   </div>

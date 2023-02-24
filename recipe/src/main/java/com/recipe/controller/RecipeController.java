@@ -2,7 +2,7 @@ package com.recipe.controller;
 
 import com.recipe.dto.*;
 import com.recipe.security.SecurityUser;
-import com.recipe.service.RecipeServiceImpl;
+import com.recipe.service.RecipeService;
 import com.recipe.service.ReplyService;
 import com.recipe.util.Search;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +24,7 @@ import java.util.UUID;
 public class RecipeController {
 
     @Autowired
-    private RecipeServiceImpl recipeService;
+    private RecipeService recipeService;
     @Autowired
     private ReplyService replyService;
     // 좋아요 체크 메소드
@@ -121,10 +121,102 @@ public class RecipeController {
         Recipe recipe = recipeService.getRecipeById(vo);
         if(user!=null){
             checklikeRecipe(user.getMember(), recipe);
+            model.addAttribute("user",user.getMember());
         }
 
         model.addAttribute("recipe", recipe);
         return "common/getRecipe";
+    }
+    @GetMapping("/recipe/updateRecipe")
+    public String updateRecipeForm(Recipe vo, Model model){
+        Recipe recipe = recipeService.getRecipeById(vo);
+
+        model.addAttribute("recipe", recipe);
+        return "/recipe/updateRecipe";
+    }
+    @PostMapping("/recipe/updateRecipe")
+    public String updateRecipe(Recipe vo, MultipartFile eximage,
+                             @RequestParam(value = "procDetail" , required = false) List<String> procDetail,
+                             @RequestParam(value = "procImg", required = false) List<MultipartFile> procImg,
+                             @RequestParam(value = "rawsize", required = false) List<String> size,
+                             @RequestParam(value = "mater", required = false) List<String> mater,
+                             @RequestParam(value = "rawsId", required = false) List<Long> rawId,
+                             @RequestParam(value = "procId", required = false) List<Long> procId,
+                             @RequestParam(value = "procOriPic", required = false) List<String> procOriPic,
+                             @AuthenticationPrincipal SecurityUser principal, String oriImg)
+            throws Exception {
+        List<RawMater> rawMaters = new ArrayList<>();
+        List<RecipeProc> procList = new ArrayList<>();
+        if(procDetail != null){
+            for(int i = 0; i< procDetail.size(); i++){
+                if(i<procId.size()) {
+                    RecipeProc proc = recipeService.getProc(procId.get(i));
+                    MultipartFile pic = procImg.get(i);
+                    if(pic.isEmpty()){
+                        proc.setProcPicName(procOriPic.get(i));
+                    } else{
+                        com.recipe.util.File file = new com.recipe.util.File(UUID.randomUUID().toString(), pic.getOriginalFilename(),
+                                pic.getContentType());
+                        java.io.File newFileName = new java.io.File(file.getUuid()+"_"+file.getOriginalName());
+                        pic.transferTo(newFileName);
+                        proc.setProcPicName(newFileName.toString());
+                    }
+                    proc.setProcDetail(procDetail.get(i));
+                    procList.add(proc);
+                } else{
+                    RecipeProc proc= new RecipeProc();
+                    MultipartFile pic = procImg.get(i);
+                      if(pic.isEmpty()){
+                            proc.setProcPicName("noProcImg.jpg");
+                      } else{
+                          com.recipe.util.File file = new com.recipe.util.File(UUID.randomUUID().toString(), pic.getOriginalFilename(),
+                                    pic.getContentType());
+                            java.io.File newFileName = new java.io.File(file.getUuid()+"_"+file.getOriginalName());
+                            pic.transferTo(newFileName);
+                            proc.setProcPicName(newFileName.toString());
+                      }
+                    proc.setRecipe(vo);
+                    proc.setProcDetail(procDetail.get(i));
+                    procList.add(proc);
+                }
+            }
+        }
+        if(eximage.isEmpty()){
+            vo.setImage(oriImg);
+        } else{
+            com.recipe.util.File file = new com.recipe.util.File(UUID.randomUUID().toString(), eximage.getOriginalFilename(),
+                    eximage.getContentType());
+            java.io.File newFileName = new java.io.File(file.getUuid()+"_"+file.getOriginalName());
+            eximage.transferTo(newFileName);
+            vo.setImage(newFileName.toString());
+        }
+        if(mater!=null) {
+            for (int i = 0; i < mater.size(); i++) {
+                RawMater raws = new RawMater();
+                raws.setMater(recipeService.searchMaterForRaw(mater.get(i)));
+                raws.setAmount(size.get(i));
+                raws.setRecipe(vo);
+                rawMaters.add(raws);
+            }
+        }
+        if(rawId != null){
+            for(Long i : rawId){
+                rawMaters.add(recipeService.getRaws(i));
+            }
+        }
+        vo.setWriter(principal.getMember());
+        vo.setRawMaterList(rawMaters);
+        vo.setRecipe_process(procList);
+        recipeService.makeRecipe(vo);
+        return "redirect:/common/getRecipe?recipeId="+vo.getRecipeId();
+    }
+
+    @GetMapping("/recipe/deleteRecipe")
+    @ResponseBody
+    public int deleteRecipe(Long id){
+        Recipe recipe = recipeService.getRecipe(id);
+        recipeService.deleteRecipe(recipe);
+        return 1;
     }
 
     @GetMapping("/recipe/searchMater")
@@ -161,7 +253,7 @@ public class RecipeController {
     @ResponseBody
     public int writeRecipeReply(Long recipe, String content,
                                 @AuthenticationPrincipal SecurityUser user){
-        System.out.println(content);
+
         if(user==null){
             return 0;
         } else{
@@ -174,6 +266,17 @@ public class RecipeController {
         }
     }
 
+    @PostMapping("/recipe/updateReply")
+    @ResponseBody
+    public int updateRecipeReply(Long id, String content,
+                                @AuthenticationPrincipal SecurityUser user){
+        if(user==null){
+            return 0;
+        } else{
+            replyService.updateReply(id, content);
+            return 1;
+        }
+    }
     @PostMapping("/recipe/deleteReply")
     @ResponseBody
     public int deleteRecipeReply(Long id){
@@ -184,11 +287,30 @@ public class RecipeController {
 
 
     @GetMapping("/myPage/likeyRecipeList")
-    public String getLikeyRecipeList(@PageableDefault(size=6,sort = "recipeId", direction = Sort.Direction.DESC) Pageable pageable, Model model, @AuthenticationPrincipal SecurityUser user) {
-
+    public String getLikeyRecipeList(@PageableDefault(size=24,sort = "recipeId", direction = Sort.Direction.DESC) Pageable pageable, Model model, @AuthenticationPrincipal SecurityUser user
+       ,Search search){
+            model.addAttribute("search", search);
+            if(search.getSearchKeyword() == null){
+                search.setSearchCondition("Title");
+                search.setSearchKeyword("");
+            }
         Page<Recipe> recipePage = recipeService.likeyRecipe(user.getMember(), pageable);
 
         model.addAttribute("recipeList",recipePage);
-        return "/common/recipeMain";
+        return "/myPage/myRecipe";
+    }
+
+    @GetMapping("/myPage/myRecipe")
+    public String myRecipeList( Model model, @AuthenticationPrincipal SecurityUser user ,Search search){
+        Page<Recipe> recipePage = recipeService.myRecipeList(user.getMember());
+
+        if(search.getSearchKeyword() == null){
+            search.setSearchCondition("Title");
+            search.setSearchKeyword("");
+        }
+        model.addAttribute("recipeList",recipePage);
+        model.addAttribute("search", search);
+
+        return "/myPage/myRecipe";
     }
 }

@@ -21,11 +21,9 @@
   <div class="container px-4 py-5" id="custom-cards">
     <h2 class="border-bottom">진행중인 펀딩</h2>
     <br><br>
-    <figure><a th:href="@{/board/insertBoardForm}">새글 등록</a></figure>
     <figure class="text-end">
-      <a th:href="@{/common/fundingList(sort='kitId,desc')}">최신순</a> /
       <a th:href="@{/common/fundingList(sort='likeCount,desc')}">인기순</a> /
-      <a th:href="@{/common/fundingList(sort='finalDate,asc')}">인기순</a> /
+      <a th:href="@{/common/fundingList(sort='finalDate,asc')}">남은기간순</a>
     </figure>
     <div class="row">
     <div class="col-4" th:each="funding, state:${fundingList}">

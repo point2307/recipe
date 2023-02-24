@@ -6,10 +6,12 @@ import org.springframework.data.repository.CrudRepository;
 
 import java.util.List;
 
-public interface MaterialRepo extends CrudRepository<Material, Long>, QuerydslPredicateExecutor<Material> {
+public interface MaterialRepo extends CrudRepository<Material, String>, QuerydslPredicateExecutor<Material> {
 
 
     List<Material> findByMaterNameContaining(String value);
 
     Material findByMaterName(String str);
+
+    List<Material> findByMatIdStartingWith(Long data);
 }

@@ -30,11 +30,14 @@ public class Funding {
 	private List<FundingKit> fundingKit = new ArrayList<>();
 	private int likeCount;
 
+	private String process;
+
 	@Transient
 	private int checkLike;
 
 	@PrePersist
 	public void prePersist(){
+		this.process = "펀딩 진행 중";
 		this.fund = 0;
 		this.likeCount = 0;
 		this.checkLike = 0;

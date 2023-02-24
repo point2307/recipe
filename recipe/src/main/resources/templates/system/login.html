@@ -7,7 +7,7 @@
 
 <!-- index.html 고유 CSS 추가 -->
 <th:block layout:fragment="css">
-
+    <link rel="stylesheet" th:href="@{/source/css/login.css}" >
 </th:block>
 <!-- index.html 고유 스크립트 추가 -->
 <th:block layout:fragment="script">
@@ -16,16 +16,15 @@
 <!-- Content -->
 <br><br>
 <div layout:fragment="content">
-
-<div class="container">
-    <main class="form-signin w-100 m-auto">
-        <form th:method="post" th:action="@{login}">
-            <img class="mb-4" src="/source/img/noPic.jpg" alt="" width="72" height="57">
-            <h1 class="h3 mb-3 fw-normal">Please sign in</h1>
+    <div class="row">
+        <div class="col-4">  </div>
+        <div class="col-4">
+        <form method="post" action="/system/login">
+            <h1 class="h3 mb-3 fw-normal">로그인 해 주세요</h1>
 
             <div class="form-floating">
-                <input type="text" name="username" class="form-control" id="floatingInput" placeholder="name@example.com">
-                <label for="floatingInput">ID</label>
+                <input type="text" name="username" class="form-control" id="floatingInput" placeholder="id를 입력하세요">
+                <label for="floatingInput">id를 입력하세요</label>
             </div>
             <div class="form-floating">
                 <input type="password" name="password" class="form-control" id="floatingPassword" placeholder="Password">
@@ -33,15 +32,28 @@
             </div>
 
             <div class="checkbox mb-3">
+                <figure class="text-start">
                 <label>
-                    <input type="checkbox" value="remember-me"> Remember me
+                    <input type="checkbox" value="remember-me">자동로그인
                 </label>
+                </figure>
             </div>
             <button class="w-100 btn btn-lg btn-primary" type="submit">Sign in</button>
-            <a th:href="@{member/search}"><p class="mt-5 mb-3 text-muted">ID/PW 찾기</p></a>
+            <br>
+            <hr>
+
+            <br>
+            <a href="/oauth2/authorization/google"><img src="/source/img/googlebtn.png"></a>
+            <br>
+            <div class="d-flex justify-content-between">
+                <figure class="text-start">회원가입</figure>
+                <figure class="text-end">Id/PW를 분실하셨나요?</figure>
+            </div>
+            <p class="mt-5 mb-3 text-muted">&copy; 2023</p>
+
+
         </form>
-    </main>
-    </body>
-</div>
+        </div>
+    </div>
 </div>
 </html>

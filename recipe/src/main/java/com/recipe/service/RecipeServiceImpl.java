@@ -7,10 +7,12 @@ import com.recipe.util.Search;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class RecipeServiceImpl implements RecipeService {
@@ -28,6 +30,12 @@ public class RecipeServiceImpl implements RecipeService {
 
     @Autowired
     private ReplyRepo replyRepo;
+    @Autowired
+    private MyMaterialRepo myMaterialRepo;
+    @Autowired
+    private RawMaterRepo rawMaterRepo;
+    @Autowired
+    private MemberRepo memberRepo;
 
     @Override
     public void makeRecipe(Recipe vo) {
@@ -68,6 +76,7 @@ public class RecipeServiceImpl implements RecipeService {
         return recipeRepo.findAll(builder, pageable);
     }
 
+
     @Override
     public Recipe getRecipeById(Recipe vo) {
         return recipeRepo.findById(vo.getRecipeId()).get();
@@ -85,7 +94,7 @@ public class RecipeServiceImpl implements RecipeService {
 
         QRecipe qrecipe = QRecipe.recipe;
         builder.and(qrecipe.likeCount.goe(set));
-        Pageable paging = PageRequest.of(0, 15, Sort.Direction.DESC, "likeCount");
+        Pageable paging = PageRequest.of(0, 25, Sort.Direction.DESC, "likeCount");
 
         return recipeRepo.findAll(builder, paging);
     }
@@ -143,6 +152,12 @@ public class RecipeServiceImpl implements RecipeService {
     @Override
     public void saveRecipeReply(Reply reply) {
         replyRepo.save(reply);
+        Recipe recipe = reply.getRecipe();
+        recipe.setRecipeAlert(recipe.getRecipeAlert()+1);
+        recipeRepo.save(recipe);
+        Member writer = recipe.getWriter();
+        writer.setAlarm(writer.getAlarm()+1);
+        memberRepo.save(writer);
     }
 
     @Override
@@ -162,4 +177,43 @@ public class RecipeServiceImpl implements RecipeService {
         return page;
     }
 
+    @Override
+    public List<Recipe> mainPageRecipe(Member mem){
+        List<MyMaterial> list = myMaterialRepo.findByMember(mem);
+        List<Recipe> recipeList = new ArrayList<>();
+        if(list.isEmpty()){
+
+        } else {
+            Material mater = list.get((int) (Math.random() * list.size())).getMaterial();
+            List<RawMater> list1 = rawMaterRepo.findByMater(mater);
+            for (RawMater rawMater : list1) {
+                recipeList.add(rawMater.getRecipe());
+                if (recipeList.size() == 3) {
+                    break;
+                }
+            }
+        }
+
+        return recipeList;
+    }
+    @Override
+    public RecipeProc getProc(Long id){
+        return recipeProcRepo.findById(id).get();
+    }
+
+    @Override
+    public RawMater getRaws(Long id){
+        Optional<RawMater> optional =  rawMaterRepo.findById(id);
+        if(optional.isPresent()){
+            return optional.get();
+        } else{
+            return null;
+        }
+
+    }
+
+    public Page<Recipe> myRecipeList(Member member){
+        Pageable pageable = PageRequest.of(0, 120, Sort.Direction.DESC, "recipeRegedit");
+        return recipeRepo.findByWriter(member, pageable);
+    }
 }

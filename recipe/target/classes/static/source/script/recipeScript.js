@@ -12,21 +12,26 @@ function addRaws(){
     $('#rawAmount').val("");
 }
 
+let procIndex = 15
 function plusProc() {
 
-    $('#procCount').val(procCount)
-    $('#process').append("<div class='input-group mb-3'>" +
+    $('#process').append("<div id='index"+procIndex+"'>" +
+        "<div class='input-group mb-3'>" +
         "        <label class='input-group-text' for='inputGroupFile01'>사 진</label>" +
         "        <input type='file' multiple name='procImg' class='form-control' id='procimg'>" +
         "    </div>" +
         "        <div class='mb-3'>" +
         "        <textarea class='form-control' name='procDetail' id='exampleFormControlTextarea1' placeholder='조리방법' rows='3'>"+
-
     "</textarea>" +
-    "    </div>" +
+    "    </div><br>" +
+    "    <button type='button' onclick='procDel("+procIndex+")'>삭제하기</button><br><hr> "+
     "</div>"
 )
     ;
+    procIndex+=1;
+}
+procDel = (e) =>{
+    $('#index'+e).empty();
 }
 
 $(function() {
@@ -108,12 +113,17 @@ function notlikeRecipe(e) {
         success(data){
             $('#'+e).load(location.href+' #'+e);
             $('#likeDiv').load(location.href+' #likeDiv');
+            $('card'+e).load(location.href+' #card'+e);
         }
     })
 
 }
 function deleteThis(e){
     $("#raw"+e).empty();
+}
+
+function deleteraws(e){
+    $('#'+e).empty();
 }
 
 function makeReply(){
@@ -150,4 +160,50 @@ function deleteReply(e){
         }
     })
 }
+updateReplyForm = (e) => {
+    $('#'+e).append(" <div class=\"input-group\">\n" +
+        "              <textarea class=\"form-control\" id=\"content"+e+"\" cols=\"20\" rows=\"3\"></textarea>\n" +
+        "              <button class=\"input-group-text\" onclick=\"updateReply("+e+")\">댓글수정</button>\n" +
+        "          </div>"
 
+    )
+}
+
+
+updateReply = (e) =>{
+
+    let content = $('#content'+e).val();
+    $.ajax({
+        url: '/recipe/updateReply',
+        type: 'post',
+        async: false,
+        data: {id:e, content:content},
+        dataType: 'text',
+        success(data){
+            console.log(data)
+            if(data == 1){
+                $('#replyList').load(location.href+' #replyList')
+            } else{
+                alert('로그인 하셔야 댓글작성이 가능합니다.')
+            }
+        }
+    })
+}
+
+deleteRecipeCheck = () => {
+    $('#delete').modal('show');
+}
+
+deleteRecipe = (e) => {
+    $.ajax({
+        url: '/recipe/deleteRecipe',
+        type: 'get',
+        data: {id:e},
+        dataType: 'text',
+        success(data) {
+            if(data == 1){
+                location.href="/common/recipeList"
+            }
+        }
+    })
+}

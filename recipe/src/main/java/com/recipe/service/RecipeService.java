@@ -39,4 +39,11 @@ public interface RecipeService {
     void saveRecipeReply(Reply reply);
 
     Page<Recipe> likeyRecipe(Member member, Pageable pageable);
+
+    List<Recipe> mainPageRecipe(Member member);
+
+    RecipeProc getProc(Long id);
+
+    RawMater getRaws(Long id);
+    Page<Recipe> myRecipeList(Member member);
 }
