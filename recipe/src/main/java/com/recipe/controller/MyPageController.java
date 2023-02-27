@@ -197,7 +197,8 @@ public class MyPageController {
     }
 
     @GetMapping("/myPage/insertMyMater")
-    public String insertMyMater(){
+    public String insertMyMater(Model model, @AuthenticationPrincipal SecurityUser user){
+        model.addAttribute("list", myPageService.mymaterList(user.getMember()));
         return "/myPage/insertMyMater";
     }
     @GetMapping("/myPage/insertMater")
@@ -211,6 +212,12 @@ public class MyPageController {
             return 1;
         }
 
+    }
+    @GetMapping("/myPage/deleteMater")
+    @ResponseBody
+    public int deleteMater(Long Id){
+        myPageService.deleteMyMater(Id);
+        return 1;
     }
 
     @GetMapping("/myPage/checkAlarm")

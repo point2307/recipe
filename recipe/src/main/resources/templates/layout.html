@@ -28,7 +28,15 @@
             integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
             crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js" integrity="sha256-lSjKY0/srUM9BE3dPm+c4fBo1dky2v27Gdjm2uoZaL0=" crossorigin="anonymous"></script>
-
+<script>
+    const eventSource = new EventSource("/realAlert")
+    eventSource.onmessage = (e) =>{
+        const p = document.createElement("p")
+        p.innerText = e.data;
+        $('#alarm').empty()
+        $('#alarm').append('<li class="neon"><a href="#" onclick="checkAlarm()">새알림</a></li>');
+    }
+</script>
     <th:block layout:fragment="css"></th:block>
     <!-- content script -->
     <th:block layout:fragment="script"></th:block>

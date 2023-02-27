@@ -2,7 +2,7 @@ package com.recipe.controller;
 
 import com.recipe.dto.Funding;
 import com.recipe.dto.Mealkit;
-import com.recipe.service.FundingServiceImpl;
+import com.recipe.service.FundingService;
 import com.recipe.service.MealkitServiceImpl;
 import com.recipe.util.File;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +23,7 @@ import java.util.UUID;
 public class FundingController {
 
     @Autowired
-    private FundingServiceImpl fundingService;
+    private FundingService fundingService;
     @Autowired
     private MealkitServiceImpl mealkitService;
 

@@ -26,9 +26,9 @@
              <img th:width="20px" class="rounded-circle mr-3" th:height="20px" th:src="@{/source/img/}+${#authentication.principal.member.proImg}"/></a>
            <ul>
             <li><a th:href="@{/common/getCart}">My cart</a></li>
-            <li>My Page</li>
+            <li><a href="/myPage/updateMemberForm" class="link-dark d-inline-flex text-decoration-none rounded">My Page</a></li>
             <li><a th:href="@{/myPage/myRecipe}">My recipe</a></li>
-            <li>My buy</li>
+            <li><a href="/myPage/insertMyMater" class="link-dark d-inline-flex text-decoration-none rounded">My Mater</a></li>
             <li sec:authorize="hasRole('ADMIN')"><a th:href="@{/admin/adminMain}">관리자 페이지</a></li>
             <li><a th:href="@{/system/logout}">로그아웃</a> </li>
            </ul>
@@ -46,10 +46,10 @@
                <li><a th:href="@{/myPage/likeyRecipeList}">찜한 레시피</a></li>
               </ul>
              </li>
-             <li><a href="#">밀키트</a>
+             <li><a th:href="@{/common/fundingList}">밀키트/펀딩</a>
               <ul class="dropdown">
-               <li><a th:href="@{/common/kitList}">밀키트 리스트</a></li>
                <li><a th:href="@{/common/fundingList}">펀딩 리스트</a></li>
+               <li><a th:href="@{/common/kitList}">밀키트 리스트</a></li>
               </ul>
              </li>
              <li><a href="">새소식</a>
@@ -61,7 +61,6 @@
              <li><a th:href="@{/common/boardList}">커뮤니티</a>
               <ul class="dropdown">
                <li><a th:href="@{/common/boardList}">자유게시판</a></li>
-               <li><a href="#">밀키트 후기</a></li>
               </ul>
 
 
@@ -69,25 +68,26 @@
            </nav>
 
 
-
-
         </div>
-         <div id="alarmck" class="col-2" sec:authorize="isAuthenticated()">
+         <div id="alarm" class="col-2">
+
+         </div>
+ <!--        <div id="alarmck" class="col-2" sec:authorize="isAuthenticated()">
           <th:block th:if="${#authentication.principal.member.alarm > 0}">
-           <li class="neon"><a href="#" onclick="checkAlarm()">새알림</a>
+           <li class="neon"><a href="#" onclick="checkAlarm()">새알림</a> -->
             <script th:inline="javascript">
              checkAlarm = () =>{
               $.ajax({
                url:'/myPage/checkAlarm',
                type: 'get',
                success(data){
-                $('#alarmck').load(location.href+' #alarmck');
+                $('#alarm').load(location.href+' #alarm');
                } })
              }
             </script>
-           </li>
+ <!--          </li>
           </th:block>
-         </div>
+         </div> -->
        </div>
 
         </div>

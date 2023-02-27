@@ -49,4 +49,14 @@ public class MyPageServiceImpl implements MyPageService {
 
         myMaterialRepo.save(myMater);
     }
+
+    @Override
+    public List<MyMaterial> mymaterList(Member member) {
+        return myMaterialRepo.findByMember(member);
+    }
+
+    @Override
+    public void deleteMyMater(Long Id) {
+        myMaterialRepo.deleteById(Id);
+    }
 }

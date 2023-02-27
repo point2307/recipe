@@ -13,4 +13,8 @@ public interface MyPageService {
     List<Material> listMater(Long data);
 
     void insertMater(Member mem, String data);
+
+    List<MyMaterial> mymaterList(Member member);
+
+    void deleteMyMater(Long Id);
 }

@@ -5,19 +5,16 @@ import com.recipe.dto.FundingKit;
 import com.recipe.dto.Mealkit;
 import com.recipe.persistence.FundingKitRepo;
 import com.recipe.persistence.FundingRepo;
-import com.recipe.persistence.MealkitRepo;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-public class FundingServiceImpl implements FundIngService{
+public class FundingServiceImpl implements FundingService {
 
     @Autowired
     private FundingRepo fundingRepo;

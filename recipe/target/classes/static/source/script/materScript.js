@@ -90,6 +90,20 @@ function  categoryThird(e){
     )
 }
 
+deleteMater = (e) =>{
+    $.ajax({
+        url:'/myPage/deleteMater',
+        type:'get',
+        data: {Id:e},
+        dataType:'text',
+        success(data){
+            location.reload();
+        }
+
+    })
+}
+
+
 function choiceMater(e){
     $.ajax({
         url:'/myPage/insertMater',

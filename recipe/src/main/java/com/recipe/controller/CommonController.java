@@ -5,6 +5,7 @@ import com.recipe.dto.Member;
 import com.recipe.security.SecurityUser;
 import com.recipe.service.AdminService;
 import com.recipe.service.CartService;
+import com.recipe.service.MemberService;
 import com.recipe.service.RecipeService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,13 +14,19 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 @Controller
 public class CommonController {
 
+    @Autowired
+    private MemberService memberService;
     @Autowired
     private RecipeService recipeService;
     @Autowired
@@ -71,5 +78,31 @@ public class CommonController {
 
         return "/mainPage";
 
+    }
+
+    @GetMapping("/realAlert")
+    public SseEmitter realTimealert(@AuthenticationPrincipal SecurityUser user){
+        SseEmitter emitter = new SseEmitter();
+        ExecutorService executorService = Executors.newSingleThreadExecutor();
+        if(user!=null) {
+            Member member = memberService.getMember(user.getMember().getUserId());
+            if(member.getAlarm() > 0){
+                System.out.println(member.getAlarm());
+                executorService.execute(() -> {
+                    try{
+                        SseEmitter.SseEventBuilder event = SseEmitter.event()
+                                .data("새로운 알림이 있습니다.");
+                        emitter.send(event);
+                        Thread.sleep(1000);
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    } catch (InterruptedException e) {
+                        throw new RuntimeException(e);
+                    }
+                });
+            }
+        }
+
+        return emitter;
     }
 }

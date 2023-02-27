@@ -18,8 +18,20 @@
 <div layout:fragment="content">
 
   <h2>나의 식재료 등록</h2>
-
-  <p>시간상 일부만 구현</p>
+  <div>
+  <table class="table table-striped table-hover">
+    <tr>
+      <td width="400px">재료명</td>
+      <td width="100px">삭 제</td>
+    </tr>
+    <th:block th:each="mat:${list}">
+      <tr>
+        <td th:text="${mat.material.materName}"></td>
+        <td><button type="button" th:onclick="|deleteMater(${mat.myMaterId})|">삭제하기</button> </td>
+      </tr>
+    </th:block>
+  </table>
+  </div>
   <ul id="mater">
     <li><a href="#" onclick="categoryFirst(0)">식물성 재료</a></li>
     <li><a href="#" onclick="categoryFirst(1)">동물성 재료</a></li>
