@@ -1,6 +1,15 @@
+@import url(https://cdn.jsdelivr.net/gh/moonspam/NanumSquare@1.0/nanumsquare.css);
+
 /* GLOBAL STYLES
 -------------------------------------------------- */
 /* Padding below the footer and lighter body text */
+﻿
+
+﻿
+*{
+  font-family: 'NanumSquare', sans-serif; !important;
+}
+
 
 body {
   padding-bottom: 3px;

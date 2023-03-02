@@ -22,6 +22,15 @@
 
           <div class="header__top__hover" sec:authorize="isAuthenticated()"><i class="arrow_carrot-down"></i>
 
+           <script>
+            const eventSource = new EventSource("/realAlert")
+            eventSource.onmessage = (e) =>{
+             const p = document.createElement("p")
+             p.innerText = e.data;
+             $('#alarm').empty()
+             $('#alarm').append('<li class="neon"><a href="#" onclick="checkAlarm()">새알림</a></li>');
+            }
+           </script>
             <a th:href="@{/myPage/mymain}"><span sec:authentication="principal.member.name"> </span><span>님 환영합니다.</span>
              <img th:width="20px" class="rounded-circle mr-3" th:height="20px" th:src="@{/source/img/}+${#authentication.principal.member.proImg}"/></a>
            <ul>
