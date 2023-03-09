@@ -45,12 +45,12 @@ public class Recipe {
 	private	Date	recipeRegedit;
 	private	int		recipeAlert;
 
-	@OneToMany(mappedBy = "recipe",fetch = FetchType.LAZY)
+	@OneToMany(mappedBy = "recipe",fetch = FetchType.LAZY ,cascade = CascadeType.ALL)
 	@JsonIgnore
 	@OrderBy("regdate")
 	private List<Reply> replyList;
 
-	@OneToMany(mappedBy = "recipe")
+	@OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL)
 	@JsonIgnore
 	private List<Likey> likeyList;
 

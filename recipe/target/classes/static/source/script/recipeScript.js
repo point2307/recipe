@@ -73,7 +73,7 @@ $(function() {
         }
     }).autocomplete('instance')._renderItem = function(ul, item) { // UI 변경 부
         return $('<li>') //기본 tag가 li
-            .append('<div>' + item.value + '</div>') // 원하는 모양의 HTML 만들면 됨
+            .append('<div>' + item.value + '</div>')
             .appendTo(ul);
     };
 })
