@@ -15,7 +15,6 @@
           <div class="header__top__links" sec:authorize="!isAuthenticated()">
            <a th:href="@{/common/getCart}">cart</a>
            <a th:href="@{/member/register_form}">Sign in</a>
-   <!--Oauth 로그인창        <a th:href="@{/login/oauth2/code/google}">Log in</a>  -->
            <a th:href="@{/system/login}">Log in</a>
           </div>
           <!-- 회원일 경우 -->
@@ -28,7 +27,7 @@
              const p = document.createElement("p")
              p.innerText = e.data;
              $('#alarm').empty()
-             $('#alarm').append('<li class="neon"><a href="#" onclick="checkAlarm()">새알림</a></li>');
+             $('#alarm').append('<p class="neon"><a href="#" onclick="checkAlarm()">'+e+'개의 새알림</a></p>');
             }
            </script>
             <a th:href="@{/myPage/mymain}"><span sec:authentication="principal.member.name"> </span><span>님 환영합니다.</span>
@@ -79,11 +78,8 @@
 
         </div>
          <div id="alarm" class="col-2">
-
+         <!-- 알림창이 나타날 장소, 알람 클릭시 알림 확인 스크립트 -->
          </div>
- <!--        <div id="alarmck" class="col-2" sec:authorize="isAuthenticated()">
-          <th:block th:if="${#authentication.principal.member.alarm > 0}">
-           <li class="neon"><a href="#" onclick="checkAlarm()">새알림</a> -->
             <script th:inline="javascript">
              checkAlarm = () =>{
               $.ajax({
@@ -94,9 +90,6 @@
                } })
              }
             </script>
- <!--          </li>
-          </th:block>
-         </div> -->
        </div>
 
         </div>
